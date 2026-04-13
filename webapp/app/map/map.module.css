@@ -110,28 +110,10 @@
   background: #1A1A2E; /* SOLID fallback */
 }
 
-/* ─── Filter Bar (Overlay on Map) ─── */
+/* ─── Filter Bar (Overlay on Map) - REMOVED for Sidebar ─── */
 .filterBarContainer {
-  position: absolute;
-  top: 24px;
-  left: 24px;
-  right: 24px;
-  z-index: 500;
-  pointer-events: none;
+  display: none !important;
 }
-
-.filterBar {
-  display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  padding: 8px;
-  pointer-events: auto;
-  mask-image: linear-gradient(to right, black 90%, transparent);
-}
-
-/* Hide scrollbar but keep functionality */
-.filterBar::-webkit-scrollbar { display: none; }
-.filterBar { -ms-overflow-style: none; scrollbar-width: none; }
 
 .filterItem {
   background: rgba(255,255,255,0.05);
@@ -360,5 +342,12 @@
   }
   .appWrapper {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ─── Force Desktop Cleanup ─── */
+@media (min-width: 1024px) {
+  :global(.mobile-only) {
+    display: none !important;
   }
 }

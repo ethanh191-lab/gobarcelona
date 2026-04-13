@@ -16,29 +16,7 @@ const NEIGHBORHOODS = [
   { id: 'poblesec',     name: 'Poble Sec',     lat: 41.3720, lng: 2.1574 },
 ];
 
-const MOCK_BAR: any = {
-  id: 'mock_placa_cat',
-  name: 'Bar Plaça Catalunya',
-  lat: 41.3871,
-  lng: 2.1700,
-  address: 'Plaça de Catalunya 1, Barcelona',
-  beerPrice: '€2.80',
-  rating: 4.3,
-  reviewCount: 156,
-  outdoorSeating: true,
-  isOpen: true,
-  hasSports: true,
-  groupFriendly: true,
-  dogFriendly: true,
-  neighborhood: 'Eixample',
-  openingHoursStr: '08:00–02:00',
-  openLate: true,
-  priceLevel: 1,
-  priceEmoji: '€',
-  terrace: true,
-  sports: true,
-  reviews: 156
-};
+const MOCK_BAR = null;
 
 interface Place {
   id: string;
@@ -160,8 +138,13 @@ export default function BeerMapPage() {
     const nb = NEIGHBORHOODS.find(n => n.id === selectedNb);
     if (!nb) return;
 
-    mapInstanceRef.current.panTo({ lat: nb.lat, lng: nb.lng });
-    mapInstanceRef.current.setZoom(selectedNb === 'all' ? 14 : 16);
+    if (selectedNb === 'all') {
+      mapInstanceRef.current.setCenter({ lat: 41.3851, lng: 2.1734 });
+      mapInstanceRef.current.setZoom(13);
+    } else {
+      mapInstanceRef.current.panTo({ lat: nb.lat, lng: nb.lng });
+      mapInstanceRef.current.setZoom(15);
+    }
   }, [selectedNb]);
 
   // 3. Fetch Places (No Mock Bar)
@@ -270,8 +253,11 @@ export default function BeerMapPage() {
       {/* ─── Sidebar ─── */}
       <aside className={styles.sidebar}>
         <div className={styles.sidebarHeader}>
-          <h1 style={{ fontSize: '28px', color: 'white' }}>Bar Finder</h1>
-          <p style={{ opacity: 0.6, fontSize: '14px', margin: '4px 0 0' }}>{filteredPlaces.length} locations verified</p>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h1 style={{ fontSize: '28px', color: 'white' }}>Beer Map</h1>
+            <span style={{ fontSize: '10px', background: 'var(--primary-red)', padding: '2px 6px', borderRadius: '4px', fontWeight: 900 }}>v2.0</span>
+          </div>
+          <p style={{ opacity: 0.6, fontSize: '14px', margin: '4px 0 0' }}>{filteredPlaces.length} verified locations</p>
         </div>
 
         <div className={styles.sidebarContent}>
