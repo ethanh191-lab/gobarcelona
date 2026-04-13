@@ -347,7 +347,7 @@
 
 /* ─── Force Desktop Cleanup ─── */
 @media (min-width: 1024px) {
-  :global(.mobile-only) {
+  .appWrapper :global(.mobile-only) {
     display: none !important;
   }
 }
