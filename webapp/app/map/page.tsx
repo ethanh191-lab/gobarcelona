@@ -124,18 +124,31 @@ export default function BeerMapPage() {
     if (!mapsLoaded || !mapRef.current || mapInstanceRef.current) return;
 
     const initMap = async () => {
-      const { Map } = await google.maps.importLibrary("maps") as any;
-      
-      const spawnPoint = { lat: 41.3834, lng: 2.1776 };
-      mapInstanceRef.current = new Map(mapRef.current, {
-        center: spawnPoint,
-        zoom: 15,
-        mapId: 'BCN_MAP_PRO_BASE',
-        disableDefaultUI: true,
-        zoomControl: true,
-        clickableIcons: false,
-        backgroundColor: '#1A1A2E'
-      });
+      try {
+        const { Map } = await google.maps.importLibrary("maps") as any;
+        const spawnPoint = { lat: 41.3834, lng: 2.1776 };
+        
+        mapInstanceRef.current = new Map(mapRef.current, {
+          center: spawnPoint,
+          zoom: 15,
+          mapId: 'BCN_MAP_PRO_BASE',
+          disableDefaultUI: true,
+          zoomControl: true,
+          clickableIcons: false,
+          backgroundColor: '#1A1A2E',
+          restriction: {
+            latLngBounds: {
+              north: 41.47,
+              south: 41.30,
+              west: 2.05,
+              east: 2.25,
+            },
+            strictBounds: false,
+          },
+        });
+      } catch (e) {
+        console.error("Map Load Error:", e);
+      }
     };
 
     initMap();
@@ -347,34 +360,34 @@ export default function BeerMapPage() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '32px' }}>
                   <div>
                     <h1 style={{ color: 'var(--primary-red)', margin: 0, fontSize: '38px' }}>{selectedPlace.beerPrice}</h1>
-                    <p style={{ margin: 0, opacity: 0.5, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>per 0.5L draught</p>
+                    <p style={{ margin: 0, opacity: 0.5, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>{t('map.per_half_litre')}</p>
                   </div>
                   <div style={{ textAlign: 'right' }}>
                     <div style={{ fontSize: '24px', fontWeight: 800 }}>★ {selectedPlace.rating || 'N/A'}</div>
-                    <div style={{ fontSize: '11px', opacity: 0.5, textTransform: 'uppercase' }}>{selectedPlace.reviewCount} reviews</div>
+                    <div style={{ fontSize: '11px', opacity: 0.5, textTransform: 'uppercase' }}>{selectedPlace.reviewCount} {t('map.reviews')}</div>
                   </div>
                 </div>
 
                 <div className={styles.confidenceBox}>
                   {priceData?.confidence === 'high' ? <span style={{ color: '#22c55e', fontSize: '22px' }}>✓</span> : <span style={{ color: '#6B7280', fontSize: '22px' }}>?</span>}
                   <div>
-                    <strong style={{ display: 'block', fontSize: '14px' }}>Verified price</strong>
-                    <span style={{ opacity: 0.6, fontSize: '12px' }}>Updated recently by users</span>
+                    <strong style={{ display: 'block', fontSize: '14px' }}>{t('map.verified_price')}</strong>
+                    <span style={{ opacity: 0.6, fontSize: '12px' }}>{t('map.verified_desc')}</span>
                   </div>
                 </div>
 
                 <div style={{ marginBottom: '32px' }}>
-                  <h4 style={{ marginBottom: '16px', fontSize: '14px', textTransform: 'uppercase', opacity: 0.6 }}>Features</h4>
+                  <h4 style={{ marginBottom: '16px', fontSize: '14px', textTransform: 'uppercase', opacity: 0.6 }}>{t('map.features')}</h4>
                   <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                    {selectedPlace.outdoorSeating && <span className={styles.attributePill}>Terrace Area</span>}
-                    {selectedPlace.hasSports && <span className={styles.attributePill}>Sports Screen</span>}
-                    {selectedPlace.rooftop && <span className={styles.attributePill}>Rooftop View</span>}
+                    {selectedPlace.outdoorSeating && <span className={styles.attributePill}>{t('map.feature.terrace')}</span>}
+                    {selectedPlace.hasSports && <span className={styles.attributePill}>{t('map.feature.sports')}</span>}
+                    {selectedPlace.rooftop && <span className={styles.attributePill}>{t('map.feature.rooftop')}</span>}
                   </div>
                 </div>
 
                 {selectedPlace.outdoorSeating && (
                    <div className={styles.sunTimeline}>
-                      <h4>☀️ Sun Outlook</h4>
+                      <h4>☀️ {t('map.sun_outlook')}</h4>
                       <p style={{ margin: '4px 0 0', fontSize: '14px', fontWeight: 600 }}>
                         {getTerraceTimeline(selectedPlace.lat, selectedPlace.lng).label}
                       </p>
@@ -383,10 +396,10 @@ export default function BeerMapPage() {
 
                 <div style={{ display: 'flex', gap: '16px', marginTop: '32px' }}>
                   <button className="btn-primary" style={{ flex: 1 }} onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${selectedPlace.lat},${selectedPlace.lng}`)}>
-                    Get Directions
+                    {t('map.get_directions')}
                   </button>
                   <button className="btn-secondary" onClick={() => setShowReportModal(true)}>
-                    Update
+                    {t('map.update_price')}
                   </button>
                 </div>
               </div>

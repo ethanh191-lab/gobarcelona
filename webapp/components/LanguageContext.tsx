@@ -131,7 +131,18 @@ const translations = {
     'home.sunday_briefing': 'THE SUNDAY BRIEFING',
     'home.sunday_desc': 'Every Sunday. The week in BCN, condensed.',
     'home.subscribe': 'Subscribe',
-    'home.join_count': 'Join 1,200+ internationals in the loop'
+    'home.join_count': 'Join 1,200+ internationals in the loop',
+    'map.per_half_litre': 'per 0.5L draught',
+    'map.reviews': 'reviews',
+    'map.verified_price': 'Verified price',
+    'map.verified_desc': 'Updated recently by users',
+    'map.features': 'Features',
+    'map.feature.terrace': 'Terrace Area',
+    'map.feature.sports': 'Sports Screen',
+    'map.feature.rooftop': 'Rooftop View',
+    'map.sun_outlook': 'Sun Outlook',
+    'map.get_directions': 'Get Directions',
+    'map.update_price': 'Update'
   },
   ES: {
     'nav.events': 'Eventos', 'nav.map': 'El Mapa', 'nav.guide': 'La Guía', 'nav.news': 'Noticias', 'nav.about': 'Contacto',
@@ -254,7 +265,18 @@ const translations = {
     'home.sunday_briefing': 'EL BOLETÍN DOMINICAL',
     'home.sunday_desc': 'Cada domingo. La semana en BCN, condensada.',
     'home.subscribe': 'Suscribirse',
-    'home.join_count': 'Únete a más de 1.200 internacionales'
+    'home.join_count': 'Únete a más de 1.200 internacionales',
+    'map.per_half_litre': 'por caña de 0.5L',
+    'map.reviews': 'reseñas',
+    'map.verified_price': 'Precio verificado',
+    'map.verified_desc': 'Actualizado recientemente',
+    'map.features': 'Características',
+    'map.feature.terrace': 'Terraza',
+    'map.feature.sports': 'Deportes',
+    'map.feature.rooftop': 'Vistas Terraza',
+    'map.sun_outlook': 'Pronóstico Sol',
+    'map.get_directions': 'Cómo llegar',
+    'map.update_price': 'Actualizar'
   },
   CA: {
     'nav.events': 'Esdeveniments', 'nav.map': 'El Mapa', 'nav.guide': 'La Guia', 'nav.news': 'Notícies', 'nav.about': 'Contacte',
@@ -717,7 +739,18 @@ const translations = {
     'home.sunday_briefing': 'DE ZONDAG RECAP',
     'home.sunday_desc': 'Elke zondag. De week in BCN, kort en bondig.',
     'home.subscribe': 'Inschrijven',
-    'home.join_count': 'Sluit je aan bij 1.200+ internationals'
+    'home.join_count': 'Sluit je aan bij 1.200+ internationals',
+    'map.per_half_litre': 'per 0.5L tap',
+    'map.reviews': 'beoordelingen',
+    'map.verified_price': 'Geverifieerde prijs',
+    'map.verified_desc': 'Onlangs bijgewerkt door gebruikers',
+    'map.features': 'Kenmerken',
+    'map.feature.terrace': 'Terras',
+    'map.feature.sports': 'Sportscherm',
+    'map.feature.rooftop': 'Rooftop uitzicht',
+    'map.sun_outlook': 'Zonverwachting',
+    'map.get_directions': 'Routebeschrijving',
+    'map.update_price': 'Aanpassen'
   }
 };
 
