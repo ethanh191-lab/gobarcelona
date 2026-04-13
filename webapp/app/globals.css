@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Barlow+Condensed:wght@700;800;900&display=swap');
+
+/* ─── Theme Variables ─── */
+:root {
+  --primary-red: #E63946;
+  --night-blue: #1A1A2E;
+  --bg-primary: #1A1A2E;
+  --bg-secondary: #24243e;
+  --text-primary: #FFFFFF;
+  --text-secondary: #A0A0B8;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --heading-color: #FFFFFF;
+  --card-radius: 4px; /* Urban, sharper corners */
+  --app-margin: 20px;
+}
+
+[data-theme='light'] {
+  --bg-primary: #F8F9FA;
+  --bg-secondary: #FFFFFF;
+  --text-primary: #1A1A2E;
+  --text-secondary: #6B7280;
+  --glass-bg: rgba(0, 0, 0, 0.02);
+  --glass-border: rgba(0, 0, 0, 0.05);
+  --heading-color: #1A1A2E;
+}
+
+/* ─── Reset ─── */
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, sans-serif;
+  overflow-x: hidden;
+  line-height: 1.5;
+  font-size: 16px;
+}
+
+/* ─── Typography ─── */
+h1, h2, h3, h4, .impact-text {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 950;
+  color: var(--heading-color);
+  margin: 0;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+h1 { font-size: 64px; }
+h2 { font-size: 48px; margin-bottom: 24px; }
+h3 { font-size: 28px; }
+
+@media (max-width: 768px) {
+  h1 { font-size: 48px; letter-spacing: -1px; }
+  h2 { font-size: 32px; }
+}
+
+.label-caps {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 900;
+  color: var(--primary-red);
+}
+
+/* ─── Touch Targets (44px Rule) ─── */
+a, button, select, input {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ─── Layout ─── */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--app-margin);
+}
+
+/* ─── Cards ─── */
+.app-card {
+  background: var(--bg-secondary);
+  border-radius: var(--card-radius);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  overflow: hidden;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  width: 100%;
+  margin-bottom: 24px;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.app-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,0.2);
+}
+
+/* ─── Buttons ─── */
+.btn-primary, .btn-secondary {
+  padding: 0 32px;
+  height: 52px;
+  border-radius: 4px;
+  font-weight: 900;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  text-decoration: none;
+  width: 100%;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-primary {
+  background: var(--primary-red);
+  color: #fff;
+  border: none;
+}
+
+.btn-primary:hover {
+  background: #d32f3f;
+  transform: scale(1.02);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--glass-border);
+}
+
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.05);
+  border-color: white;
+}
+
+@media (min-width: 768px) {
+  .btn-primary, .btn-secondary {
+    width: auto;
+    min-width: 160px;
+  }
+}
+
+/* ─── Skeletons ─── */
+.skeleton {
+  background: linear-gradient(90deg, #1A1A2E 25%, #24243e 50%, #1A1A2E 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─── Responsive Visibility ─── */
+@media (max-width: 768px) {
+  .desktop-only { display: none !important; }
+}
+
+@media (min-width: 769px) {
+  .mobile-only { display: none !important; }
+}
+
+/* Mobile: padding for bottom nav */
+@media (max-width: 768px) {
+  main, .page-content {
+    padding-bottom: 90px !important;
+  }
+}
+
+/* ─── Smooth Scrolling ─── */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (max-width: 768px) {
+  html {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ─── Scrollbar Utility ─── */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ─── Animations ─── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-slide-up {
+  animation: fadeIn 0.5s ease forwards;
+  opacity: 0;
+}

@@ -1,0 +1,364 @@
+/* ─── Beer Map Redesign (Booking.com Style) ─── */
+
+.appWrapper {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  grid-template-rows: 1fr;
+  background: #1A1A2E; /* SOLID background to prevent leak */
+  overflow: hidden;
+  padding-top: 64px; /* Navbar height */
+  z-index: 50;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ─── Sidebar (Left) ─── */
+.sidebar {
+  width: 340px;
+  background: #1A1A2E;
+  border-right: 1px solid var(--glass-border);
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  height: 100%;
+}
+
+.sidebarHeader {
+  padding: 24px;
+  border-bottom: 2px solid var(--glass-border);
+}
+
+.sidebarHeader h1 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.sidebarContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.1) transparent;
+}
+
+/* Bar Cards in Sidebar */
+.barListItem {
+  padding: 16px;
+  border-bottom: 1px solid var(--glass-border);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  position: relative;
+  border-left: 4px solid transparent;
+  background: var(--glass-bg);
+}
+
+.barListItem:hover {
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateX(4px);
+}
+
+.barActive {
+  background: rgba(230, 57, 70, 0.08) !important;
+  border-left-color: var(--primary-red) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.barCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 6px;
+}
+
+.barCardHeader h4 {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  margin: 0;
+  color: white;
+}
+
+.barCardPrice {
+  color: var(--primary-red);
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.barCardMuted {
+  font-size: 13px;
+  color: #A0A0B8;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.barCardIcons {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* ─── Map Container (Right) ─── */
+.mapContainer {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background: #1A1A2E; /* SOLID fallback */
+}
+
+/* ─── Filter Bar (Overlay on Map) ─── */
+.filterBarContainer {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  right: 24px;
+  z-index: 500;
+  pointer-events: none;
+}
+
+.filterBar {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 8px;
+  pointer-events: auto;
+  mask-image: linear-gradient(to right, black 90%, transparent);
+}
+
+/* Hide scrollbar but keep functionality */
+.filterBar::-webkit-scrollbar { display: none; }
+.filterBar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.filterItem {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 12px 18px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 700;
+  font-size: 13px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.filterItem:hover {
+  border-color: rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.08);
+}
+
+.filterActive {
+  background: var(--primary-red) !important;
+  color: white !important;
+  border-color: var(--primary-red) !important;
+}
+
+.priceSliderBox {
+  padding: 16px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.priceSliderBox input {
+  accent-color: var(--primary-red);
+  width: 100%;
+  margin-top: 12px;
+}
+
+.nbSelect {
+  background: rgba(255,255,255,0.05);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 700;
+  outline: none;
+  cursor: pointer;
+  font-family: inherit;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+/* ─── Detail Panel (Slide-in Over Map) ─── */
+.detailPanel {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 400px;
+  background: #1A1A2E;
+  border-left: 1px solid var(--glass-border);
+  z-index: 1000;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -15px 0 40px rgba(0,0,0,0.5);
+}
+
+.detailPanelVisible {
+  transform: translateX(0);
+}
+
+.panelHeader {
+  padding: 32px;
+  border-bottom: 1px solid var(--glass-border);
+  position: relative;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--glass-border);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.2s;
+}
+
+.closeBtn:hover { 
+  background: var(--primary-red);
+  border-color: var(--primary-red);
+}
+
+.panelContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: 32px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.badgeRed {
+  background: rgba(230, 57, 70, 0.15);
+  color: var(--primary-red);
+}
+
+.attributePill {
+  display: inline-block;
+  padding: 6px 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  font-size: 12px;
+  margin: 0 8px 8px 0;
+  color: #A0A0B8;
+}
+
+/* ─── Price Pins ─── */
+.pricePin {
+  background: white;
+  color: #1A1A2E;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 900;
+  font-size: 15px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  border: 2px solid white;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: 'Barlow Condensed', sans-serif;
+  text-transform: uppercase;
+}
+
+.pinCheap {
+  background: #22c55e !important;
+  color: white !important;
+  border-color: #22c55e !important;
+}
+
+.pinNormal {
+  background: #eab308 !important;
+  color: white !important;
+  border-color: #eab308 !important;
+}
+
+.pinExpensive {
+  background: #ef4444 !important;
+  color: white !important;
+  border-color: #ef4444 !important;
+}
+
+.pricePinSelected {
+  background: var(--primary-red) !important;
+  color: white !important;
+  border-color: var(--primary-red) !important;
+  transform: scale(1.15) translateY(-5px);
+  z-index: 2000;
+}
+
+/* ─── Sun Timeline ─── */
+.sunTimeline {
+  background: rgba(245, 158, 11, 0.05);
+  border: 1px solid rgba(245, 158, 11, 0.15);
+  padding: 20px;
+  border-radius: 20px;
+  margin: 24px 0;
+}
+
+.sunTimeline h4 {
+  color: #FBBF24;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+/* ─── Skeletons ─── */
+.skeleton {
+  background: linear-gradient(90deg, #1A1A2E 25%, #24243e 50%, #1A1A2E 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 8px;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 1023px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 64px;
+    bottom: 0;
+    transform: translateX(-100%);
+    transition: transform 0.4s ease;
+    box-shadow: 20px 0 50px rgba(0,0,0,0.5);
+  }
+  .sidebarVisible {
+    transform: translateX(0);
+  }
+  .appWrapper {
+    grid-template-columns: 1fr;
+  }
+}
