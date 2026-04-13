@@ -26,7 +26,7 @@ function timeAgo(dateStr: string): string {
 export default function NewsPage() {
   const { lang, t } = useLanguage();
   const [articles, setArticles] = useState<Article[]>([]);
-  const [translated, setTranslated] = useState<Record<number, { title: string; description: string }>>({});
+  const [translated, setTranslated] = useState<Record<string, { title: string; description: string }>>({});
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<FilterType>('All');
 
@@ -52,7 +52,7 @@ export default function NewsPage() {
     if (!items.length) return;
 
     const chunkSize = 15;
-    const map: Record<number, { title: string; description: string }> = {};
+    const map: Record<string, { title: string; description: string }> = {};
     
     for (let c = 0; c < items.length; c += chunkSize) {
       const chunk = items.slice(c, c + chunkSize);

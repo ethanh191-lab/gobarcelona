@@ -8,7 +8,7 @@ import { type Article } from '../lib/news-config';
 export default function Home() {
   const { lang, t } = useLanguage();
   const [news, setNews] = useState<Article[]>([]);
-  const [translated, setTranslated] = useState<Record<number, { title: string }>>({});
+  const [translated, setTranslated] = useState<Record<string, { title: string }>>({});
   const [loading, setLoading] = useState(true);
 
   // 1. Data Fetching
