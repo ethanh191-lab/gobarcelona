@@ -474,3 +474,59 @@
     padding: 16px;
   }
 }
+
+/* --- Trending Sidebar Section --- */
+.trendsSection {
+  border-top: 4px solid #0f0f1a;
+  background: #1a1a2e;
+  padding: 24px 20px;
+}
+
+.trendsLabel {
+  font-size: 11px;
+  font-weight: 900;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 16px;
+}
+
+.trendsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.trendTag {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(230,57,70,0.08);
+  border: 1px solid rgba(230,57,70,0.2);
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s;
+  width: 100%;
+}
+
+.trendTag:hover {
+  background: rgba(230,57,70,0.15);
+  border-color: rgba(230,57,70,0.4);
+  transform: translateX(4px);
+}
+
+.trendEmoji {
+  font-size: 16px;
+  line-height: 1;
+}
+
+@media (max-width: 1023px) {
+  .heroImage {
+    aspect-ratio: 3 / 2;
+  }
+}

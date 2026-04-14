@@ -4,12 +4,22 @@ import Footer from "../components/Footer";
 import CookieBanner from "../components/CookieBanner";
 import { LanguageProvider } from '../components/LanguageContext';
 import { ThemeProvider } from '../components/ThemeContext';
-import { Inter } from 'next/font/google';
+import { Syne, DM_Sans } from 'next/font/google';
 
 import Script from 'next/script'
 import { Analytics } from "@vercel/analytics/react"
 
-const inter = Inter({ subsets: ["latin"] });
+const syne = Syne({ 
+  subsets: ["latin"],
+  weight: ['700', '800'],
+  variable: '--font-syne' 
+});
+
+const dmSans = DM_Sans({ 
+  subsets: ["latin"],
+  weight: ['400', '500', '700'],
+  variable: '--font-dm-sans' 
+});
 
 // Using the key provided by the user
 const GMAPS_KEY = 'AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c';
@@ -64,7 +74,7 @@ export default function RootLayout({
           strategy="beforeInteractive"
         />
       </head>
-      <body className={inter.className}>
+      <body className={`${syne.variable} ${dmSans.variable}`}>
         <ThemeProvider>
         <LanguageProvider>
           <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative' }}>

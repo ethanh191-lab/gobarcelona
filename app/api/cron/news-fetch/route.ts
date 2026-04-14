@@ -115,35 +115,45 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  if (!process.env.ANTHROPIC_API_KEY) {
+    console.error('CRON ERROR: ANTHROPIC_API_KEY is missing');
+    return NextResponse.json({ error: 'Anthropic API handle missing' }, { status: 500 });
+  }
+
   const processedUrls = new Set(); // Prevent duplicates in this run
   let articlesProcessed = 0;
   let articlesAdded = 0;
   let errors = 0;
 
+  console.log('--- NEWS FETCH START ---');
+
   for (const source of RSS_SOURCES) {
-    if (articlesAdded >= 10) break; // Hard cap on how many new items per cron run to avoid Claude billing shock / timeouts
+    if (articlesAdded >= 8) break; // Limit per run
 
     try {
+      console.log(`Fetching source: ${source.name}`);
       const feed = await parser.parseURL(source.url);
       
-      for (const item of feed.items.slice(0, 3)) { // Only look at top 3 items per feed
-        if (articlesAdded >= 10) break;
+      for (const item of feed.items.slice(0, 2)) { // Top 2 per feed
+        if (articlesAdded >= 8) break;
         
         const sourceUrl = item.link || '';
         if (!sourceUrl || processedUrls.has(sourceUrl)) continue;
         processedUrls.add(sourceUrl);
         articlesProcessed++;
 
-        // Deduplication check in Supabase
+        // Deduplication check
         const { data: existing } = await supabase
           .from('news_articles')
           .select('id')
-          .eq('source_url', sourceUrl)
-          .single();
+          .eq('source_url', sourceUrl);
 
-        if (existing) continue; // Already processed
+        if (existing && existing.length > 0) {
+          console.log(`Skipping duplicate: ${sourceUrl}`);
+          continue;
+        }
 
-        // Prepare content for Claude
+        console.log(`Processing with AI: ${item.title}`);
         const pubDateStr = item.pubDate || new Date().toISOString();
         const contentSnippet = item['content:encoded'] || item.content || item.description || '';
         

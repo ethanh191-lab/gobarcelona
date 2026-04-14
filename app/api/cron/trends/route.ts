@@ -26,9 +26,21 @@ export async function GET(request: Request) {
 
   try {
     // 1. Fetch trending searches for Spain
-    const trending = await googleTrends.dailyTrends({ geo: 'ES' });
-    const data = JSON.parse(trending);
-    const topics = data.default.trendingSearchesDays[0].trendingSearches;
+    let trendingData;
+    try {
+      const trending = await googleTrends.dailyTrends({ geo: 'ES' });
+      // google-trends-api sometimes returns a string that needs cleaning before parsing
+      trendingData = JSON.parse(trending);
+    } catch (apiErr: any) {
+      console.error('Google Trends API or Parse Error:', apiErr);
+      return NextResponse.json({ error: 'Failed to fetch or parse trends', details: apiErr.message }, { status: 502 });
+    }
+
+    if (!trendingData?.default?.trendingSearchesDays?.[0]?.trendingSearches) {
+      return NextResponse.json({ success: true, count: 0, message: 'No trends found today' });
+    }
+
+    const topics = trendingData.default.trendingSearchesDays[0].trendingSearches;
 
     // 2. Filter relevant topics
     const relevantKeywords = ['barcelona', 'festival', 'concert', 'event', 'fiesta', 'gratis', 'free', 'playa', 'beach', 'metro', 'huelga', 'strike', 'barça', 'español'];

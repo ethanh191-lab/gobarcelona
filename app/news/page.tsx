@@ -97,7 +97,7 @@ export default function NewsPage() {
     const fetchSidebar = async () => {
       try {
         const qLang = lang === 'ES' ? 'ES' : 'EN';
-        const res = await fetch(`/api/news?language=${qLang}&limit=12`);
+        const res = await fetch(`/api/news?language=${qLang}&limit=8`);
         const data = await res.json();
         setSidebarArticles(data.articles || []);
       } catch (e) {}
@@ -209,19 +209,18 @@ export default function NewsPage() {
 
             {/* Trending Section */}
             {trends.length > 0 && (
-              <div style={{ borderTop: '4px solid #0f0f1a', background: '#1a1a2e', padding: '20px' }}>
-                <div style={{ fontSize: '12px', fontWeight: 900, color: '#aaa', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>
+              <div className={styles.trendsSection}>
+                <div className={styles.trendsLabel}>
                   Trending Searches
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div className={styles.trendsList}>
                   {trends.map((t) => (
-                    <button key={t.id} onClick={() => window.location.href=`/news`} style={{
-                      display: 'flex', alignItems: 'center', gap: '10px',
-                      background: 'rgba(230,57,70,0.08)', border: '1px solid rgba(230,57,70,0.2)',
-                      padding: '8px 12px', borderRadius: '6px', cursor: 'pointer', textAlign: 'left',
-                      color: 'white', fontWeight: 600, fontSize: '13px'
-                    }}>
-                      <span style={{ fontSize: '15px' }}>📈</span>
+                    <button 
+                      key={t.id} 
+                      onClick={() => window.location.href=`/news`} 
+                      className={styles.trendTag}
+                    >
+                      <span className={styles.trendEmoji}>📈</span>
                       {t.topic}
                     </button>
                   ))}
