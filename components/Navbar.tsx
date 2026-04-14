@@ -37,7 +37,7 @@ export default function Navbar() {
     <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
       <div className={`container ${styles.navbar}`}>
         <Link href="/" className={styles.logo}>
-          <span className={styles.logoGo}>GO</span><span className={styles.logoBarcelona}>BARCELONA</span>
+          <span className={styles.logoGo}>go</span><span className={styles.logoBarcelona}>barcelona</span>
         </Link>
         
         {/* Desktop Navigation Links */}

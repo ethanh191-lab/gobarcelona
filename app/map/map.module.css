@@ -1,177 +1,397 @@
-/* ─── Beer Map Redesign (Booking.com Style) ─── */
+/* ─── Beer Map v3.0 — Booking.com-style Layout ─── */
 
 .appWrapper {
-  position: absolute;
-  inset: 0;
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: grid;
-  grid-template-columns: 340px 1fr;
-  grid-template-rows: 1fr;
-  background: #1A1A2E; /* SOLID background to prevent leak */
+  grid-template-columns: 380px 1fr;
+  background: #1A1A2E;
   overflow: hidden;
-  padding-top: 64px; /* Navbar height */
   z-index: 50;
   font-family: 'DM Sans', sans-serif;
 }
 
-/* ─── Sidebar (Left) ─── */
+/* ─── Sidebar ─── */
 .sidebar {
-  width: 340px;
-  background: #1A1A2E;
-  border-right: 1px solid var(--glass-border);
   display: flex;
   flex-direction: column;
-  z-index: 100;
+  background: #1A1A2E;
+  border-right: 1px solid rgba(255,255,255,0.08);
   height: 100%;
+  overflow: hidden;
 }
 
 .sidebarHeader {
-  padding: 24px;
-  border-bottom: 2px solid var(--glass-border);
+  padding: 24px 20px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
 }
 
 .sidebarHeader h1 {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Barlow Condensed', sans-serif;
   font-weight: 800;
-  letter-spacing: -1px;
+  font-size: 26px;
+  margin: 0;
+  letter-spacing: -0.5px;
 }
 
-.sidebarContent {
+.sidebarSubtitle {
+  font-size: 13px;
+  color: #888;
+  margin: 4px 0 0;
+}
+
+.sidebarScroll {
   flex: 1;
   overflow-y: auto;
-  padding: 16px;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,0.1) transparent;
+  scrollbar-color: rgba(255,255,255,0.08) transparent;
 }
 
-/* Bar Cards in Sidebar */
-.barListItem {
-  padding: 16px;
-  border-bottom: 1px solid var(--glass-border);
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: 12px;
+.sidebarScroll::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebarScroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sidebarScroll::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+}
+
+/* ─── Filter Sections ─── */
+.filterSection {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.filterLabel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #888;
   margin-bottom: 12px;
-  position: relative;
-  border-left: 4px solid transparent;
-  background: var(--glass-bg);
+}
+
+.filterValue {
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Slider */
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.1);
+  outline: none;
+  margin: 0;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #E63946;
+  cursor: pointer;
+  border: 3px solid #1A1A2E;
+  box-shadow: 0 0 0 2px #E63946;
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #E63946;
+  cursor: pointer;
+  border: 3px solid #1A1A2E;
+  box-shadow: 0 0 0 2px #E63946;
+}
+
+/* Neighborhood Select */
+.nbSelect {
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.04);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.nbSelect option {
+  background: #1A1A2E;
+}
+
+/* ─── Filter Rows (Booking.com style checkboxes) ─── */
+.filterSectionTitle {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #666;
+  padding: 14px 20px 8px;
+}
+
+.filterRow {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.15s;
+  border-left: 3px solid transparent;
+  gap: 12px;
+}
+
+.filterRow:hover {
+  background: rgba(255,255,255,0.03);
+}
+
+.filterRowActive {
+  background: rgba(230, 57, 70, 0.06);
+  border-left-color: #E63946;
+}
+
+.filterCheckbox {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 2px solid rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s;
+  font-size: 11px;
+  color: transparent;
+}
+
+.filterCheckboxChecked {
+  background: #E63946;
+  border-color: #E63946;
+  color: white;
+}
+
+.filterRowLabel {
+  flex: 1;
+  font-size: 14px;
+  color: rgba(255,255,255,0.85);
+  font-weight: 500;
+}
+
+.filterRowCount {
+  font-size: 12px;
+  color: #666;
+  font-weight: 600;
+}
+
+/* ─── Location Banner ─── */
+.locationBanner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: rgba(230, 57, 70, 0.08);
+  border-bottom: 1px solid rgba(230, 57, 70, 0.15);
+  font-size: 12px;
+  color: #ccc;
+  flex-shrink: 0;
+}
+
+.locationBannerBtn {
+  background: #E63946;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* ─── Bar List ─── */
+.barListTitle {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #666;
+  padding: 16px 20px 8px;
+}
+
+.barListItem {
+  padding: 14px 20px;
+  cursor: pointer;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
 }
 
 .barListItem:hover {
-  background: rgba(255, 255, 255, 0.06);
-  transform: translateX(4px);
+  background: rgba(255,255,255,0.03);
 }
 
 .barActive {
-  background: rgba(230, 57, 70, 0.08) !important;
-  border-left-color: var(--primary-red) !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  background: rgba(230, 57, 70, 0.06) !important;
+  border-left-color: #E63946 !important;
 }
 
 .barCardHeader {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .barCardHeader h4 {
-  font-family: 'Syne', sans-serif;
-  font-size: 16px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
   margin: 0;
   color: white;
+  line-height: 1.3;
+  max-width: 200px;
 }
 
 .barCardPrice {
-  color: var(--primary-red);
+  color: #E63946;
   font-weight: 800;
-  font-size: 1.1rem;
+  font-size: 16px;
+  font-family: 'Barlow Condensed', sans-serif;
 }
 
-.barCardMuted {
-  font-size: 13px;
-  color: #A0A0B8;
-  line-height: 1.4;
-  margin-bottom: 8px;
+.barCardMeta {
+  font-size: 12px;
+  color: #777;
+  margin-bottom: 6px;
 }
 
-.barCardIcons {
-  display: flex;
-  gap: 12px;
-  margin-top: 8px;
-  font-size: 14px;
-  opacity: 0.8;
-}
-
-/* ─── Map Container (Right) ─── */
-.mapContainer {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  background: #1A1A2E; /* SOLID fallback */
-}
-
-/* ─── Filter Bar (Overlay on Map) - REMOVED for Sidebar ─── */
-.filterBarContainer {
-  display: none !important;
-}
-
-.filterItem {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 12px 18px;
-  border-radius: 12px;
-  color: white;
-  font-weight: 700;
-  font-size: 13px;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: all 0.2s;
+.barCardBottom {
   display: flex;
   align-items: center;
   gap: 8px;
-  width: 100%;
-  margin-bottom: 8px;
+  font-size: 12px;
+  color: #666;
 }
 
-.filterItem:hover {
-  border-color: rgba(255,255,255,0.3);
-  background: rgba(255,255,255,0.08);
+.barCardWalk {
+  color: #888;
+  font-size: 11px;
 }
 
-.filterActive {
-  background: var(--primary-red) !important;
-  color: white !important;
-  border-color: var(--primary-red) !important;
+.barCardBadges {
+  display: flex;
+  gap: 6px;
+  font-size: 13px;
 }
 
-.priceSliderBox {
-  padding: 16px;
-  background: rgba(255,255,255,0.03);
-  border-radius: 12px;
-  margin-bottom: 24px;
-}
-
-.priceSliderBox input {
-  accent-color: var(--primary-red);
-  width: 100%;
-  margin-top: 12px;
-}
-
-.nbSelect {
-  background: rgba(255,255,255,0.05);
-  color: white;
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 12px;
-  border-radius: 12px;
+.openBadge {
+  font-size: 10px;
   font-weight: 700;
-  outline: none;
-  cursor: pointer;
-  font-family: inherit;
-  width: 100%;
-  margin-bottom: 8px;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 4px;
 }
 
-/* ─── Detail Panel (Slide-in Over Map) ─── */
+.openBadgeOpen {
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+}
+
+.openBadgeClosed {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+/* ─── Map Container ─── */
+.mapContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #1A1A2E;
+}
+
+/* ─── Price Pins ─── */
+.pricePin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.pricePinPrice {
+  padding: 5px 12px;
+  border-radius: 16px;
+  font-weight: 900;
+  font-size: 14px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.35);
+  border: 2px solid;
+  font-family: 'Barlow Condensed', sans-serif;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.pricePinWalk {
+  font-size: 10px;
+  color: white;
+  background: rgba(0,0,0,0.6);
+  padding: 1px 6px;
+  border-radius: 8px;
+  margin-top: 2px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.pinCheap .pricePinPrice {
+  background: #22c55e;
+  color: white;
+  border-color: #16a34a;
+}
+
+.pinNormal .pricePinPrice {
+  background: #eab308;
+  color: white;
+  border-color: #ca8a04;
+}
+
+.pinExpensive .pricePinPrice {
+  background: #ef4444;
+  color: white;
+  border-color: #dc2626;
+}
+
+.pricePinSelected {
+  transform: scale(1.2) translateY(-4px);
+  z-index: 2000;
+}
+
+.pricePinSelected .pricePinPrice {
+  background: #E63946 !important;
+  border-color: #c52d39 !important;
+  box-shadow: 0 4px 20px rgba(230, 57, 70, 0.5);
+}
+
+/* ─── Detail Panel ─── */
 .detailPanel {
   position: absolute;
   right: 0;
@@ -179,13 +399,13 @@
   bottom: 0;
   width: 400px;
   background: #1A1A2E;
-  border-left: 1px solid var(--glass-border);
+  border-left: 1px solid rgba(255,255,255,0.08);
   z-index: 1000;
   transform: translateX(100%);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
-  box-shadow: -15px 0 40px rgba(0,0,0,0.5);
+  box-shadow: -10px 0 40px rgba(0,0,0,0.5);
 }
 
 .detailPanelVisible {
@@ -193,129 +413,113 @@
 }
 
 .panelHeader {
-  padding: 32px;
-  border-bottom: 1px solid var(--glass-border);
+  padding: 28px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
   position: relative;
 }
 
 .closeBtn {
   position: absolute;
-  top: 24px;
-  right: 24px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid var(--glass-border);
+  top: 20px;
+  right: 20px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
   color: white;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 16px;
   transition: all 0.2s;
 }
 
-.closeBtn:hover { 
-  background: var(--primary-red);
-  border-color: var(--primary-red);
+.closeBtn:hover {
+  background: #E63946;
+  border-color: #E63946;
 }
 
 .panelContent {
   flex: 1;
   overflow-y: auto;
-  padding: 32px;
+  padding: 24px;
+  -webkit-overflow-scrolling: touch;
 }
 
 .badge {
   display: inline-block;
-  padding: 4px 12px;
-  border-radius: 8px;
-  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 10px;
   font-weight: 800;
   text-transform: uppercase;
-  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
 }
 
 .badgeRed {
   background: rgba(230, 57, 70, 0.15);
-  color: var(--primary-red);
+  color: #E63946;
 }
 
 .attributePill {
   display: inline-block;
-  padding: 6px 14px;
+  padding: 5px 12px;
   background: rgba(255,255,255,0.04);
-  border: 1px solid var(--glass-border);
-  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
   font-size: 12px;
-  margin: 0 8px 8px 0;
-  color: #A0A0B8;
+  margin: 0 6px 6px 0;
+  color: #999;
 }
 
-/* ─── Price Pins ─── */
-.pricePin {
-  background: white;
-  color: #1A1A2E;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-weight: 900;
-  font-size: 15px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-  border: 2px solid white;
-  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  cursor: pointer;
-  white-space: nowrap;
-  font-family: 'Barlow Condensed', sans-serif;
-  text-transform: uppercase;
+.confidenceBox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  margin-bottom: 24px;
 }
 
-.pinCheap {
-  background: #22c55e !important;
-  color: white !important;
-  border-color: #22c55e !important;
-}
-
-.pinNormal {
-  background: #eab308 !important;
-  color: white !important;
-  border-color: #eab308 !important;
-}
-
-.pinExpensive {
-  background: #ef4444 !important;
-  color: white !important;
-  border-color: #ef4444 !important;
-}
-
-.pricePinSelected {
-  background: var(--primary-red) !important;
-  color: white !important;
-  border-color: var(--primary-red) !important;
-  transform: scale(1.15) translateY(-5px);
-  z-index: 2000;
+.walkingInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.15);
+  border-radius: 12px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  color: #93c5fd;
 }
 
 /* ─── Sun Timeline ─── */
 .sunTimeline {
-  background: rgba(245, 158, 11, 0.05);
-  border: 1px solid rgba(245, 158, 11, 0.15);
-  padding: 20px;
-  border-radius: 20px;
-  margin: 24px 0;
+  background: rgba(245, 158, 11, 0.06);
+  border: 1px solid rgba(245, 158, 11, 0.12);
+  padding: 16px;
+  border-radius: 12px;
+  margin: 20px 0;
 }
 
 .sunTimeline h4 {
   color: #FBBF24;
-  font-size: 14px;
+  font-size: 13px;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 8px;
+  letter-spacing: 0.8px;
+  margin: 0 0 6px;
+  font-weight: 700;
 }
 
 /* ─── Skeletons ─── */
 .skeleton {
-  background: linear-gradient(90deg, #1A1A2E 25%, #24243e 50%, #1A1A2E 75%);
+  background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.03) 75%);
   background-size: 200% 100%;
   animation: loading 1.5s infinite;
   border-radius: 8px;
@@ -326,28 +530,43 @@
   100% { background-position: -200% 0; }
 }
 
+/* Blue pulsing dot for user location */
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5); }
+  70% { box-shadow: 0 0 0 14px rgba(59, 130, 246, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
+
+.userDot {
+  width: 16px;
+  height: 16px;
+  background: #3b82f6;
+  border: 3px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5);
+  animation: pulse 2s infinite;
+}
+
 /* ─── Responsive ─── */
 @media (max-width: 1023px) {
+  .appWrapper {
+    grid-template-columns: 1fr;
+  }
   .sidebar {
     position: fixed;
     left: 0;
     top: 64px;
     bottom: 0;
+    width: 320px;
     transform: translateX(-100%);
-    transition: transform 0.4s ease;
-    box-shadow: 20px 0 50px rgba(0,0,0,0.5);
+    transition: transform 0.35s ease;
+    z-index: 200;
+    box-shadow: 20px 0 50px rgba(0,0,0,0.6);
   }
   .sidebarVisible {
     transform: translateX(0);
   }
-  .appWrapper {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ─── Force Desktop Cleanup ─── */
-@media (min-width: 1024px) {
-  .appWrapper :global(.mobile-only) {
-    display: none !important;
+  .detailPanel {
+    width: 100%;
   }
 }
