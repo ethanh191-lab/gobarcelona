@@ -89,14 +89,20 @@ export default function Home() {
           <div className={styles.liveBadge}>LIVE</div>
           <div className={styles.tickerTrack}>
             <div className={styles.tickerContent}>
-              {latestNews.map((a, i) => (
+              {latestNews.filter(a => {
+                if (lang === 'EN' && a.language === 'es' && !translated[a.slug]) return false;
+                return true;
+              }).map((a, i) => (
                 <span key={i} className={styles.tickerItem}>
                   {a.is_trending && <span style={{marginRight: '6px'}}>🔥</span>}
                   {translated[a.slug]?.title || a.title}
                 </span>
               ))}
               {/* Duplicate for seamless loop */}
-              {latestNews.map((a, i) => (
+              {latestNews.filter(a => {
+                if (lang === 'EN' && a.language === 'es' && !translated[a.slug]) return false;
+                return true;
+              }).map((a, i) => (
                 <span key={`dup-${i}`} className={styles.tickerItem}>
                   {a.is_trending && <span style={{marginRight: '6px'}}>🔥</span>}
                   {translated[a.slug]?.title || a.title}
