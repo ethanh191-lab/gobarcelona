@@ -13,19 +13,21 @@ export default function Home() {
 
   // 1. Data Fetching
   useEffect(() => {
-    fetch('/api/news')
+    // Top 10 articles
+    const qLang = lang === 'ES' ? 'ES' : 'EN';
+    fetch(`/api/news?language=${qLang}&limit=10`)
       .then(r => r.json())
       .then(data => {
         setNews(data.articles || []);
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, []);
+  }, [lang]);
 
-  // 2. Translation Logic (Headers)
+  // 2. Translation Logic (Headers) -> Only translate if language mismatch
   const translateHeaders = async (items: Article[]) => {
     const targetLang = lang.toLowerCase();
-    const toTranslate = items.map((a, i) => ({ i, a })).filter(({ a }) => a.lang.toLowerCase() !== targetLang);
+    const toTranslate = items.map((a, i) => ({ i, a })).filter(({ a }) => a.language !== targetLang);
     if (!toTranslate.length) return;
 
     try {
@@ -37,24 +39,20 @@ export default function Home() {
       const { translations } = await res.json();
       const map: Record<string, { title: string }> = {};
       toTranslate.forEach(({ a }, idx) => { 
-        if (translations?.[idx]) map[a.link] = { title: translations[idx] }; 
+        if (translations?.[idx]) map[a.slug] = { title: translations[idx] }; 
       });
       setTranslated(prev => ({ ...prev, ...map }));
     } catch {}
   };
 
   useEffect(() => {
-    if (news.length > 0) translateHeaders(news.slice(0, 10));
+    if (news.length > 0) translateHeaders(news);
   }, [news, lang]);
 
   const latestNews = useMemo(() => news.slice(0, 3), [news]);
-  const todayNews = useMemo(() => {
-    // Show top 4 articles regardless of source language
-    // They will be translated by the translateHeaders effect
-    return news.slice(0, 4);
-  }, [news]);
-
-  const breakingNews = useMemo(() => news.find(a => a.breaking), [news]);
+  const breakingNews = useMemo(() => news.find(a => a.is_breaking), [news]);
+  // 4 most recent non-breaking articles
+  const todayNews = useMemo(() => news.filter(a => !a.is_breaking).slice(0, 4), [news]);
 
   const timeAgo = (dateStr: string) => {
     if (!dateStr) return '';
@@ -93,13 +91,15 @@ export default function Home() {
             <div className={styles.tickerContent}>
               {latestNews.map((a, i) => (
                 <span key={i} className={styles.tickerItem}>
-                  {translated[a.link]?.title || a.title}
+                  {a.is_trending && <span style={{marginRight: '6px'}}>🔥</span>}
+                  {translated[a.slug]?.title || a.title}
                 </span>
               ))}
               {/* Duplicate for seamless loop */}
               {latestNews.map((a, i) => (
                 <span key={`dup-${i}`} className={styles.tickerItem}>
-                  {translated[a.link]?.title || a.title}
+                  {a.is_trending && <span style={{marginRight: '6px'}}>🔥</span>}
+                  {translated[a.slug]?.title || a.title}
                 </span>
               ))}
             </div>
@@ -109,11 +109,11 @@ export default function Home() {
 
       {/* Breaking News Strip */}
       {breakingNews && (
-        <Link href="/news" className={styles.breakingStrip}>
+        <Link href={`/news/${breakingNews.slug}`} className={styles.breakingStrip}>
           <div className="container" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <span className={styles.breakingBadge}>{t('home.bcn_today')}</span>
+            <span className={styles.breakingBadge}>BREAKING</span>
             <span className={styles.breakingHeadline}>
-              {translated[breakingNews.link]?.title || breakingNews.title}
+              {translated[breakingNews.slug]?.title || breakingNews.title}
             </span>
           </div>
         </Link>
@@ -154,14 +154,17 @@ export default function Home() {
           
           <div className={styles.newsGrid}>
             {todayNews.length > 0 ? todayNews.map((a, i) => (
-              <a key={i} href={a.link} target="_blank" rel="noopener noreferrer" className={styles.newsCard}>
-                <span className={styles.topicBadge} style={{ background: a.breaking ? 'var(--primary-red)' : 'rgba(255,255,255,0.1)' }}>
-                  {a.breaking ? 'BREAKING' : a.topic}
+              <a key={i} href={`/news/${a.slug}`} className={styles.newsCard}>
+                <span className={styles.topicBadge} style={{ background: a.is_breaking ? 'var(--primary-red)' : 'rgba(255,255,255,0.1)' }}>
+                  {a.is_breaking ? 'BREAKING' : a.category}
                 </span>
-                <h3 className={styles.newsTitle}>{translated[a.link]?.title || a.title}</h3>
+                <h3 className={styles.newsTitle}>
+                  {a.is_trending && <span style={{marginRight: '6px'}}>🔥</span>}
+                  {translated[a.slug]?.title || a.title}
+                </h3>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 'auto', fontSize: '12px', opacity: 0.5, fontWeight: 700 }}>
-                   <span>{a.source}</span>
-                   <span>{timeAgo(a.pubDate)}</span>
+                   <span>{a.source_name}</span>
+                   <span>{timeAgo(a.published_at)}</span>
                 </div>
               </a>
             )) : (
