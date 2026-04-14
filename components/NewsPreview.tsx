@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { TOPIC_META, type Article } from '../lib/news-config';
 import { useLanguage } from './LanguageContext';
 
-const PRIORITY_TOPICS = new Set(['Barcelona', 'Catalunya', 'Culture & Events']);
+const PRIORITY_TOPICS = new Set(['Barcelona', 'Events', 'Free', 'Festivals', 'Nightlife', 'Catalunya']);
 const ENGLISH_SOURCES = ['BBC News', 'NYT World', 'CNN', 'The Local Spain'];
 
 function timeAgo(dateStr: string): string {
