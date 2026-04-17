@@ -5,7 +5,7 @@ export async function GET() {
   try {
     const { data, error } = await supabase
       .from('bars')
-      .select('name, beer_price_05l, neighborhood, status')
+      .select('name, beer_price_05l, neighbourhood, status')
       .eq('status', 'open')
       .order('beer_price_05l', { ascending: true })
       .limit(3);

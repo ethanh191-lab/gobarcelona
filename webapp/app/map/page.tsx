@@ -11,7 +11,7 @@ const BCN_CENTER = { lat: 41.3851, lng: 2.1734 };
 // Dev mock location: Carrer de la Llibreteria 21
 const MOCK_LOCATION = { lat: 41.3839, lng: 2.1770 };
 
-const NEIGHBORHOODS = [
+const NEIGHBOURHOODS = [
   { id: 'all',      name: 'All BCN',        lat: 41.3851, lng: 2.1734 },
   { id: 'gothic',   name: 'Gothic Quarter', lat: 41.3828, lng: 2.1771 },
   { id: 'born',     name: 'El Born',        lat: 41.3849, lng: 2.1849 },
@@ -40,7 +40,7 @@ interface Place {
   rooftop?: boolean;
   openLate?: boolean;
   openingHoursStr?: string;
-  neighborhood?: string;
+  neighbourhood?: string;
   // New features
   happyHourStart?: string;
   happyHourEnd?: string;
@@ -245,10 +245,10 @@ export default function BeerMapPage() {
     addDot();
   }, [userLoc, mapsLoaded]);
 
-  // ────── 4. Neighborhood Pan ──────
+  // ────── 4. Neighbourhood Pan ──────
   useEffect(() => {
     if (!mapInstanceRef.current) return;
-    const nb = NEIGHBORHOODS.find(n => n.id === selectedNb);
+    const nb = NEIGHBOURHOODS.find(n => n.id === selectedNb);
     if (!nb) return;
     if (selectedNb === 'all') {
       mapInstanceRef.current.setCenter(BCN_CENTER);
@@ -263,7 +263,7 @@ export default function BeerMapPage() {
   const fetchPlaces = useCallback(async () => {
     setFetching(true);
     try {
-      const nb = NEIGHBORHOODS.find(n => n.id === selectedNb);
+      const nb = NEIGHBOURHOODS.find(n => n.id === selectedNb);
       const lat = nb?.lat || BCN_CENTER.lat;
       const lng = nb?.lng || BCN_CENTER.lng;
       const res = await fetch(`/api/places?lat=${lat}&lng=${lng}&radius=5000`);
@@ -643,7 +643,7 @@ export default function BeerMapPage() {
           {selectedPlace && (
             <>
               <div className={styles.panelHeader}>
-                <span className={`${styles.badge} ${styles.badgeRed}`}>{selectedPlace.neighborhood || 'BCN'}</span>
+                <span className={`${styles.badge} ${styles.badgeRed}`}>{selectedPlace.neighbourhood || 'BCN'}</span>
                 <h2 style={{ fontSize: '24px', color: 'white', margin: '0 0 6px', fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 800 }}>
                   <span className={styles.busyDot} style={{ background: busy.color }} title={busy.label} />
                   {selectedPlace.name}

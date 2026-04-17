@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
       outdoorSeating: p.terrace,
       isOpen: p.status === 'open',
       hasSports: p.sports_broadcasting,
-      neighborhood: p.neighborhood,
+      neighbourhood: p.neighbourhood,
       // New columns for features
       happyHourStart: p.happy_hour_start,
       happyHourEnd: p.happy_hour_end,
