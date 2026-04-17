@@ -2,7 +2,7 @@
 
 .appWrapper {
   position: fixed;
-  top: 64px;
+  top: 80px; /* matched to navbar height */
   left: 0;
   right: 0;
   bottom: 0;
@@ -825,13 +825,21 @@
 .comparisonPanel {
   position: absolute;
   bottom: 0;
-  left: 340px; /* offset sidebar */
+  left: 380px; /* matched to sidebar width */
   right: 0;
   background: #1A1A2E;
   border-top: 2px solid #E63946;
   z-index: 2000;
   box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
   animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── Responsive & Mobile App Layout ─── */
+.mobileTabBar {
+  display: none;
+}
+.mobileFilterBtn {
+  display: none;
 }
 
 @keyframes slideUp {
@@ -931,21 +939,7 @@
   border-color: #E63946;
 }
 
-@media (max-width: 1023px) {
-  .comparisonPanel {
-    left: 0;
-  }
-}
-
-/* ─── Responsive & Mobile App Layout ─── */
-.mobileTabBar {
-  display: none;
-}
-.mobileFilterBtn {
-  display: none;
-}
-
-@media (max-width: 1023px) {
+@media (max-width: 768px) {
   .appWrapper {
     grid-template-columns: 1fr;
   }
