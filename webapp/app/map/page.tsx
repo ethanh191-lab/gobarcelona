@@ -154,6 +154,7 @@ export default function BeerMapPage() {
   const COMMON_BEERS = ['Estrella Damm', 'Moritz', 'Voll-Damm', 'Estrella Galicia', 'Heineken', 'Mahou', 'San Miguel'];
 
   const [showReportModal, setShowReportModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [leaderboardOpen, setLeaderboardOpen] = useState(true);
   const [compareList, setCompareList] = useState<Place[]>([]);
@@ -631,19 +632,25 @@ export default function BeerMapPage() {
       <main className={styles.mapContainer}>
         <div ref={mapRef} style={{ width: '100%', height: '100%' }} />
 
-        {/* Mobile sidebar toggle */}
+        {/* Mobile Filter Toggle */}
         <button
-          className="mobile-only"
+          className={styles.mobileFilterBtn}
           onClick={() => setSidebarVisible(!sidebarVisible)}
-          style={{
-            position: 'absolute', top: 16, left: 16, zIndex: 300,
-            background: '#E63946', color: 'white', border: 'none',
-            borderRadius: '12px', padding: '10px 16px', fontWeight: 800,
-            fontSize: '13px', cursor: 'pointer', boxShadow: '0 4px 16px rgba(0,0,0,0.4)',
-          }}
         >
           {sidebarVisible ? '✕ Close' : '☰ Filters'}
         </button>
+
+        {/* Mobile Bottom Tab Bar */}
+        <div className={styles.mobileTabBar}>
+          <div className={styles.tabItem} onClick={() => window.location.href = '/'}>
+            <span className={styles.tabIcon}>🏠</span>
+            <span className={styles.tabLabel}>Home</span>
+          </div>
+          <div className={`${styles.tabItem} ${styles.tabItemActive}`}>
+            <span className={styles.tabIcon}>🍻</span>
+            <span className={styles.tabLabel}>Map</span>
+          </div>
+        </div>
 
         {/* ─── Detail Panel ─── */}
         <div className={`${styles.detailPanel} ${selectedPlace ? styles.detailPanelVisible : ''}`}>
@@ -805,6 +812,19 @@ export default function BeerMapPage() {
                     Report Price
                   </button>
                 </div>
+                
+                {/* Request Info Update */}
+                <button
+                  onClick={() => setShowUpdateModal(true)}
+                  style={{
+                    background: 'transparent', color: '#888', border: '1px dashed rgba(255,255,255,0.2)',
+                    padding: '12px 20px', borderRadius: '12px', fontWeight: 600, fontSize: '13px',
+                    cursor: 'pointer', fontFamily: 'inherit', marginTop: '12px', width: '100%',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  Suggest an Edit / Report Issue
+                </button>
               </div>
             </>
           )}
@@ -817,6 +837,14 @@ export default function BeerMapPage() {
           place={selectedPlace}
           onClose={() => setShowReportModal(false)}
           onSuccess={() => setShowReportModal(false)}
+        />
+      )}
+      {/* Update Info Modal */}
+      {showUpdateModal && selectedPlace && (
+        <UpdateModal
+          place={selectedPlace}
+          onClose={() => setShowUpdateModal(false)}
+          onSuccess={() => setShowUpdateModal(false)}
         />
       )}
       {/* ─── Comparison Panel ─── */}
@@ -951,6 +979,65 @@ function ReportModal({ place, onClose, onSuccess }: { place: Place; onClose: () 
           <button onClick={handleSubmit} disabled={submitting}
             style={{ background: '#E63946', color: 'white', border: 'none', padding: '14px', borderRadius: '12px', fontWeight: 800, fontSize: '14px', cursor: 'pointer' }}>
             {submitting ? 'Submitting...' : 'Submit Report'}
+          </button>
+          <button onClick={onClose}
+            style={{ background: 'rgba(255,255,255,0.06)', color: '#ccc', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', borderRadius: '12px', fontWeight: 600, cursor: 'pointer' }}>
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function UpdateModal({ place, onClose, onSuccess }: { place: Place; onClose: () => void; onSuccess: () => void }) {
+  const [field, setField] = useState('price');
+  const [suggestion, setSuggestion] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async () => {
+    setSubmitting(true);
+    try {
+      await fetch('/api/bar-adjustments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bar_id: place.id, field_to_adjust: field, suggested_value: suggestion }),
+      });
+    } catch (e) { console.error(e); }
+    setSubmitting(false);
+    onSuccess();
+  };
+
+  return (
+    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', zIndex: 3000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }} onClick={onClose}>
+      <div style={{ background: '#1A1A2E', padding: '32px', borderRadius: '20px', width: '100%', maxWidth: '400px', border: '1px solid rgba(255,255,255,0.08)' }} onClick={e => e.stopPropagation()}>
+        <h3 style={{ fontSize: '20px', color: 'white', marginBottom: '6px', fontFamily: "'Barlow Condensed', sans-serif" }}>Suggest an Edit</h3>
+        <p style={{ color: '#888', fontSize: '13px', marginBottom: '24px' }}>Found a mistake for {place.name}? Let us know.</p>
+
+        <div style={{ display: 'grid', gap: '16px' }}>
+          <div>
+            <label style={{ display: 'block', marginBottom: '6px', fontSize: '11px', textTransform: 'uppercase', color: '#666', fontWeight: 700 }}>What's wrong?</label>
+            <select value={field} onChange={e => setField(e.target.value)}
+              style={{ width: '100%', padding: '12px', borderRadius: '10px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', fontSize: '14px', outline: 'none' }}>
+              <option value="price">Wrong Price</option>
+              <option value="hours">Opening Hours</option>
+              <option value="status">Permanently Closed</option>
+              <option value="location">Wrong Location</option>
+              <option value="features">Missing Features (Terrace, Sports, etc)</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label style={{ display: 'block', marginBottom: '6px', fontSize: '11px', textTransform: 'uppercase', color: '#666', fontWeight: 700 }}>Correction / Details</label>
+            <textarea value={suggestion} onChange={e => setSuggestion(e.target.value)} rows={3} placeholder="e.g. They close at 2AM on Fridays now"
+              style={{ width: '100%', padding: '12px', borderRadius: '10px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', fontSize: '14px', outline: 'none', resize: 'vertical' }} />
+          </div>
+        </div>
+
+        <div style={{ marginTop: '24px', display: 'grid', gap: '10px' }}>
+          <button onClick={handleSubmit} disabled={submitting || !suggestion.trim()}
+            style={{ background: '#E63946', color: 'white', border: 'none', padding: '14px', borderRadius: '12px', fontWeight: 800, fontSize: '14px', cursor: (submitting || !suggestion.trim()) ? 'not-allowed' : 'pointer', opacity: (submitting || !suggestion.trim()) ? 0.5 : 1 }}>
+            {submitting ? 'Submitting...' : 'Submit Edit'}
           </button>
           <button onClick={onClose}
             style={{ background: 'rgba(255,255,255,0.06)', color: '#ccc', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', borderRadius: '12px', fontWeight: 600, cursor: 'pointer' }}>

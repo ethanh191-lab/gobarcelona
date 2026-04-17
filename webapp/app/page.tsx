@@ -30,7 +30,7 @@ export default function Home() {
             </div>
             <h1 className={styles.heroTitle}>Barcelona's cheapest beers. <span className={styles.highlight}>Right now.</span></h1>
             <p className={styles.heroSubline}>
-              The only real-time map of tap beer prices across the city. Free, always.
+              The only real-time tap beer price map. 500+ bars. Free, always.
             </p>
             
             <div className={styles.ctaGroup}>
@@ -49,7 +49,7 @@ export default function Home() {
             <div className={styles.featureItem}>
               <div className={styles.featureIcon}>📍</div>
               <div className={styles.featureText}>
-                <h3>1,000+ bars mapped</h3>
+                <h3>500+ bars mapped</h3>
                 <p>Every corner of the city covered.</p>
               </div>
             </div>
@@ -101,13 +101,13 @@ export default function Home() {
                 </div>
               ))
             ) : (
-              <div className={styles.noData}>No data available yet. Be the first to report!</div>
+              <div className={styles.noData}>Price unknown — be the first to report</div>
             )}
           </div>
 
           <div style={{ textAlign: 'center', marginTop: '48px' }}>
             <Link href="/map" className={styles.secondaryCta}>
-              View all 1,000+ bars
+              View all 500+ bars
             </Link>
           </div>
         </div>

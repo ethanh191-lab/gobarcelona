@@ -937,26 +937,116 @@
   }
 }
 
-/* ─── Responsive ─── */
+/* ─── Responsive & Mobile App Layout ─── */
+.mobileTabBar {
+  display: none;
+}
+.mobileFilterBtn {
+  display: none;
+}
+
 @media (max-width: 1023px) {
   .appWrapper {
     grid-template-columns: 1fr;
   }
+  
+  .mobileFilterBtn {
+    display: block;
+    position: absolute;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1A1A2E;
+    color: white;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-weight: 800;
+    font-size: 14px;
+    z-index: 400;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+    cursor: pointer;
+  }
+
+  .mobileTabBar {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: #1A1A2E;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    z-index: 500;
+    justify-content: space-around;
+    align-items: center;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .tabItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #666;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    gap: 4px;
+  }
+
+  .tabIcon {
+    font-size: 20px;
+  }
+
+  .tabItemActive {
+    color: #E63946;
+  }
+
   .sidebar {
     position: fixed;
     left: 0;
-    top: 64px;
+    right: 0;
+    top: 60%;
     bottom: 0;
-    width: 320px;
-    transform: translateX(-100%);
-    transition: transform 0.35s ease;
-    z-index: 200;
-    box-shadow: 20px 0 50px rgba(0,0,0,0.6);
-  }
-  .sidebarVisible {
-    transform: translateX(0);
-  }
-  .detailPanel {
     width: 100%;
+    background: #1A1A2E;
+    transform: translateY(100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 600;
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.6);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    height: auto;
+  }
+  
+  .sidebarVisible {
+    transform: translateY(0);
+  }
+  
+  .detailPanel {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 64px;
+    bottom: 70px;
+    width: 100%;
+    transform: translateY(100%);
+    z-index: 700;
+    border-radius: 0;
+    border-left: none;
+    background: #1A1A2E;
+  }
+  
+  .detailPanelVisible {
+    transform: translateY(0);
+  }
+
+  .comparisonPanel {
+    left: 0;
+    bottom: 70px;
+    z-index: 800;
   }
 }

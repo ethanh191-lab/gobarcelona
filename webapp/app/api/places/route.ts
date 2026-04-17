@@ -3,10 +3,11 @@ import { supabase } from '@/lib/supabase';
 
 export async function GET(req: NextRequest) {
   try {
-    // Fetch all bars from Supabase
+    // Fetch all bars from Supabase (override default 1000 row limit)
     const { data, error } = await supabase
       .from('bars')
-      .select('*');
+      .select('*')
+      .limit(2000);
 
     if (error) throw error;
 
