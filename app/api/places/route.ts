@@ -62,6 +62,9 @@ export async function GET(req: NextRequest) {
       website: p.website,
       phone: p.phone,
       priceConfidence: p.price_confidence || 'unverified',
+      openingToday: p.opening_today,
+      isOpenNow: p.is_open_now,
+      lastUpdated: p.last_updated,
     }));
 
     return NextResponse.json({ 

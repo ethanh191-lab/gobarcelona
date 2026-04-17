@@ -52,6 +52,10 @@ interface Place {
   status?: string;
   closureNote?: string;
   reopeningDate?: string;
+  openingToday?: string;
+  isOpenNow?: boolean | null;
+  lastUpdated?: string;
+  priceConfidence?: string;
 }
 
 // Haversine formula — distance in meters between two lat/lng points
@@ -594,7 +598,12 @@ export default function BeerMapPage() {
                       {isNew && <span className={styles.newBadgeMini}>NEW</span>}
                     </h4>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
-                      <span className={styles.barCardPrice}>{p.beerPrice}</span>
+                      <span className={styles.barCardPrice} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+    {p.priceConfidence === 'verified' && <span style={{ color: '#22c55e' }}>✓</span>}
+    {p.priceConfidence === 'estimated' && <span style={{ color: '#f59e0b', fontSize: '14px' }}>~</span>}
+    {p.priceConfidence === 'unverified' && <span style={{ color: '#888', fontSize: '14px' }}>?</span>}
+    {p.priceConfidence === 'unverified' ? 'Price unknown' : p.beerPrice}
+  </span>
                       <button 
                         className={`${styles.compareMiniBtn} ${compareList.find(x => x.id === p.id) ? styles.compareMiniBtnActive : ''}`}
                         onClick={(e) => { e.stopPropagation(); toggleCompare(p); }}
@@ -606,12 +615,16 @@ export default function BeerMapPage() {
                   <div className={styles.barCardMeta}>{p.address}</div>
                   <div className={styles.barCardBottom}>
                     {p.status === 'temporarily_closed' ? (
-                      <span className={styles.statusWarning}>⚠️ Temporarily Closed</span>
-                    ) : p.isOpen !== null && (
-                      <span className={`${styles.openBadge} ${p.isOpen ? styles.openBadgeOpen : styles.openBadgeClosed}`}>
-                        {p.isOpen ? 'Open' : 'Closed'}
-                      </span>
-                    )}
+    <span className={styles.statusWarning}>⚠️ Temporarily Closed</span>
+  ) : p.isOpenNow !== undefined && p.isOpenNow !== null ? (
+    <span className={`${styles.openBadge} ${p.isOpenNow ? styles.openBadgeOpen : styles.openBadgeClosed}`}>
+      {p.isOpenNow ? 'Open' : 'Closed'}
+    </span>
+  ) : (
+    <span className={`${styles.openBadge} ${styles.openBadgeClosed}`} style={{ background: '#555', color: 'white' }}>
+      Unknown
+    </span>
+  )}
                     {isHH && <span className={styles.hhBadgeMini}>HH</span>}
                     {p.studentDiscount && <span title="Student Discount">🎓</span>}
                     {walk && <span className={styles.barCardWalk}>🚶 {walk.label}</span>}
@@ -669,12 +682,16 @@ export default function BeerMapPage() {
                   <span style={{ fontSize: '18px', fontWeight: 800, color: 'white' }}>★ {selectedPlace.rating || 'N/A'}</span>
                   <span style={{ fontSize: '12px', color: '#666' }}>{selectedPlace.reviewCount} reviews</span>
                   {selectedPlace.status === 'temporarily_closed' ? (
-                    <span className={styles.statusWarning}>⚠️ Temporarily Closed</span>
-                  ) : selectedPlace.isOpen !== null && (
-                    <span className={`${styles.openBadge} ${selectedPlace.isOpen ? styles.openBadgeOpen : styles.openBadgeClosed}`}>
-                      {selectedPlace.isOpen ? 'Open' : 'Closed'}
-                    </span>
-                  )}
+    <span className={styles.statusWarning}>⚠️ Temporarily Closed</span>
+  ) : selectedPlace.isOpenNow !== undefined && selectedPlace.isOpenNow !== null ? (
+    <span className={`${styles.openBadge} ${selectedPlace.isOpenNow ? styles.openBadgeOpen : styles.openBadgeClosed}`}>
+      {selectedPlace.isOpenNow ? 'Open' : 'Closed'}
+    </span>
+  ) : (
+    <span className={`${styles.openBadge} ${styles.openBadgeClosed}`} style={{ background: '#555', color: 'white' }}>
+      Unknown
+    </span>
+  )}
                 </div>
                 
                 {/* ⏰ Happy Hour Badge */}
@@ -706,83 +723,33 @@ export default function BeerMapPage() {
                   );
                 })()}
 
-                {/* 📊 Busyness Chart */}
+                {/* 🕒 Combined Hours & Busyness */}
                 <div style={{ marginBottom: '24px' }}>
-                  <h4 className={styles.sectionTitle}>Typical Busyness ({busy.label})</h4>
-                  <div className={styles.busynessChart}>
-                    {[0.2, 0.4, 0.7, 0.9, 0.8, 0.5, 0.3].map((val, i) => (
-                      <div key={i} className={styles.busyBar} style={{ height: `${val * 40}px`, background: val > 0.8 ? '#ef4444' : val > 0.6 ? '#f59e0b' : '#22c55e' }} />
-                    ))}
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: '#555', marginTop: '4px' }}>
-                    <span>Morning</span>
-                    <span>Afternoon</span>
-                    <span>Evening</span>
-                  </div>
-                </div>
-
-                {/* Price & Compare */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px' }}>
-                  <div>
-                    <h1 style={{ color: '#E63946', margin: 0, fontSize: '38px', fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 900 }}>{selectedPlace.beerPrice}</h1>
-                    <p style={{ margin: 0, color: '#666', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>Per half litre</p>
-                  </div>
-                  <button 
-                    className={`${styles.compareBtn} ${compareList.find(x => x.id === selectedPlace.id) ? styles.compareBtnActive : ''}`}
-                    onClick={() => toggleCompare(selectedPlace)}
-                  >
-                    {compareList.find(x => x.id === selectedPlace.id) ? '✓ Added to Compare' : '+ Compare Bar'}
-                  </button>
-                </div>
-
-                {/* 🎓 Student Discount */}
-                {selectedPlace.studentDiscount && (
-                  <div className={styles.studentBadge}>
-                    🎓 Student discount — €{parseFloat(selectedPlace.studentPrice as any || 0).toFixed(2)} with student ID
-                  </div>
-                )}
-
-                {/* Features */}
-                <div style={{ marginBottom: '24px' }}>
-                  <h4 className={styles.sectionTitle}>Features</h4>
-                  <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                    {selectedPlace.outdoorSeating && <span className={styles.attributePill}>☀️ Terrace</span>}
-                    {selectedPlace.hasSports && <span className={styles.attributePill}>⚽ Sports TV</span>}
-                    {selectedPlace.rooftop && <span className={styles.attributePill}>🏙️ Rooftop</span>}
-                    {selectedPlace.dogFriendly && <span className={styles.attributePill}>🐶 Dog Friendly</span>}
-                  </div>
-                </div>
-
-                {/* 🍺 Beers on Tap */}
-                {selectedPlace.beersOnTap && selectedPlace.beersOnTap.length > 0 && (
-                  <div style={{ marginBottom: '24px' }}>
-                    <h4 className={styles.sectionTitle}>Beers on Tap</h4>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                      {selectedPlace.beersOnTap.map(beer => (
-                        <span key={beer} className={styles.beerPill}>{beer}</span>
+                  <h4 className={styles.sectionTitle}>TODAY'S HOURS & BUSYNESS</h4>
+                  <div style={{ background: '#111', padding: '16px', borderRadius: '12px', border: '1px solid #333' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px', color: 'white', fontWeight: 600 }}>
+                      {selectedPlace.isOpenNow !== undefined && selectedPlace.isOpenNow !== null ? (
+                        <span style={{ color: selectedPlace.isOpenNow ? '#22c55e' : '#ef4444' }}>
+                          {selectedPlace.isOpenNow ? '🟢 Open now' : '🔴 Closed'}
+                        </span>
+                      ) : (
+                        <span style={{ color: '#888' }}>⚪ Check hours</span>
+                      )}
+                      <span style={{ color: '#555' }}>·</span>
+                      <span>{selectedPlace.openingToday || 'Unknown'}</span>
+                    </div>
+                    
+                    <div className={styles.busynessChart} style={{ height: '60px' }}>
+                      {[0.1, 0.2, 0.4, 0.6, 0.9, 0.8, 0.4].map((val, i) => (
+                        <div key={i} className={styles.busyBar} style={{ height: `${val * 100}%`, background: val > 0.8 ? '#ef4444' : val > 0.6 ? '#f59e0b' : '#333' }} />
                       ))}
                     </div>
-                  </div>
-                )}
-
-                {/* 🕒 Visual Hours Timeline */}
-                <div style={{ marginBottom: '24px' }}>
-                  <h4 className={styles.sectionTitle}>Opening Hours</h4>
-                  <div className={styles.hoursTimeline}>
-                    {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, i) => {
-                      const isToday = new Date().getDay() === (i + 1) % 7;
-                      return (
-                        <div key={day} className={`${styles.timelineRow} ${isToday ? styles.timelineToday : ''}`}>
-                          <span className={styles.dayLabel}>{day}</span>
-                          <div className={styles.timelineBarWrapper}>
-                            <div className={styles.timelineBar} style={{ background: '#E63946' }} />
-                            <span className={styles.timeLabelStart}>09:00</span>
-                            <span className={styles.timeLabelEnd}>23:00</span>
-                            {isToday && <div className={styles.currentTimeLine} style={{ left: `${(new Date().getHours() * 60 + new Date().getMinutes()) / (24 * 60) * 100}%` }} />}
-                          </div>
-                        </div>
-                      );
-                    })}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: '#666', marginTop: '8px', fontFamily: 'monospace' }}>
+                      <span>12</span><span>14</span><span>16</span><span>18</span><span>20</span><span>22</span><span>00</span>
+                    </div>
+                    <div style={{ textAlign: 'center', fontSize: '12px', color: '#888', marginTop: '12px', fontStyle: 'italic' }}>
+                      Typically busy {busy.label}
+                    </div>
                   </div>
                 </div>
 
