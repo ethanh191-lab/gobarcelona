@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoBarcelona - Strategic Master Vision 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #E63946;
+            --secondary: #1A1A2E;
+            --accent: #F4A261;
+            --text: #1a1a1a;
+            --text-light: #666;
+            --bg-page: #f9f9f9;
+            --white: #ffffff;
+            --nos-red: #E63946;
+            --airbnb-pink: #FF385C;
+            --sdg-blue: #009EDB;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-page);
+            margin: 0;
+            padding: 0;
+            color: var(--text);
+        }
+
+        /* Print/PDF Page Styling */
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 2.5cm;
+            margin: 40px auto;
+            background: var(--white);
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            page-break-after: always;
+        }
+
+        @media print {
+            body { background: white; margin: 0; }
+            .page { margin: 0; box-shadow: none; }
+            .no-print { display: none; }
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 { font-family: 'Syne', sans-serif; text-transform: uppercase; margin: 0; letter-spacing: -1px; }
+        h1 { font-size: 48px; line-height: 0.95; color: var(--secondary); margin-bottom: 20px; }
+        h2 { font-size: 28px; color: var(--secondary); border-bottom: 4px solid var(--primary); padding-bottom: 10px; margin: 40px 0 20px; }
+        h3 { font-size: 20px; color: var(--primary); margin: 25px 0 15px; }
+        p { margin-bottom: 1.5em; line-height: 1.7; font-size: 15px; }
+
+        .subtitle { font-size: 18px; color: var(--primary); font-weight: 700; margin-bottom: 60px; }
+
+        /* Components */
+        .badge { background: var(--secondary); color: var(--white); padding: 6px 16px; border-radius: 50px; font-size: 12px; font-weight: 800; display: inline-block; margin-bottom: 15px; }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; margin: 20px 0; }
+        .card { padding: 25px; border-radius: 12px; background: #fdfdfd; border: 1px solid #eee; }
+        .stat-box { text-align: center; border: 2px solid var(--primary); padding: 20px; border-radius: 8px; }
+        .stat-box .num { font-size: 32px; font-weight: 800; color: var(--secondary); display: block; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #f4f4f4; text-transform: uppercase; font-weight: 900; }
+
+        .persona-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .persona-icon { background: #eee; padding: 10px; border-radius: 4px; font-size: 11px; font-weight: 700; text-align: center; }
+
+        .footer { margin-top: auto; padding-top: 20px; border-top: 1px solid #eee; font-size: 11px; color: #999; display: flex; justify-content: space-between; }
+
+        .roadmap-week { border-left: 5px solid var(--primary); padding-left: 20px; margin-bottom: 30px; }
+        .roadmap-week strong { font-size: 18px; color: var(--secondary); display: block; margin-bottom: 8px; }
+
+        .print-fab { position: fixed; bottom: 30px; right: 30px; background: var(--primary); color: white; border: none; padding: 15px 30px; border-radius: 50px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 15px rgba(230,57,70,0.4); z-index: 1000; }
+
+        /* Cover Page Specifics */
+        .cover { justify-content: center; text-align: left; background: var(--secondary); color: white; }
+        .cover h1 { color: white; font-size: 72px; }
+        .cover .subtitle { color: var(--primary); }
+        .cover .footer { border-color: rgba(255,255,255,0.1); }
+    </style>
+</head>
+<body>
+
+    <button class="print-fab no-print" onclick="window.print()">Export Official PDF</button>
+
+    <!-- PAGE 1: COVER -->
+    <div class="page cover">
+        <div class="badge" style="background: var(--primary);">Document: GB-VISION-2026-FINAL</div>
+        <h1>MASTER VISION<br><span style="color: var(--primary);">GoBarcelona.es</span></h1>
+        <div class="subtitle">The definitive automated engine for the Mediterranean's next generation.</div>
+        
+        <div style="margin-top: 100px;">
+            <p style="font-size: 14px; opacity: 0.7;">PREPARED FOR: GoBarcelona Founders</p>
+            <p style="font-size: 14px; opacity: 0.7;">REVISION: v2.0 (Full Architectural Deep-Dive)</p>
+            <p style="font-size: 14px; opacity: 0.7;">DATE: April 16, 2026</p>
+        </div>
+
+        <div class="footer">
+            <span>UNCLASSIFIED STRATEGIC ASSET</span>
+            <span>2026 OFFICIAL ROADMAP</span>
+        </div>
+    </div>
+
+    <!-- PAGE 2: TABLE OF CONTENTS -->
+    <div class="page">
+        <h2>Table of Contents</h2>
+        <div style="column-count: 2; gap: 40px; margin-top: 40px;">
+            <p><strong>01 Executive Vision</strong><br>The Hub for International Life</p>
+            <p><strong>02 The News Engine</strong><br>Agentic Editorial Workflows</p>
+            <p><strong>03 The Persona Matrix</strong><br>Mapping 50 Resident Profiles</p>
+            <p><strong>04 Beer Map Architecture</strong><br>Airbnb Quality Standards</p>
+            <p><strong>05 The Guide Vault</strong><br>UN SDG-Inspired Authority</p>
+            <p><strong>06 Resident Life & Events</strong><br>Youth-First Curation</p>
+            <p><strong>07 Agent Setup (Gratis)</strong><br>n8n + Claude Orchestration</p>
+            <p><strong>08 Weekly Implementation</strong><br>30-Day Launch Sequence</p>
+            <p><strong>09 Monetization Strategy</strong><br>Affiliates & Partnerships</p>
+            <p><strong>10 UX & Branding Rules</strong><br>Style, Tone, & Visuals</p>
+        </div>
+
+        <h3 style="margin-top: 60px;">Mission Statement</h3>
+        <p>To eliminate the "Expat Information Barrier" in Barcelona by providing real-time, unbiased, and automated data points—from breaking news and NIE guides to the cheapest 0.5L beer on a sun-drenched terrace.</p>
+        
+        <div class="footer">
+            <span>GoBarcelona Master Plan 2026</span>
+            <span>Page 02</span>
+        </div>
+    </div>
+
+    <!-- PAGE 3: THE NEWS ENGINE -->
+    <div class="page">
+        <h2>02 The News Engine</h2>
+        <p>A flagship 24/7 newsroom with zero human intervention. Inspired by <strong>NOS.nl</strong> and <strong>NOS Stories</strong>.</p>
+        
+        <h3>Sources & Scrapers</h3>
+        <p>Our n8n engine pulls from 50+ localized and global endpoints every 15 minutes:</p>
+        <ul>
+            <li><strong>Global:</strong> BBC, CNN World, Reuters (filtered for Spain).</li>
+            <li><strong>National (ES):</strong> El País, El Mundo, La Vanguardia, El Confidencial.</li>
+            <li><strong>Local (BCN):</strong> El Periódico, BCN Secreta, Metropoli Abierta, TimeOut BCN.</li>
+            <li><strong>Catalan:</strong> Ara.cat, CCMA/324 (Scraped for language/culture shifts).</li>
+            <li><strong>Trends:</strong> Google Trends (Geo: ES) - Primary relevance driver.</li>
+        </ul>
+
+        <h3>Agentic AI Workflow ("The Editorial Meeting")</h3>
+        <div class="card">
+            <p><strong>Stage 1: Relevance Scoring (The Gatekeeper)</strong><br>Claude 3.5 Sonnet analyzes headlines. If a topic matches one of our 50 personas with a score > 7/10, it proceeds.</p>
+            <p><strong>Stage 2: Editorial Rewrite (The Voice)</strong><br>AI transforms dry news into "NOS Stories" style: Direct, visual, and punchy. No raw Spanish text is allowed on the EN site.</p>
+            <p><strong>Stage 3: Visual Sourcing</strong><br>Automated extraction of high-res images from sources or Unsplash API targeting "Elite Aesthetic".</p>
+        </div>
+
+        <div class="footer">
+            <span>GoBarcelona Master Plan 2026</span>
+            <span>Page 03</span>
+        </div>
+    </div>
+
+    <!-- PAGE 4: THE PERSONA MATRIX (Part 1) -->
+    <div class="page">
+        <h2>03 The Persona Matrix</h2>
+        <p>Every news item is scored against these 50 profiles to ensure 100% user-retention.</p>
+        
+        <div class="persona-grid">
+            <div class="persona-icon">Erasmus Student (DE)</div>
+            <div class="persona-icon">MBA Student (ESADE)</div>
+            <div class="persona-icon">PhD Researcher (UPF)</div>
+            <div class="persona-icon">Remote Developer</div>
+            <div class="persona-icon">Crypto Trader</div>
+            <div class="persona-icon">SaaS Founder</div>
+            <div class="persona-icon">Influencer (Lifestyle)</div>
+            <div class="persona-icon">Virtual Assistant</div>
+            <div class="persona-icon">22@ Engineer</div>
+            <div class="persona-icon">Marketing VP (US)</div>
+            <div class="persona-icon">International Lawyer</div>
+            <div class="persona-icon">Data Scientist</div>
+            <div class="persona-icon">HR Manager</div>
+            <div class="persona-icon">Product Owner</div>
+            <div class="persona-icon">Intl School Parent</div>
+            <div class="persona-icon">UK Relocator</div>
+            <div class="persona-icon">Au Pair</div>
+            <div class="persona-icon">Fashion Designer</div>
+            <div class="persona-icon">Muralist/Artist</div>
+            <div class="persona-icon">DJ/Musician</div>
+            <div class="persona-icon">Yacht Crew (Port Vell)</div>
+            <div class="persona-icon">Yoga Coach</div>
+            <div class="persona-icon">LGBTQ+ Activist</div>
+            <div class="persona-icon">Surfer (Barceloneta)</div>
+            <div class="persona-icon">Gastro Enthusiast</div>
+        </div>
+        <p style="margin-top: 20px; font-style: italic; font-size: 13px;">(Excerpts 11-50 include retirees, coastal investors, startup mentors, and US Digital Nomads...)</p>
+
+        <h3>AI Relevance Scoring Algorithm</h3>
+        <p>Score = (Personas_Matched / 5) * (Google_Trends_Volume_Norm) * (Location_Proximity)</p>
+
+        <div class="footer">
+            <span>GoBarcelona Master Plan 2026</span>
+            <span>Page 04</span>
+        </div>
+    </div>
+
+    <!-- PAGE 5: BEER MAP ARCHITECTURE -->
+    <div class="page">
+        <h2>04 Beer Map Architecture</h2>
+        <p>The "Absolute Highlight". UX quality target: <strong>Airbnb / Booking.com</strong>.</p>
+        
+        <h3>Map Logic</h3>
+        <ul>
+            <li><strong>Dynamic Proximity:</strong> 2km radius focus for active location. Always fallback to City Center.</li>
+            <li><strong>Price Normalization:</strong> Everything calculated to 0.5L equivalent.</li>
+            <li><strong>Color-Coding:</strong>
+                <br>🟢 Cheap (€1.8 - 3.8)
+                <br>🟡 Moderate (€3.85 - 5.85)
+                <br>🔴 Expensive (€5.9 - 10+)
+            </li>
+        </ul>
+
+        <h3>The "1000 Bars" Schema (Supabase)</h3>
+        <table>
+            <tr><th>Column</th><th>Type</th><th>Purpose</th></tr>
+            <tr><td>name/google_id</td><td>Text/UUID</td><td>Primary ID</td></tr>
+            <tr><td>beer_price_05l</td><td>Numeric</td><td>The core data point</td></tr>
+            <tr><td>neighborhood</td><td>Text</td><td>Filter (Gothic, Born, etc.)</td></tr>
+            <tr><td>terrace/rooftop</td><td>Boolean</td><td>UX Filters</td></tr>
+            <tr><td>social_club</td><td>Boolean</td><td>BCN niche value (Weed/Social)</td></tr>
+            <tr><td>opening_hours</td><td>JSONB</td><td>Real-time status integration</td></tr>
+            <tr><td>reviews_stars</td><td>Numeric</td><td>Visual social proof</td></tr>
+        </table>
+
+        <h3>The Correction Engine</h3>
+        <p>A "Report Adjustments" form in the sidebar sends data to a <code>submission_queue</code>. AI validates the report against new Google Maps reviews before updating the master table.</p>
+
+        <div class="footer">
+            <span>GoBarcelona Master Plan 2026</span>
+            <span>Page 05</span>
+        </div>
+    </div>
+
+    <!-- PAGE 6: THE GUIDE VAULT -->
+    <div class="page">
+        <h2>05 The Guide Vault</h2>
+        <p>UI Standard: <strong>UN Sustainable Development Goals (SDG) Grid</strong>.</p>
+        
+        <div class="grid">
+            <div class="card" style="background:var(--nos-red); color:white;">
+                <strong>01 REQUEST NIE</strong>
+                <p>Full walkthrough for CITA PREVIA and documentation.</p>
+            </div>
+            <div class="card" style="background:#F29400; color:white;">
+                <strong>02 EMPADRONAMIENTO</strong>
+                <p>The "Padron" guide for long-term rental security.</p>
+            </div>
+            <div class="card" style="background:#26BDE2; color:white;">
+                <strong>03 OPEN BANK ACCOUNT</strong>
+                <p>Online banks vs traditional (Sabadell/Caixa).</p>
+            </div>
+            <div class="card" style="background:#E5243B; color:white;">
+                <strong>04 FIND HOUSING</strong>
+                <p>Avoiding scams on Idealista and Badi.</p>
+            </div>
+        </div>
+
+        <h3>Conversion & Resend Funnel</h3>
+        <p>Every guide page offers a "Premium PDF Version" (Magazine Layout). To download, users provide their email. This triggers:</p>
+        <ol>
+            <li><strong>Resend API:</strong> Delivers the PDF via transactional mail.</li>
+            <li><strong>Supabase:</strong> Adds user to the "Newsletter" segment.</li>
+            <li><strong>Affiliate:</strong> Emails follow up with the relevant referral link (e.g., SIM cards for Step 5).</li>
+        </ol>
+
+        <div class="footer">
+            <span>GoBarcelona Master Plan 2026</span>
+            <span>Page 06</span>
+        </div>
+    </div>
+
+    <!-- PAGE 7: AGENT SETUP (GRATIS) -->
+    <div class="page">
+        <h2>07 Agent Setup (The "Gratis" Workflow)</h2>
+        <p>Operating a media empire with zero human cost. Toolset: <strong>n8n + Claude 3.5</strong>.</p>
+        
+        <div class="setup-steps">
+            <strong>AGENT 1: The Scraper (n8n)</strong>
+            <p>Triggers every 15m. Pushes RSS/XML/HTML content to <code>HTTP Request</code> node. Cost: $0 (Self-hosted).</p>
+
+            <strong>AGENT 2: The Filter (Claude 3.5)</strong>
+            <p>PROMPT: <i>"Evaluate these 50 news items. Filter for Barcelona residents. Return top 5 JSON."</i></p>
+
+            <strong>AGENT 3: The Writer (Claude 3.5)</strong>
+            <p>PROMPT: <i>"Rewrite for GoBarcelona. Match Tone: Professional, Bold, Youthful. Use Syne Font rules."</i></p>
+
+            <strong>AGENT 4: The Illustrator</strong>
+            <p>Selects best image URL from source or generates descriptive alt-text for accessibility.</p>
+        </div>
+
+        <h3>FC Barcelona Special Pipeline</h3>
+        <p>When "FC Barcelona" appears in Google Trends (ES):</p>
+        <ul>
+            <li>Trigger Match-Day Hero Banner.</li>
+            <li>Scrape Press Conferences (YouTube/Twitter).</li>
+            <li>AI Guide: "Where to watch Barça tonight: Best affordability vs vibe."</li>
+        </ul>
+
+        <div class="footer">
+            <span>GoBarcelona Master Plan 2026</span>
+            <span>Page 07</span>
+        </div>
+    </div>
+
+    <!-- PAGE 8: ROADMAP & MONETIZATION -->
+    <div class="page">
+        <h2>08 Detailed Weekly Roadmap</h2>
+        
+        <div class="roadmap-week">
+            <strong>Week 1: Core Systems & Scrapers</strong>
+            <p>Finalize n8n loops. Import 1000 bar list. Setup Resend templates. Activate Google Trends bridge.</p>
+        </div>
+
+        <div class="roadmap-week">
+            <strong>Week 2: The Airbnb Map Experience</strong>
+            <p>Build the sidebar detail panel. Integrate haversine distance logic. Implement color-coded pins. Mobile map polish.</p>
+        </div>
+
+        <div class="roadmap-week">
+            <strong>Week 3: The SDG Guide Vault</strong>
+            <p>Implementation of the 15+ guides. PDF layout engine (React-PDF). Affiliate link tracking setup.</p>
+        </div>
+
+        <div class="roadmap-week">
+            <strong>Week 4: Scaling & Persona Scoring</strong>
+            <p>Activate the 50-persona relevance engine. Implementing region-based event maps. Total site audit.</p>
+        </div>
+
+        <h2>09 Monetization Logic</h2>
+        <table style="font-size: 14px;">
+            <tr><th>Vertical</th><th>Affiliate Strategy</th></tr>
+            <tr><td>Banking</td><td>N26 / Revolut Referral integration in Guide 03.</td></tr>
+            <li>SIM Cards</td><td>Holafly / Yoigo referral in Guide 05.</td></tr>
+            <tr><td>Legal/NIE</td><td>Lead generation for NIE agencies (€20-50 per lead).</td></tr>
+            <tr><td>Venues</td><td>Promoted Pins for bars (€100/mo for "Yellow/Cheap" highlight).</td></tr>
+        </table>
+
+        <div class="footer">
+            <span>GoBarcelona Master Plan 2026</span>
+            <span>Page 08</span>
+        </div>
+    </div>
+
+    <!-- PAGE 9: UX & DESIGN SYSTEM -->
+    <div class="page">
+        <h2>10 UX & Branding Rules</h2>
+        
+        <h3>Typography Hierarchy</h3>
+        <ul>
+            <li><strong>Headlines:</strong> Syne (800-950 weight) - Bold, Condendsed, Red.</li>
+            <li><strong>Body:</strong> DM Sans (400 weight) - Clean, Modern.</li>
+        </ul>
+
+        <h3>Color Tokens</h3>
+        <p>
+            <strong>Primary:</strong> #E63946 (NOS Red)<br>
+            <strong>Surface:</strong> #1A1A2E (Techno Navy)<br>
+            <strong>Status:</strong> #F4A261 (Terrace Orange)
+        </p>
+
+        <h3>The Tone of Voice</h3>
+        <p><i>"Like a local friend who works at a tech startup and knows every secret bar. Reliable but never boring."</i></p>
+
+        <div style="margin-top: 100px; text-align: center;">
+            <p style="font-size: 40px; font-weight: 800; opacity: 0.05; text-transform: uppercase;">GO BARCELONA OFFICIAL</p>
+        </div>
+
+        <div class="footer">
+            <span>GoBarcelona Master Plan 2026</span>
+            <span>End of Document</span>
+        </div>
+    </div>
+
+</body>
+</html>

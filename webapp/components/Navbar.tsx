@@ -27,10 +27,7 @@ export default function Navbar() {
   ];
 
   const navItems = [
-    { href: '/events', label: 'Events' },
-    { href: '/map', label: 'Beer Map' },
-    { href: '/guide', label: 'Guide' },
-    { href: '/news', label: 'News' }
+    { href: '/map', label: 'Beer Map' }
   ];
 
   return (

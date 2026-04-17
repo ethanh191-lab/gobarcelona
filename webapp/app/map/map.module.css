@@ -64,6 +64,70 @@
   border-radius: 3px;
 }
 
+/* ─── Leaderboard ─── */
+.leaderboardSection {
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.leaderboardHeader {
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 800;
+  color: #E63946;
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+
+.leaderboardList {
+  padding-bottom: 8px;
+}
+
+.leaderboardItem {
+  display: flex;
+  align-items: center;
+  padding: 8px 20px;
+  gap: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.leaderboardItem:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.rank {
+  font-weight: 900;
+  color: #444;
+  font-size: 14px;
+  min-width: 12px;
+}
+
+.lbInfo {
+  flex: 1;
+}
+
+.lbName {
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+}
+
+.lbNb {
+  font-size: 10px;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.lbPrice {
+  color: #E63946;
+  font-weight: 800;
+  font-size: 14px;
+}
+
 /* ─── Filter Sections ─── */
 .filterSection {
   padding: 16px 20px;
@@ -298,6 +362,44 @@
   font-size: 11px;
 }
 
+.busyDot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.newBadgeMini {
+  background: #E63946;
+  color: white;
+  font-size: 9px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.hhBadgeMini {
+  background: #22c55e;
+  color: white;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.statusWarning {
+  color: #f59e0b;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.barClosed {
+  opacity: 0.6;
+  filter: grayscale(0.5);
+}
+
 .barCardBadges {
   display: flex;
   gap: 6px;
@@ -378,6 +480,31 @@
   background: #ef4444;
   color: white;
   border-color: #dc2626;
+}
+
+.pinClosed .pricePinPrice {
+  background: #4b5563;
+  color: #9ca3af;
+  border-color: #374151;
+}
+
+.pinUnknown .pricePinPrice {
+  background: #374151;
+  color: #9ca3af;
+  border-color: #1f2937;
+}
+
+.newBadgePin {
+  position: absolute;
+  top: -10px;
+  background: #E63946;
+  color: white;
+  font-size: 8px;
+  font-weight: 900;
+  padding: 1px 4px;
+  border-radius: 4px;
+  border: 1px solid white;
+  z-index: 10;
 }
 
 .pricePinSelected {
@@ -517,6 +644,153 @@
   font-weight: 700;
 }
 
+.hhBadgeBig {
+  background: #22c55e;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 14px;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.closureBanner {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  padding: 16px;
+  border-radius: 12px;
+  color: #f59e0b;
+  font-size: 13px;
+  margin-bottom: 24px;
+}
+
+.compareBtn {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.compareBtnActive {
+  background: #E63946;
+  border-color: #E63946;
+}
+
+.studentBadge {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  padding: 12px 16px;
+  border-radius: 12px;
+  color: #60a5fa;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.busynessChart {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 40px;
+  margin-top: 8px;
+}
+
+.busyBar {
+  flex: 1;
+  border-radius: 2px 2px 0 0;
+  min-height: 2px;
+}
+
+.sectionTitle {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #666;
+  letter-spacing: 1px;
+  font-weight: 800;
+  margin-bottom: 12px !important;
+}
+
+.beerPill {
+  background: rgba(255,255,255,0.05);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  color: #ccc;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.hoursTimeline {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.timelineRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dayLabel {
+  width: 32px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #555;
+}
+
+.timelineBarWrapper {
+  flex: 1;
+  height: 8px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.timelineBar {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.timeLabelStart, .timeLabelEnd {
+  position: absolute;
+  top: 0;
+  font-size: 7px;
+  font-weight: 900;
+  color: white;
+  padding: 0 4px;
+  line-height: 8px;
+}
+
+.timeLabelStart { left: 0; }
+.timeLabelEnd { right: 0; }
+
+.currentTimeLine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: white;
+  box-shadow: 0 0 10px white;
+  z-index: 2;
+}
+
+.timelineToday .dayLabel {
+  color: #E63946;
+}
+
+.timelineToday .timelineBarWrapper {
+  background: rgba(230, 57, 70, 0.1);
+}
+
 /* ─── Skeletons ─── */
 .skeleton {
   background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.03) 75%);
@@ -545,6 +819,122 @@
   border-radius: 50%;
   box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5);
   animation: pulse 2s infinite;
+}
+
+/* ─── Comparison Panel ─── */
+.comparisonPanel {
+  position: absolute;
+  bottom: 0;
+  left: 340px; /* offset sidebar */
+  right: 0;
+  background: #1A1A2E;
+  border-top: 2px solid #E63946;
+  z-index: 2000;
+  box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.comparisonHeader {
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.comparisonHeader h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px;
+  margin: 0;
+  color: white;
+}
+
+.comparisonClose {
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.comparisonTableWrapper {
+  overflow-x: auto;
+  padding: 16px 24px 32px;
+}
+
+.comparisonTable {
+  width: 100%;
+  border-collapse: collapse;
+  color: white;
+  font-size: 14px;
+}
+
+.comparisonTable th, .comparisonTable td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.compBarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.compBarHeader span {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.compBarHeader button {
+  background: rgba(255,255,255,0.06);
+  border: none;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 10px;
+}
+
+.attrLabel {
+  color: #666;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.compareMiniBtn {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #888;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.compareMiniBtnActive {
+  background: #E63946;
+  color: white;
+  border-color: #E63946;
+}
+
+@media (max-width: 1023px) {
+  .comparisonPanel {
+    left: 0;
+  }
 }
 
 /* ─── Responsive ─── */

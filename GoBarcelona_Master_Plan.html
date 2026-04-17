@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoBarcelona Master Plan 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #E63946;
+            --secondary: #1A1A2E;
+            --accent: #F4A261;
+            --text: #1a1a1a;
+            --bg: #ffffff;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 25mm;
+            margin: 20mm auto;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @media print {
+            body { background: white; }
+            .page { margin: 0; box-shadow: none; page-break-after: always; }
+            .no-print { display: none; }
+        }
+
+        h1, h2, h3 { font-family: 'Syne', sans-serif; text-transform: uppercase; }
+        h1 { font-size: 42px; margin-bottom: 10px; color: var(--secondary); letter-spacing: -1px; }
+        h2 { font-size: 24px; border-bottom: 3px solid var(--primary); padding-bottom: 5px; margin-top: 40px; color: var(--secondary); }
+        h3 { font-size: 18px; color: var(--primary); margin-top: 20px; }
+
+        .subtitle { font-size: 18px; font-weight: 500; color: var(--primary); margin-bottom: 40px; }
+        
+        .header-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 24px; color: var(--secondary); display: flex; align-items: center; gap: 5px; }
+        .header-logo span { color: var(--primary); }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+        .card { border: 1px solid #eee; padding: 20px; border-radius: 8px; background: #fafafa; }
+
+        .roadmap-week { margin-bottom: 20px; padding-left: 20px; border-left: 4px solid var(--primary); }
+        .roadmap-week strong { display: block; font-size: 18px; margin-bottom: 5px; }
+
+        .footer { position: absolute; bottom: 25mm; left: 25mm; right: 25mm; border-top: 1px solid #eee; padding-top: 10px; font-size: 12px; color: #999; display: flex; justify-content: space-between; }
+
+        .badge { background: var(--primary); color: white; padding: 5px 15px; border-radius: 50px; font-size: 12px; font-weight: 700; width: fit-content; margin-bottom: 10px; }
+
+        .setup-steps { background: var(--secondary); color: white; padding: 30px; border-radius: 12px; margin-top: 20px; }
+        .setup-steps code { color: var(--accent); font-weight: 700; }
+
+        .print-btn { position: fixed; top: 20px; right: 20px; background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: 700; z-index: 1000; }
+    </style>
+</head>
+<body>
+
+    <button class="print-btn no-print" onclick="window.print()">Download as PDF</button>
+
+    <!-- PAGE 1: COVER & VISION -->
+    <div class="page">
+        <div class="header-logo">go<span>barcelona</span></div>
+        <div style="margin-top: 80px;">
+            <div class="badge">OFFICIAL STRATEGY</div>
+            <h1>Master Plan 2026</h1>
+            <div class="subtitle">The definitive automated hub for international residents.</div>
+        </div>
+
+        <h2>Executive Vision</h2>
+        <p>GoBarcelona is transforming from a city guide into a living, breathing digital ecosystem. Powered by <strong>Agentic AI</strong> and <strong>15-minute refresh cycles</strong>, it serves as the trusted companion for everyone from arriving students to settled professionals.</p>
+        
+        <div class="grid">
+            <div class="card">
+                <h3>NOS Redactie Loop</h3>
+                <p>Automated editorial meetings via Claude 3.5 to select the day's hot topics from 50+ sources.</p>
+            </div>
+            <div class="card">
+                <h3>Airbnb Map UX</h3>
+                <p>A flagship Beer Map with price-predictive pins and real-time walking distance intelligence.</p>
+            </div>
+            <div class="card">
+                <h3>UN SDG Authority</h3>
+                <p>Grid-based guides with "Magazine-Grade" PDF downloads to build authority and capture leads.</p>
+            </div>
+            <div class="card">
+                <h3>Fully Autonomous</h3>
+                <p>End-to-end automation from scraping to Resend mailing lists with zero manual overhead.</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <span>© 2026 GoBarcelona.es</span>
+            <span>Ref: GB-VISION-001</span>
+        </div>
+    </div>
+
+    <!-- PAGE 2: ROADMAP -->
+    <div class="page">
+        <h2>1-Month Implementation Roadmap</h2>
+        <p>A 4-week sprint to 100% operational status.</p>
+
+        <div class="roadmap-week">
+            <strong>Week 1: The Brain</strong>
+            <p>Expanding Supabase schema for 1000+ bars. Setting up the 15-minute Claude news pipeline. Connecting Resend for automated onboarding.</p>
+        </div>
+
+        <div class="roadmap-week">
+            <strong>Week 2: The Experience</strong>
+            <p>Implementing Airbnb-style slide-out cards for the map. Adding color-coded price markers. Building the user correction loop.</p>
+        </div>
+
+        <div class="roadmap-week">
+            <strong>Week 3: The Authority</strong>
+            <p>Designing the UN SDG guide grid. Implementing the "Elite PDF" generator. Setting up affiliate link systems.</p>
+        </div>
+
+        <div class="roadmap-week">
+            <strong>Week 4: The Pulse</strong>
+            <p>Creating match-day special banners. Building the neighborhood region map for events. Final E2E testing and launch.</p>
+        </div>
+
+        <h2>Monetization & Growth</h2>
+        <ul>
+            <li><strong>Affiliate Referrals:</strong> Integrated into every guide (Banks, SIMs, Lawyers).</li>
+            <li><strong>Partner Outreach:</strong> Automated proposals to bars with high map visibility.</li>
+            <li><strong>Premium Newsletter:</strong> Exclusive "Match Day" alerts and "Secret BCN" weekly roundup.</li>
+        </ul>
+
+        <div class="footer">
+            <span>© 2026 GoBarcelona.es</span>
+            <span>Page 2 of 3</span>
+        </div>
+    </div>
+
+    <!-- PAGE 3: AGENT SETUP -->
+    <div class="page">
+        <h2>Agentic AI Setup Guide (Gratis Workflow)</h2>
+        <p>How to configure your automated editorial team using n8n and Claude.</p>
+
+        <div class="setup-steps">
+            <strong>1. n8n Orchestration</strong>
+            <p>Install n8n (Host it for free on a local VPS or Home Lab). Set a <code>Schedule Trigger</code> to fire every 15 minutes.</p>
+
+            <strong>2. The Relevance Agent</strong>
+            <p>Feed headlines from Google Trends (ES) into Claude 3.5. Goal: Filter for relevance against our primary personas.</p>
+
+            <strong>3. The Editorial Agent</strong>
+            <p> Claude rewrites top stories into English with our "Young Professional" voice. Outputs JSON directly to <code>supabase.from('news_articles')</code>.</p>
+
+            <strong>4. Automated Engagement</strong>
+            <p>New articles trigger a <code>Resend Node</code> to notify matching segments in your subscriber database.</p>
+        </div>
+
+        <h3 style="margin-top: 40px;">Technology Integration</h3>
+        <p><strong>Vercel:</strong> Continuous Deployment · <strong>GitHub:</strong> Source Authority · <strong>Supabase:</strong> Real-time Core · <strong>n8n:</strong> Operational Brain.</p>
+
+        <div style="margin-top: 60px; text-align: center; border: 2px dashed #eee; padding: 40px; border-radius: 12px;">
+            <h1 style="color: #eee; font-size: 24px;">Approved & Ready for Deployment</h1>
+        </div>
+
+        <div class="footer">
+            <span>© 2026 GoBarcelona.es</span>
+            <span>Page 3 of 3</span>
+        </div>
+    </div>
+
+</body>
+</html>

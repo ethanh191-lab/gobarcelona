@@ -2,7 +2,6 @@
 import Link from 'next/link';
 import styles from './Footer.module.css';
 import { useLanguage } from './LanguageContext';
-import NewsletterForm from './NewsletterForm';
 
 export default function Footer() {
   const { t } = useLanguage();
@@ -13,25 +12,13 @@ export default function Footer() {
           <Link href="/" className={styles.logo}>
             <span className={styles.logoGo}>go</span><span className={styles.logoBarcelona}>barcelona</span>
           </Link>
-          <p className={styles.desc}>{t('footer.desc')}</p>
+          <p className={styles.desc}>The only real-time map of tap beer prices across Barcelona. Free, always.</p>
         </div>
         
-        <div className={styles.links}>
-          <h4>{t('footer.platform')}</h4>
-          <Link href="/events">{t('nav.events')}</Link>
-          <Link href="/map">{t('nav.map')}</Link>
-          <Link href="/guide">{t('nav.guide')}</Link>
-        </div>
-
         <div className={styles.contact}>
-          <h4>{t('footer.contact')}</h4>
+          <h4>Contact</h4>
           <a href="mailto:info@gobarcelona.es">info@gobarcelona.es</a>
-          <a href="mailto:hello@gobarcelona.es">hello@gobarcelona.es</a>
-        </div>
-
-        <div className={styles.newsletter}>
-          <h4>{t('home.news.title')}</h4>
-          <NewsletterForm />
+          <a href="https://instagram.com/gobarcelona" target="_blank" rel="noopener noreferrer">Instagram</a>
         </div>
       </div>
       <div className={styles.bottom}>

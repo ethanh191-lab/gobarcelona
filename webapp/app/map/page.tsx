@@ -41,6 +41,17 @@ interface Place {
   openLate?: boolean;
   openingHoursStr?: string;
   neighborhood?: string;
+  // New features
+  happyHourStart?: string;
+  happyHourEnd?: string;
+  happyHourPrice?: number;
+  beersOnTap?: string[];
+  studentDiscount?: boolean;
+  studentPrice?: number;
+  openedAt?: string;
+  status?: string;
+  closureNote?: string;
+  reopeningDate?: string;
 }
 
 // Haversine formula — distance in meters between two lat/lng points
@@ -54,25 +65,52 @@ function haversine(lat1: number, lng1: number, lat2: number, lng2: number): numb
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
+function isHappyHourActive(start?: string, end?: string): boolean {
+  if (!start || !end) return false;
+  const now = new Date();
+  const time = now.getHours() * 100 + now.getMinutes();
+  const [sH, sM] = start.split(':').map(Number);
+  const [eH, eM] = end.split(':').map(Number);
+  const s = sH * 100 + sM;
+  const e = eH * 100 + eM;
+  if (e < s) return time >= s || time <= e; // spans midnight
+  return time >= s && time <= e;
+}
+
+function getBusynessLevel(): { label: string; color: string } {
+  const hour = new Date().getHours();
+  // Simple mock: busy at lunch (13-15) and dinner (20-23)
+  if ((hour >= 13 && hour <= 15) || (hour >= 20 && hour <= 23)) {
+    return { label: 'Busy now', color: '#f59e0b' };
+  }
+  if (hour >= 23 || hour <= 2) {
+    return { label: 'Very busy now', color: '#ef4444' };
+  }
+  return { label: 'Quiet now', color: '#22c55e' };
+}
+
 function distanceToWalk(meters: number): { mins: number; label: string } {
   const mins = Math.round(meters / 80); // 80m/min walking speed
   if (meters < 1000) return { mins, label: `${mins} min · ${Math.round(meters)}m` };
   return { mins, label: `${mins} min · ${(meters / 1000).toFixed(1)}km` };
 }
 
-type FilterKey = 'open' | 'terrace' | 'sports' | 'rooftop' | 'late' | 'group' | 'dog' | 'music' | 'student' | 'date';
+type FilterKey = 'open' | 'terrace' | 'sports' | 'rooftop' | 'late' | 'group' | 'dog' | 'music' | 'student' | 'date' | 'happyHour' | 'new' | 'closed';
 
 const FILTER_DEFS: { key: FilterKey; label: string; icon: string }[] = [
-  { key: 'open',    label: 'Open Now',       icon: '🟢' },
-  { key: 'terrace', label: 'Terrace',        icon: '☀️' },
-  { key: 'sports',  label: 'Sports Bar',     icon: '⚽' },
-  { key: 'rooftop', label: 'Rooftop',        icon: '🏙️' },
-  { key: 'late',    label: 'Late Night',     icon: '🌙' },
-  { key: 'group',   label: 'Group Tables',   icon: '👥' },
-  { key: 'dog',     label: 'Dog Friendly',   icon: '🐶' },
-  { key: 'music',   label: 'Live Music',     icon: '🎵' },
-  { key: 'student', label: 'Student (< €3)', icon: '🎓' },
-  { key: 'date',    label: 'Good for Dates', icon: '❤️' },
+  { key: 'open',      label: 'Open Now',       icon: '🟢' },
+  { key: 'happyHour', label: 'Happy Hour Now', icon: '⏰' },
+  { key: 'terrace',   label: 'Terrace',        icon: '☀️' },
+  { key: 'sports',    label: 'Sports Bar',     icon: '⚽' },
+  { key: 'rooftop',   label: 'Rooftop',        icon: '🏙️' },
+  { key: 'late',      label: 'Late Night',     icon: '🌙' },
+  { key: 'group',     label: 'Group Tables',   icon: '👥' },
+  { key: 'dog',       label: 'Dog Friendly',   icon: '🐶' },
+  { key: 'music',     label: 'Live Music',     icon: '🎵' },
+  { key: 'student',   label: 'Student Discount', icon: '🎓' },
+  { key: 'new',       label: 'New Openings',   icon: '🆕' },
+  { key: 'closed',    label: 'Show Closed',    icon: '🚫' },
+  { key: 'date',      label: 'Good for Dates', icon: '❤️' },
 ];
 
 const DISTANCE_OPTIONS = [
@@ -106,11 +144,24 @@ export default function BeerMapPage() {
   const [filters, setFilters] = useState<Record<FilterKey, boolean>>({
     open: false, terrace: false, sports: false, rooftop: false,
     late: false, group: false, dog: false, music: false,
-    student: false, date: false,
+    student: false, date: false, happyHour: false, new: false, closed: false,
   });
+  const [selectedBeer, setSelectedBeer] = useState('all');
+
+  const COMMON_BEERS = ['Estrella Damm', 'Moritz', 'Voll-Damm', 'Estrella Galicia', 'Heineken', 'Mahou', 'San Miguel'];
 
   const [showReportModal, setShowReportModal] = useState(false);
   const [sidebarVisible, setSidebarVisible] = useState(false);
+  const [leaderboardOpen, setLeaderboardOpen] = useState(true);
+  const [compareList, setCompareList] = useState<Place[]>([]);
+
+  const toggleCompare = (p: Place) => {
+    setCompareList(prev => {
+      if (prev.find(x => x.id === p.id)) return prev.filter(x => x.id !== p.id);
+      if (prev.length >= 3) return prev;
+      return [...prev, p];
+    });
+  };
 
   // ────── 1. Request Geolocation ──────
   useEffect(() => {
@@ -215,24 +266,9 @@ export default function BeerMapPage() {
       const nb = NEIGHBORHOODS.find(n => n.id === selectedNb);
       const lat = nb?.lat || BCN_CENTER.lat;
       const lng = nb?.lng || BCN_CENTER.lng;
-      const res = await fetch(`/api/places?lat=${lat}&lng=${lng}&radius=2500`);
+      const res = await fetch(`/api/places?lat=${lat}&lng=${lng}&radius=5000`);
       const data = await res.json();
-      // Seed consistent random attributes using a hash of the place id
-      const seededRandom = (id: string, seed: number) => {
-        let h = 0;
-        for (let i = 0; i < id.length; i++) h = ((h << 5) - h + id.charCodeAt(i)) | 0;
-        return ((Math.abs(h + seed) % 100) / 100);
-      };
-      const augmented: Place[] = (data.places || []).map((p: any) => ({
-        ...p,
-        groupFriendly: seededRandom(p.id, 1) > 0.5,
-        dogFriendly: seededRandom(p.id, 2) > 0.7,
-        liveMusic: seededRandom(p.id, 3) > 0.8,
-        dateSpot: seededRandom(p.id, 4) > 0.6,
-        rooftop: p.name?.toLowerCase().includes('rooftop') || seededRandom(p.id, 5) > 0.9,
-        openLate: p.isOpen && seededRandom(p.id, 6) > 0.5,
-      }));
-      setPlaces(augmented);
+      setPlaces(data.places || []);
     } catch (e) { console.error(e); }
     finally { setTimeout(() => setFetching(false), 400); }
   }, [selectedNb]);
@@ -242,6 +278,7 @@ export default function BeerMapPage() {
   // ────── 6. Filtering (price + distance + toggles) ──────
   const filteredPlaces = useMemo(() => {
     return places.filter(p => {
+      if (p.status === 'permanently_closed' && !filters.closed) return false;
       const price = parseFloat(p.beerPrice?.replace('€', '') || '0');
       if (price > priceRange) return false;
       // Distance filter
@@ -253,7 +290,10 @@ export default function BeerMapPage() {
       if (filters.sports && !p.hasSports) return false;
       if (filters.group && !p.groupFriendly) return false;
       if (filters.late && !p.openLate) return false;
-      if (filters.student && price >= 3.00) return false;
+      if (filters.student && !p.studentDiscount) return false;
+      if (filters.new && !(p.openedAt && (new Date().getTime() - new Date(p.openedAt).getTime()) < 90 * 24 * 60 * 60 * 1000)) return false;
+      if (filters.happyHour && !isHappyHourActive(p.happyHourStart, p.happyHourEnd)) return false;
+      if (selectedBeer !== 'all' && !(p.beersOnTap && p.beersOnTap.includes(selectedBeer))) return false;
       if (filters.music && !p.liveMusic) return false;
       if (filters.dog && !p.dogFriendly) return false;
       if (filters.date && !p.dateSpot) return false;
@@ -277,7 +317,9 @@ export default function BeerMapPage() {
         if (f.key === 'sports') return p.hasSports;
         if (f.key === 'group') return p.groupFriendly;
         if (f.key === 'late') return p.openLate;
-        if (f.key === 'student') return parseFloat(p.beerPrice?.replace('€', '') || '0') < 3;
+        if (f.key === 'student') return !!p.studentDiscount;
+        if (f.key === 'new') return !!(p.openedAt && (new Date().getTime() - new Date(p.openedAt).getTime()) < 90 * 24 * 60 * 60 * 1000);
+        if (f.key === 'happyHour') return isHappyHourActive(p.happyHourStart, p.happyHourEnd);
         if (f.key === 'music') return p.liveMusic;
         if (f.key === 'dog') return p.dogFriendly;
         if (f.key === 'date') return p.dateSpot;
@@ -304,17 +346,39 @@ export default function BeerMapPage() {
         const oLat = p.lat + c * 0.00005;
         const oLng = p.lng + c * 0.00005;
 
-        const price = parseFloat(p.beerPrice?.replace('€', '') || '0');
-        let colorClass = styles.pinNormal;
-        if (price < 3.00) colorClass = styles.pinCheap;
-        else if (price > 4.50) colorClass = styles.pinExpensive;
+        const rawPrice = p.beerPrice?.replace('€', '');
+        const price = (rawPrice && rawPrice !== '?' && rawPrice !== '0.00') ? parseFloat(rawPrice) : null;
+        
+        let colorClass = styles.pinUnknown;
+        if (price !== null) {
+          if (price < 3.00) colorClass = styles.pinCheap;
+          else if (price > 4.50) colorClass = styles.pinExpensive;
+          else colorClass = styles.pinNormal;
+        }
+
+        if (p.status === 'temporarily_closed') colorClass = styles.pinClosed;
 
         const pin = document.createElement('div');
         pin.className = `${styles.pricePin} ${colorClass} ${selectedPlace?.id === p.id ? styles.pricePinSelected : ''}`;
 
+        // NEW Badge on Pin
+        const isNew = p.openedAt && (new Date().getTime() - new Date(p.openedAt).getTime()) < 90 * 24 * 60 * 60 * 1000;
+        if (isNew) {
+          const newEl = document.createElement('div');
+          newEl.className = styles.newBadgePin;
+          newEl.textContent = 'NEW';
+          pin.appendChild(newEl);
+        }
+
         const priceEl = document.createElement('div');
         priceEl.className = styles.pricePinPrice;
-        priceEl.textContent = p.beerPrice || '?';
+        priceEl.textContent = p.status === 'temporarily_closed' ? 'CLOSED' : (p.beerPrice || '?');
+        
+        // Student icon on price tag
+        if (p.studentDiscount) {
+          priceEl.textContent = `🎓 ${priceEl.textContent}`;
+        }
+        
         pin.appendChild(priceEl);
 
         // Walking distance label under the price
@@ -353,6 +417,10 @@ export default function BeerMapPage() {
     return distanceToWalk(dist);
   };
 
+  const isHH = selectedPlace ? isHappyHourActive(selectedPlace.happyHourStart, selectedPlace.happyHourEnd) : false;
+  const busy = selectedPlace ? getBusynessLevel() : { label: '', color: '' };
+  const isNew = selectedPlace && selectedPlace.openedAt ? (new Date().getTime() - new Date(selectedPlace.openedAt).getTime()) < 90 * 24 * 60 * 60 * 1000 : false;
+
   // ──────────── RENDER ────────────
   return (
     <div className={styles.appWrapper}>
@@ -361,6 +429,36 @@ export default function BeerMapPage() {
         <div className={styles.sidebarHeader}>
           <h1><span style={{ color: '#E63946' }}>go</span><span style={{ color: 'white' }}>barcelona</span> <span style={{ color: '#888', fontSize: '14px', fontWeight: 400 }}>Beer Map</span></h1>
           <p className={styles.sidebarSubtitle}>{filteredPlaces.length} verified locations</p>
+        </div>
+
+        {/* 🏆 Leaderboard Section */}
+        <div className={styles.leaderboardSection}>
+          <div className={styles.leaderboardHeader} onClick={() => setLeaderboardOpen(!leaderboardOpen)}>
+            <span>🏆 THIS WEEK'S CHEAPEST</span>
+            <span className={styles.pillArrow}>{leaderboardOpen ? '▴' : '▾'}</span>
+          </div>
+          {leaderboardOpen && (
+            <div className={styles.leaderboardList}>
+              {places
+                .filter(p => p.status !== 'permanently_closed')
+                .sort((a, b) => parseFloat(a.beerPrice.replace('€', '')) - parseFloat(b.beerPrice.replace('€', '')))
+                .slice(0, 5)
+                .map((p, i) => (
+                  <div key={p.id} className={styles.leaderboardItem} onClick={() => {
+                    setSelectedPlace(p);
+                    mapInstanceRef.current?.panTo({ lat: p.lat, lng: p.lng });
+                    mapInstanceRef.current?.setZoom(17);
+                  }}>
+                    <span className={styles.rank}>{i + 1}</span>
+                    <div className={styles.lbInfo}>
+                      <div className={styles.lbName}>{p.name}</div>
+                      <div className={styles.lbNb}>{p.neighborhood}</div>
+                    </div>
+                    <span className={styles.lbPrice}>{p.beerPrice}</span>
+                  </div>
+                ))}
+            </div>
+          )}
         </div>
 
         {/* Location denied banner */}
@@ -422,6 +520,15 @@ export default function BeerMapPage() {
             </select>
           </div>
 
+          {/* Tap Beer */}
+          <div className={styles.filterSection}>
+            <div className={styles.filterLabel}><span>Tap Beer</span></div>
+            <select className={styles.nbSelect} value={selectedBeer} onChange={e => setSelectedBeer(e.target.value)}>
+              <option value="all">All Brands</option>
+              {COMMON_BEERS.map(b => <option key={b} value={b}>{b}</option>)}
+            </select>
+          </div>
+
           {/* Filter Toggles */}
           <div className={styles.filterSectionTitle}>FILTER BY</div>
           {FILTER_DEFS.map(f => (
@@ -448,7 +555,7 @@ export default function BeerMapPage() {
             <div style={{ padding: '40px 20px', textAlign: 'center', color: '#666' }}>
               <p>No bars match these filters.</p>
               <button onClick={() => {
-                setFilters({ open: false, terrace: false, sports: false, rooftop: false, late: false, group: false, dog: false, music: false, student: false, date: false });
+                setFilters({ open: false, terrace: false, sports: false, rooftop: false, late: false, group: false, dog: false, music: false, student: false, date: false, happyHour: false, new: false, closed: false });
                 setPriceRange(10);
                 setMaxDistance(5000);
               }} style={{ marginTop: '12px', background: '#E63946', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', fontWeight: 700 }}>
@@ -458,10 +565,14 @@ export default function BeerMapPage() {
           ) : (
             filteredPlaces.map(p => {
               const walk = getBarWalkInfo(p);
+              const isHH = isHappyHourActive(p.happyHourStart, p.happyHourEnd);
+              const busy = getBusynessLevel();
+              const isNew = p.openedAt && (new Date().getTime() - new Date(p.openedAt).getTime()) < 90 * 24 * 60 * 60 * 1000;
+              
               return (
                 <div
                   key={p.id}
-                  className={`${styles.barListItem} ${selectedPlace?.id === p.id ? styles.barActive : ''}`}
+                  className={`${styles.barListItem} ${selectedPlace?.id === p.id ? styles.barActive : ''} ${p.status === 'temporarily_closed' ? styles.barClosed : ''}`}
                   onClick={() => {
                     setSelectedPlace(p);
                     mapInstanceRef.current?.panTo({ lat: p.lat, lng: p.lng });
@@ -469,16 +580,32 @@ export default function BeerMapPage() {
                   }}
                 >
                   <div className={styles.barCardHeader}>
-                    <h4>{p.name}</h4>
-                    <span className={styles.barCardPrice}>{p.beerPrice}</span>
+                    <h4>
+                      <span className={styles.busyDot} style={{ background: busy.color }} title={busy.label} />
+                      {p.name}
+                      {isNew && <span className={styles.newBadgeMini}>NEW</span>}
+                    </h4>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
+                      <span className={styles.barCardPrice}>{p.beerPrice}</span>
+                      <button 
+                        className={`${styles.compareMiniBtn} ${compareList.find(x => x.id === p.id) ? styles.compareMiniBtnActive : ''}`}
+                        onClick={(e) => { e.stopPropagation(); toggleCompare(p); }}
+                      >
+                        {compareList.find(x => x.id === p.id) ? 'Added' : '+ Compare'}
+                      </button>
+                    </div>
                   </div>
                   <div className={styles.barCardMeta}>{p.address}</div>
                   <div className={styles.barCardBottom}>
-                    {p.isOpen !== null && (
+                    {p.status === 'temporarily_closed' ? (
+                      <span className={styles.statusWarning}>⚠️ Temporarily Closed</span>
+                    ) : p.isOpen !== null && (
                       <span className={`${styles.openBadge} ${p.isOpen ? styles.openBadgeOpen : styles.openBadgeClosed}`}>
                         {p.isOpen ? 'Open' : 'Closed'}
                       </span>
                     )}
+                    {isHH && <span className={styles.hhBadgeMini}>HH</span>}
+                    {p.studentDiscount && <span title="Student Discount">🎓</span>}
                     {walk && <span className={styles.barCardWalk}>🚶 {walk.label}</span>}
                     <div className={styles.barCardBadges}>
                       {p.outdoorSeating && '☀️'}
@@ -517,26 +644,44 @@ export default function BeerMapPage() {
             <>
               <div className={styles.panelHeader}>
                 <span className={`${styles.badge} ${styles.badgeRed}`}>{selectedPlace.neighborhood || 'BCN'}</span>
-                <h2 style={{ fontSize: '24px', color: 'white', margin: '0 0 6px', fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 800 }}>{selectedPlace.name}</h2>
+                <h2 style={{ fontSize: '24px', color: 'white', margin: '0 0 6px', fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 800 }}>
+                  <span className={styles.busyDot} style={{ background: busy.color }} title={busy.label} />
+                  {selectedPlace.name}
+                </h2>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#888', fontSize: '13px' }}>
                   📍 {selectedPlace.address}
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '10px' }}>
                   <span style={{ fontSize: '18px', fontWeight: 800, color: 'white' }}>★ {selectedPlace.rating || 'N/A'}</span>
                   <span style={{ fontSize: '12px', color: '#666' }}>{selectedPlace.reviewCount} reviews</span>
-                  {selectedPlace.isOpen !== null && (
+                  {selectedPlace.status === 'temporarily_closed' ? (
+                    <span className={styles.statusWarning}>⚠️ Temporarily Closed</span>
+                  ) : selectedPlace.isOpen !== null && (
                     <span className={`${styles.openBadge} ${selectedPlace.isOpen ? styles.openBadgeOpen : styles.openBadgeClosed}`}>
                       {selectedPlace.isOpen ? 'Open' : 'Closed'}
                     </span>
                   )}
                 </div>
-                {selectedPlace.openingHoursStr && (
-                  <div style={{ fontSize: '12px', color: '#777', marginTop: '4px' }}>🕐 {selectedPlace.openingHoursStr}</div>
+                
+                {/* ⏰ Happy Hour Badge */}
+                {isHH && (
+                  <div className={styles.hhBadgeBig}>
+                    ⏰ HAPPY HOUR NOW — €{parseFloat(selectedPlace.happyHourPrice as any || 0).toFixed(2)}
+                  </div>
                 )}
+
                 <button className={styles.closeBtn} onClick={() => setSelectedPlace(null)}>✕</button>
               </div>
 
               <div className={styles.panelContent}>
+                {/* Closure Note */}
+                {selectedPlace.status === 'temporarily_closed' && selectedPlace.closureNote && (
+                  <div className={styles.closureBanner}>
+                    <strong>Closure Note:</strong> {selectedPlace.closureNote}
+                    {selectedPlace.reopeningDate && <div>Reopening: {new Date(selectedPlace.reopeningDate).toLocaleDateString()}</div>}
+                  </div>
+                )}
+
                 {/* Walking distance */}
                 {userLoc && (() => {
                   const walk = distanceToWalk(haversine(userLoc.lat, userLoc.lng, selectedPlace.lat, selectedPlace.lng));
@@ -547,46 +692,85 @@ export default function BeerMapPage() {
                   );
                 })()}
 
-                {/* Price */}
+                {/* 📊 Busyness Chart */}
+                <div style={{ marginBottom: '24px' }}>
+                  <h4 className={styles.sectionTitle}>Typical Busyness ({busy.label})</h4>
+                  <div className={styles.busynessChart}>
+                    {[0.2, 0.4, 0.7, 0.9, 0.8, 0.5, 0.3].map((val, i) => (
+                      <div key={i} className={styles.busyBar} style={{ height: `${val * 40}px`, background: val > 0.8 ? '#ef4444' : val > 0.6 ? '#f59e0b' : '#22c55e' }} />
+                    ))}
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: '#555', marginTop: '4px' }}>
+                    <span>Morning</span>
+                    <span>Afternoon</span>
+                    <span>Evening</span>
+                  </div>
+                </div>
+
+                {/* Price & Compare */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px' }}>
                   <div>
                     <h1 style={{ color: '#E63946', margin: 0, fontSize: '38px', fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 900 }}>{selectedPlace.beerPrice}</h1>
-                    <p style={{ margin: 0, color: '#666', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>{t('map.per_half_litre')}</p>
+                    <p style={{ margin: 0, color: '#666', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>Per half litre</p>
                   </div>
+                  <button 
+                    className={`${styles.compareBtn} ${compareList.find(x => x.id === selectedPlace.id) ? styles.compareBtnActive : ''}`}
+                    onClick={() => toggleCompare(selectedPlace)}
+                  >
+                    {compareList.find(x => x.id === selectedPlace.id) ? '✓ Added to Compare' : '+ Compare Bar'}
+                  </button>
                 </div>
 
-                {/* Confidence */}
-                <div className={styles.confidenceBox}>
-                  <span style={{ color: '#22c55e', fontSize: '20px' }}>✓</span>
-                  <div>
-                    <strong style={{ display: 'block', fontSize: '13px', color: 'white' }}>{t('map.verified_price')}</strong>
-                    <span style={{ color: '#777', fontSize: '12px' }}>{t('map.verified_desc')}</span>
+                {/* 🎓 Student Discount */}
+                {selectedPlace.studentDiscount && (
+                  <div className={styles.studentBadge}>
+                    🎓 Student discount — €{parseFloat(selectedPlace.studentPrice as any || 0).toFixed(2)} with student ID
                   </div>
-                </div>
+                )}
 
                 {/* Features */}
                 <div style={{ marginBottom: '24px' }}>
-                  <h4 style={{ marginBottom: '12px', fontSize: '11px', textTransform: 'uppercase', color: '#666', letterSpacing: '1px', fontWeight: 800 }}>{t('map.features')}</h4>
+                  <h4 className={styles.sectionTitle}>Features</h4>
                   <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                    {selectedPlace.outdoorSeating && <span className={styles.attributePill}>☀️ {t('map.feature.terrace')}</span>}
-                    {selectedPlace.hasSports && <span className={styles.attributePill}>⚽ {t('map.feature.sports')}</span>}
-                    {selectedPlace.rooftop && <span className={styles.attributePill}>🏙️ {t('map.feature.rooftop')}</span>}
-                    {selectedPlace.groupFriendly && <span className={styles.attributePill}>👥 Group Tables</span>}
+                    {selectedPlace.outdoorSeating && <span className={styles.attributePill}>☀️ Terrace</span>}
+                    {selectedPlace.hasSports && <span className={styles.attributePill}>⚽ Sports TV</span>}
+                    {selectedPlace.rooftop && <span className={styles.attributePill}>🏙️ Rooftop</span>}
                     {selectedPlace.dogFriendly && <span className={styles.attributePill}>🐶 Dog Friendly</span>}
-                    {selectedPlace.liveMusic && <span className={styles.attributePill}>🎵 Live Music</span>}
-                    {selectedPlace.openLate && <span className={styles.attributePill}>🌙 Late Night</span>}
                   </div>
                 </div>
 
-                {/* Sun timeline */}
-                {selectedPlace.outdoorSeating && (
-                  <div className={styles.sunTimeline}>
-                    <h4>{t('map.sun_outlook')}</h4>
-                    <p style={{ margin: 0, fontSize: '14px', fontWeight: 600, color: '#eee' }}>
-                      {getTerraceTimeline(selectedPlace.lat, selectedPlace.lng).label}
-                    </p>
+                {/* 🍺 Beers on Tap */}
+                {selectedPlace.beersOnTap && selectedPlace.beersOnTap.length > 0 && (
+                  <div style={{ marginBottom: '24px' }}>
+                    <h4 className={styles.sectionTitle}>Beers on Tap</h4>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                      {selectedPlace.beersOnTap.map(beer => (
+                        <span key={beer} className={styles.beerPill}>{beer}</span>
+                      ))}
+                    </div>
                   </div>
                 )}
+
+                {/* 🕒 Visual Hours Timeline */}
+                <div style={{ marginBottom: '24px' }}>
+                  <h4 className={styles.sectionTitle}>Opening Hours</h4>
+                  <div className={styles.hoursTimeline}>
+                    {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, i) => {
+                      const isToday = new Date().getDay() === (i + 1) % 7;
+                      return (
+                        <div key={day} className={`${styles.timelineRow} ${isToday ? styles.timelineToday : ''}`}>
+                          <span className={styles.dayLabel}>{day}</span>
+                          <div className={styles.timelineBarWrapper}>
+                            <div className={styles.timelineBar} style={{ background: '#E63946' }} />
+                            <span className={styles.timeLabelStart}>09:00</span>
+                            <span className={styles.timeLabelEnd}>23:00</span>
+                            {isToday && <div className={styles.currentTimeLine} style={{ left: `${(new Date().getHours() * 60 + new Date().getMinutes()) / (24 * 60) * 100}%` }} />}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
 
                 {/* Actions */}
                 <div style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
@@ -601,7 +785,7 @@ export default function BeerMapPage() {
                       cursor: 'pointer', fontFamily: 'inherit',
                     }}
                   >
-                    {t('map.get_directions')}
+                    Get Directions
                   </button>
                   <button
                     onClick={() => setShowReportModal(true)}
@@ -628,6 +812,89 @@ export default function BeerMapPage() {
           onSuccess={() => setShowReportModal(false)}
         />
       )}
+      {/* ─── Comparison Panel ─── */}
+      <ComparisonPanel 
+        items={compareList} 
+        onClose={() => setCompareList([])} 
+        onRemove={(p) => toggleCompare(p)} 
+        userLoc={userLoc}
+      />
+    </div>
+  );
+}
+
+function ComparisonPanel({ items, onClose, onRemove, userLoc }: { items: Place[]; onClose: () => void; onRemove: (p: Place) => void; userLoc: any }) {
+  if (items.length < 2) return null;
+
+  const attributes = [
+    { label: 'Price', key: 'beerPrice' },
+    { label: 'Neighborhood', key: 'neighborhood' },
+    { label: 'Walking Dist.', key: 'walk' },
+    { label: 'Happy Hour', key: 'happyHour' },
+    { label: 'Terrace', key: 'outdoorSeating' },
+    { label: 'Sports TV', key: 'hasSports' },
+    { label: 'Dog Friendly', key: 'dogFriendly' },
+    { label: 'Rating', key: 'rating' },
+    { label: 'Tap Beers', key: 'beersOnTap' },
+  ];
+
+  return (
+    <div className={styles.comparisonPanel}>
+      <div className={styles.comparisonHeader}>
+        <h3>Compare Bars</h3>
+        <button onClick={onClose} className={styles.comparisonClose}>✕</button>
+      </div>
+      <div className={styles.comparisonTableWrapper}>
+        <table className={styles.comparisonTable}>
+          <thead>
+            <tr>
+              <th>Attribute</th>
+              {items.map(p => (
+                <th key={p.id}>
+                  <div className={styles.compBarHeader}>
+                    <span>{p.name}</span>
+                    <button onClick={() => onRemove(p)}>✕</button>
+                  </div>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {attributes.map(attr => (
+              <tr key={attr.key}>
+                <td className={styles.attrLabel}>{attr.label}</td>
+                {items.map(p => {
+                  let val: any = (p as any)[attr.key];
+                  let style = {};
+
+                  if (attr.key === 'beerPrice') {
+                    const price = parseFloat(p.beerPrice.replace('€', ''));
+                    const minPrice = Math.min(...items.map(x => parseFloat(x.beerPrice.replace('€', ''))));
+                    const maxPrice = Math.max(...items.map(x => parseFloat(x.beerPrice.replace('€', ''))));
+                    if (price === minPrice) style = { color: '#22c55e', fontWeight: 800 };
+                    if (price === maxPrice && items.length > 1) style = { color: '#ef4444' };
+                  }
+                  
+                  if (attr.key === 'walk' && userLoc) {
+                    const dist = haversine(userLoc.lat, userLoc.lng, p.lat, p.lng);
+                    val = `${Math.round(dist / 80)} min`;
+                  }
+
+                  if (attr.key === 'happyHour') {
+                    val = isHappyHourActive(p.happyHourStart, p.happyHourEnd) ? '✅ YES' : (p.happyHourStart ? `${p.happyHourStart}-${p.happyHourEnd}` : 'No');
+                  }
+
+                  if (typeof val === 'boolean') val = val ? '✅' : '❌';
+                  if (Array.isArray(val)) val = val.join(', ');
+                  if (val === null || val === undefined) val = '-';
+
+                  return <td key={p.id} style={style}>{val}</td>;
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
