@@ -95,22 +95,24 @@ function distanceToWalk(meters: number): { mins: number; label: string } {
   return { mins, label: `${mins} min · ${(meters / 1000).toFixed(1)}km` };
 }
 
-type FilterKey = 'open' | 'terrace' | 'sports' | 'rooftop' | 'late' | 'group' | 'dog' | 'music' | 'student' | 'date' | 'happyHour' | 'new' | 'closed';
+type FilterKey = 'open' | 'terrace' | 'sports' | 'rooftop' | 'late' | 'group' | 'dog' | 'music' | 'student' | 'date' | 'happyHour' | 'new' | 'closed' | 'irish' | 'craft';
 
 const FILTER_DEFS: { key: FilterKey; label: string; icon: string }[] = [
-  { key: 'open',      label: 'Open Now',       icon: '🟢' },
-  { key: 'happyHour', label: 'Happy Hour Now', icon: '⏰' },
-  { key: 'terrace',   label: 'Terrace',        icon: '☀️' },
-  { key: 'sports',    label: 'Sports Bar',     icon: '⚽' },
-  { key: 'rooftop',   label: 'Rooftop',        icon: '🏙️' },
-  { key: 'late',      label: 'Late Night',     icon: '🌙' },
-  { key: 'group',     label: 'Group Tables',   icon: '👥' },
-  { key: 'dog',       label: 'Dog Friendly',   icon: '🐶' },
-  { key: 'music',     label: 'Live Music',     icon: '🎵' },
-  { key: 'student',   label: 'Student Discount', icon: '🎓' },
-  { key: 'new',       label: 'New Openings',   icon: '🆕' },
-  { key: 'closed',    label: 'Show Closed',    icon: '🚫' },
-  { key: 'date',      label: 'Good for Dates', icon: '❤️' },
+  { key: 'open',      label: 'Open Now',        icon: '🟢' },
+  { key: 'happyHour', label: 'Happy Hour Now',  icon: '⏰' },
+  { key: 'terrace',   label: 'Terrace',         icon: '☀️' },
+  { key: 'sports',    label: 'Sports Bar',      icon: '⚽' },
+  { key: 'rooftop',   label: 'Rooftop',         icon: '🏙️' },
+  { key: 'late',      label: 'Late Night',      icon: '🌙' },
+  { key: 'group',     label: 'Group Tables',    icon: '👥' },
+  { key: 'dog',       label: 'Dog Friendly',    icon: '🐶' },
+  { key: 'music',     label: 'Live Music',      icon: '🎵' },
+  { key: 'student',   label: 'Student Discount',icon: '🎓' },
+  { key: 'irish',     label: 'Irish Pub',       icon: '🍀' },
+  { key: 'craft',     label: 'Craft Beer',      icon: '🍺' },
+  { key: 'new',       label: 'New Openings',    icon: '🆕' },
+  { key: 'closed',    label: 'Show Closed',     icon: '🚫' },
+  { key: 'date',      label: 'Good for Dates',  icon: '❤️' },
 ];
 
 const DISTANCE_OPTIONS = [
@@ -145,6 +147,7 @@ export default function BeerMapPage() {
     open: false, terrace: false, sports: false, rooftop: false,
     late: false, group: false, dog: false, music: false,
     student: false, date: false, happyHour: false, new: false, closed: false,
+    irish: false, craft: false,
   });
   const [selectedBeer, setSelectedBeer] = useState('all');
 
@@ -299,6 +302,8 @@ export default function BeerMapPage() {
       if (filters.date && !p.dateSpot) return false;
       if (filters.rooftop && !p.rooftop) return false;
       if (filters.open && p.isOpen === false) return false;
+      if (filters.irish && !(p as any).irishPub) return false;
+      if (filters.craft && !(p as any).craftBeer) return false;
       return true;
     });
   }, [places, priceRange, maxDistance, filters, userLoc]);
@@ -324,6 +329,8 @@ export default function BeerMapPage() {
         if (f.key === 'dog') return p.dogFriendly;
         if (f.key === 'date') return p.dateSpot;
         if (f.key === 'rooftop') return p.rooftop;
+        if (f.key === 'irish') return (p as any).irishPub;
+        if (f.key === 'craft') return (p as any).craftBeer;
         return true;
       }).length;
     }
@@ -452,7 +459,7 @@ export default function BeerMapPage() {
                     <span className={styles.rank}>{i + 1}</span>
                     <div className={styles.lbInfo}>
                       <div className={styles.lbName}>{p.name}</div>
-                      <div className={styles.lbNb}>{p.neighborhood}</div>
+                      <div className={styles.lbNb}>{p.neighbourhood}</div>
                     </div>
                     <span className={styles.lbPrice}>{p.beerPrice}</span>
                   </div>
@@ -555,7 +562,7 @@ export default function BeerMapPage() {
             <div style={{ padding: '40px 20px', textAlign: 'center', color: '#666' }}>
               <p>No bars match these filters.</p>
               <button onClick={() => {
-                setFilters({ open: false, terrace: false, sports: false, rooftop: false, late: false, group: false, dog: false, music: false, student: false, date: false, happyHour: false, new: false, closed: false });
+                setFilters({ open: false, terrace: false, sports: false, rooftop: false, late: false, group: false, dog: false, music: false, student: false, date: false, happyHour: false, new: false, closed: false, irish: false, craft: false });
                 setPriceRange(10);
                 setMaxDistance(5000);
               }} style={{ marginTop: '12px', background: '#E63946', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', fontWeight: 700 }}>

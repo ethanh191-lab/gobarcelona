@@ -1,40 +1,78 @@
--- 1. Create the bars table if it doesn't exist
+-- GoBarcelona Beer Map — Complete Database Setup
+-- Run this in Supabase SQL Editor
+
 CREATE TABLE IF NOT EXISTS bars (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name TEXT NOT NULL,
-    address TEXT,
-    neighborhood TEXT,
-    lat DOUBLE PRECISION NOT NULL,
-    lng DOUBLE PRECISION NOT NULL,
-    beer_price_05l DECIMAL(4,2),
-    rating DECIMAL(2,1),
-    review_count INTEGER DEFAULT 0,
-    terrace BOOLEAN DEFAULT false,
-    sports_broadcasting BOOLEAN DEFAULT false,
-    status TEXT DEFAULT 'open', -- 'open', 'temporarily_closed', 'permanently_closed'
-    
-    -- Strategic Pivot Fields
-    happy_hour_start TIME,
-    happy_hour_end TIME,
-    happy_hour_price DECIMAL(4,2),
-    beers_on_tap TEXT[],
-    student_discount BOOLEAN DEFAULT false,
-    student_price DECIMAL(4,2),
-    opened_at DATE DEFAULT CURRENT_DATE,
-    closure_note TEXT,
-    reopening_date DATE,
-    
-    created_at TIMESTAMPTZ DEFAULT NOW()
+  id bigserial primary key,
+  name text not null,
+  address text,
+  neighbourhood text,
+  lat decimal(9,6),
+  lng decimal(9,6),
+  website text,
+  phone text,
+  google_place_id text unique,
+  google_rating decimal(2,1),
+  google_rating_count integer,
+  price_per_500ml decimal(4,2),
+  price_confidence text default 'unverified',
+  price_last_verified text,
+  opening_mon text, opening_tue text, opening_wed text, opening_thu text,
+  opening_fri text, opening_sat text, opening_sun text,
+  happy_hour_start time, happy_hour_end time, happy_hour_price decimal(4,2),
+  beers_on_tap text[],
+  has_terrace boolean default false,
+  terrace_season text,
+  dog_friendly boolean default false,
+  sports_tv boolean default false,
+  group_friendly boolean default false,
+  open_late boolean default false,
+  social_club boolean default false,
+  rooftop boolean default false,
+  student_friendly boolean default false,
+  student_discount boolean default false,
+  student_price decimal(4,2),
+  live_music boolean default false,
+  date_spot boolean default false,
+  irish_pub boolean default false,
+  craft_beer boolean default false,
+  beer_hall boolean default false,
+  status text default 'open',
+  closure_note text,
+  reopening_date date,
+  opened_at date,
+  photo_url text,
+  notes text,
+  data_source text,
+  last_updated text,
+  created_at timestamptz default now()
 );
 
--- 2. Insert sample data for testing
-INSERT INTO bars (name, address, neighborhood, lat, lng, beer_price_05l, rating, terrace, sports_broadcasting, happy_hour_start, happy_hour_end, happy_hour_price, beers_on_tap, student_discount, student_price)
-VALUES 
-('The Cheap Pint', 'Carrer de la Llibreteria, 21', 'Gothic Quarter', 41.3839, 2.1770, 2.50, 4.5, true, true, '17:00', '19:00', 1.50, ARRAY['Estrella Damm', 'Moritz'], true, 2.00),
-('Born Beer Hub', 'Carrer del Rec, 12', 'El Born', 41.3849, 2.1849, 3.20, 4.2, false, false, '18:00', '20:00', 2.50, ARRAY['Voll-Damm', 'Heineken'], false, NULL),
-('Eixample Social', 'Carrer de Mallorca, 200', 'Eixample', 41.3911, 2.1637, 4.50, 4.8, true, false, NULL, NULL, NULL, ARRAY['Estrella Galicia', 'Mahou'], true, 3.50),
-('Gràcia Hidden Gem', 'Carrer de Torrent de l''Olla, 50', 'Gràcia', 41.4033, 2.1557, 2.80, 4.6, false, true, '16:00', '18:00', 2.00, ARRAY['San Miguel', 'Estrella Damm'], false, NULL);
+CREATE TABLE IF NOT EXISTS beer_prices (
+  id uuid primary key default gen_random_uuid(),
+  bar_id bigint references bars(id),
+  price decimal(4,2) not null,
+  size_ml integer default 500,
+  type text default 'tap',
+  submitted_at timestamptz default now(),
+  upvotes integer default 0,
+  downvotes integer default 0,
+  verified boolean default false
+);
 
--- 3. Enable RLS (Optional but recommended for Supabase)
+CREATE TABLE IF NOT EXISTS bar_adjustment_requests (
+  id uuid primary key default gen_random_uuid(),
+  bar_id bigint references bars(id),
+  field_to_adjust text,
+  current_value text,
+  suggested_value text,
+  note text,
+  submitted_at timestamptz default now(),
+  status text default 'pending'
+);
+
+-- Enable Row Level Security but allow public reads
 ALTER TABLE bars ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Allow public read access" ON bars FOR SELECT USING (true);
+CREATE POLICY IF NOT EXISTS "Allow public read" ON bars FOR SELECT USING (true);
+CREATE POLICY IF NOT EXISTS "Allow public insert to beer_prices" ON beer_prices FOR INSERT WITH CHECK (true);
+CREATE POLICY IF NOT EXISTS "Allow public read beer_prices" ON beer_prices FOR SELECT USING (true);
+CREATE POLICY IF NOT EXISTS "Allow public insert to adjustments" ON bar_adjustment_requests FOR INSERT WITH CHECK (true);

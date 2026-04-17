@@ -89,14 +89,14 @@ export default function Home() {
                 <div key={i} className={styles.teaserCard}>
                   <div className={styles.teaserCardInfo}>
                     <h3>{bar.name}</h3>
-                    <p>{bar.neighborhood}</p>
+                    <p>{bar.neighbourhood}</p>
                     <div className={styles.statusRow}>
                       <span className={styles.statusDot} style={{ background: bar.status === 'open' ? '#22c55e' : '#666' }} />
                       <span>{bar.status === 'open' ? 'Open' : 'Closed'}</span>
                     </div>
                   </div>
                   <div className={styles.teaserCardPrice}>
-                    €{parseFloat(bar.beer_price_05l).toFixed(2)}
+                    €{parseFloat(bar.price_per_500ml || 0).toFixed(2)}
                   </div>
                 </div>
               ))
