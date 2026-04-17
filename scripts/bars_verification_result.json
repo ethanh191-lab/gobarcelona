@@ -14,7 +14,7 @@
     "price_confidence": "estimated",
     "opening_today": "12:00 PM – 1:30 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGM0fLBL9bftCB_rtMcV-sVgb6NOpwN_Pn4xTkSJT2Xi3lzyVIH7gGmoifdvbQPnSdWD-yiQ5ynQZyB7p6b_W87AMSpnmcLatUar0DLLhPs8QHz7gLPf0K1O1_phyVfE4S70baze6p8ueha0A2SRtr89-3Ex4pJPPp6aFcrpZLSF1Uov214o-vnKE48po9DpWvm3SDG2WUURmdAjMe6YrFjMsfi49DhDqeif45QSFOR7Vv9gUU_5JQOMQ4m0qQ8VdN8zj7HNez5Dl1Lk7cxoXiuYidK_sjJljBMPTlq7eR2bUpiX02vtbcyUjIq9p30h3xZ0zeEYGobyDVnpFyjrqDxDxZqYmuEO5I4MUeCfAZ3HpBNrx7wqlYHIDNmUXJDJK7MJN42WTeD4eilfUAnzbd3I8xjZpFxHQtMQI3alErLQw&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEEGtuaIEUoA-2RwMvZxkfwstIFFVEU0u5F_pu-1bjPbBtBuU7_uqT9EpNbNhHecstrN8QImRlbHpwC16JeteCtgyC_l9PYXAqBg6t7EXs7O82wE0cagToo1itUK_3nLxQorxaaQLZqMV3bcYs4ipOUw5kfbwqBXF3P9ArqQGG7bWE_Uxl35WATYpkQNzqRFjpfvPVPXCoe1ripRk_ew1Sxrosu5kiJFdC6Z3s3SCBXvUaqJrrgG4_s3uapbTW8c6djZjWaMZ9Ntj1Jso970Nsf2P_tXcI8r2gM2D_dAv5Wj6ys1WdRVBLG7m4yB4Z3FBVENR7-m5aAN5b5DrrEQFG3EJnupE2PBrUPE3jzeLzdbN_MaXFSdmHXy1i5MOA3mkb-QV6_OILWLG8iCLE3NV2REfo3A2zLUjAugA0HIMTlQ9A&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -33,7 +33,7 @@
     "price_confidence": "estimated",
     "opening_today": "1:00 PM – 3:00 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGmGIa8ibDoJUza5UMBdY5gF8xGOzg6emtpRKXNcXnQxhF_yqXgcXjSeqjZx12mDV_ZKFr9TEd8mnDQKu5yfgV4F3wHym5Exbt2n0VtQ1Fh3AjJEMcov_9pu5lJVn0PAeSWm9H8uPfBTFxBzFD3epJ4hIx7UthiCmi0aFLbnxJgM3-xdPfBoPyc1khXcNfLJDkYXV6qdGs8T0yxHpgT8yzzixEbjzqzRMVnrneGziYuU0phxNw-dvDljdz1fyV6Qvrgj732MSlbTdkLcXpq5xjXjzGCGAX9pyP3oIVrSkQ&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEE91ZMbgiE25GGaMQZ9JdO8x8KtHnoiGqlIP5lQuAi4x7hiIVJMdtTBQsXJpAcqusnPaB4L9o4KePMtFgkbR58UEpiXgcp-VphC0ZmKprdBZWqSTHKbuGbJVDh1seogs1JwyF9LKWs29dZq93s-6rioyw0DkFfZclWbyuhr-Rw1l_b0tFoOLSrQ2u2CtIZXtkz22W5X-EAUzWJmaWOuptMjEFMom8UcvNebgK4Yu_va-tAMZoL_o9a1OmGPMcIpcYvrg6TKVuKwi3JzwFIN-I6zNEK1vAZZrtwwmlnPfBI&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -52,7 +52,7 @@
     "price_confidence": "estimated",
     "opening_today": "12:30 PM – 2:30 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEG_1LitLRVK4KGwI9Xfsx9sC6hE7BK_cchyzjHwm5MizFqcoXFejk_mADyND-P1SEuR7xtq_NhM4O7LdP6fviWT3xJxUm2fIJhjk2mEgUBzFdITWtUaD_WhiLlFg01b_iKQRpBm_03krzpvqpC_WD-q4rg0kGe4JsYEoRL-h0z6JXClOpnNn2MDmievcCJ_bK7AI0wESOH0HIgEc04sl9v8FAyWAc4i_n-Tc4JMf4o9WlBuaJYM9ZR9ECADprixHjdPd7hH1fWcOumBOC35mCd8thhlzgYDIYaNb2oicSbBWQ&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEE5p_4UbKNZm-9rFiklsq8vDiIYGNLNJMMQUq3ElkECThVdbEUzxOqlOpJf7x-DDtqYgBZhe7zeaiq-GMeafajmOQe5GBOwixJWDvcSB1r6eILLkmt8VdsYqDo5BTj170AH84mCh-lgE_z5cVx82HL50NjgY_g2uPs4kTMPjpmV7t7T_2V_w7fqNlZeQILsl2Q_nOEfqYNtS2T0G2PFORAV5u_cyG3Rb99GrmoMwOFcI5a4XVuUlIPRgLikUK_XRXebvyi66FOmEzP_fR9gkFaBaSQRrVWZwEr_NZQT72P0fQ&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -71,7 +71,7 @@
     "price_confidence": "unverified",
     "opening_today": "12:30 PM – 2:00 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGsjdQ5Q_e-XcyPyNvK8DKk2Zvquat9sB0CJKPg9PvnSu61Zu1DytF5mWKlGKYLUWWN-bPo3fdx9lfIQmLgqSjjqBQJZVAwqVAHB0ImX91dBPm29VnmeJQQ095p0mAKhSl0x92gbpCLrcKkqgLYfbUQq43d3i4a3vzofRpVGvN1Roa2bgoDW279zJ1LOo0fNFKfiCH-llwn8JUldhcMGD5lNEt25tb85Y65WGAoq2IJ89z2PKnxHE5SlYl_RcuYN0ZkKIJFnmtqkAE8jzJOMxSueXq9-P4r1BCBD256mlyFCA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEE_oX4fUC-rDIy9-xWBKQBPBPRb1eYeXnwP54qHxcdyqiWR-J_XS7Ow6OR94FO6ZYAG3EhybJ1gZV8wV95gX5hkyXmLi8cbHHeuOFIh37mJQfLaZwdHq0KuYn7dlDBVEubWOKch8rWBmxd0dFmJnw1B3W_mvisRz0LWDfNLEQRNJ51tBU_aUtrx34Pk6ncbLaiSRLTNpemeL7LBWpJ0k7m-6Wc1r9x_6nM3ZqnGUgUipdUxSeMAZc0C2IyAXzLUEQA4EvkkQY1ferU9krijDQt7qs006oEWyV-N92A3D55D5A&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -90,7 +90,7 @@
     "price_confidence": "estimated",
     "opening_today": "11:30 AM – 2:30 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEHrgM8uAIcMkz5c2rf9uRYCrf7toHv6KuzuSfFpnhJAQbWpMwR3kecxb3Dw23aFXo2NmliOM3rUUAYQ7NV4oi7LDhhNkxeSEMCZUphhApzxedLei6d3w5nM9DklbLjjVAHeI5QkeV2t2JRaYfb4_-C3bHPVEKn5eOC8jBmN2lNo7J5H09r3BW0KuJzJe1BWHYLU79299G2PqsCEccb-BsUdx6wNkkjrggjAObl6U2LfToUeNqYsfGz7y_VMSnhISCUFf2hc-yTA_BbtwT03IFuDMOKRFwU1TsxpmDCeV0ogIw&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEG4a_-9cnennudFRYPUe7H23sqRBP95sqFlq5SLpEhfNhSH9n2pK-egZlXYrUgOScLJXolNVvILY6s5krTezXxYn44hKXhRuq3npI3YX7-S02KFQsnpkeJnw8eSJye0p05Fa6zuG0h3Wluy2jsviCN_KVMoJmfT3hMyflNx1yzPUQpFRtKbuI5YREGcyiKwZJNwt8dE6T-lEmeeGEAnaRjHogQqqQk88Vi_m6L-22ZhSLSAAS3Qxo2nvWDWSvSmGAybNtvhJErWxJVcjePZoD6WNLgGZaSYr-EcTWGUzecENw&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -109,7 +109,7 @@
     "price_confidence": "estimated",
     "opening_today": "9:00 AM – 2:00 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEFWsWKBEsU3mT5MH5DlQrF2FuCilRInesSg1dz3sjjfSpUwFBu3lL72GGP9S7d9nSGcWziScQlUpOTdpp9oc_t2egI8YyU7uA6evVYw9S88RuDmAIN8yfw5nz1uwXxfSOmDsxLzMlecgceq72V8GvSQFLWj1x2RHHn4Odd8GE08ZfDze680m5n89iCejG7SlB2C6bV2Mu9zRM-7DFJHZBrugGuUYDemx5YJtvw6oDEz7kcA7BG6zG3atI5-ePD-mvyGcakvD6iPjISnt9SnMbzu3-zdxoAuTGoe7zEYugha5A&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEEwYCZvQIvl-xH_fvda9Uc_cTt5XFqswZkDZ1W_YErvo9e5gIrqJct1tj5ebSl283vHNzoLFu8qdpBai7bmmM4oocv5JuibBUC8RcjM-cVabNuK7EwokQ9lMAjBHmv2ybszbLu8vjk1QZiCX9pmJ8YuEz6caYNaAw5LI2m-uJ06SQXUJfKGffg-WeLAviv1swl6ANGI85_gme4nvapdNe4vi7UabVM3fovsE6z8L7RFPB3f6ywhlazsmwhXYo3FjMDxQU3d5Ay4OPWXa1wCO_7mxH9UiAXp8kE8ALUz8wu_KQ&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -128,7 +128,7 @@
     "price_confidence": "estimated",
     "opening_today": "1:00 PM – 3:00 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGBBLb5qmjgdgQKpyUGbLJGyIPd2nMQb8wCJmc2ahrfbAY-SOGF-tUcVSvCz6eB_21OAa4W1u_iJqrn0W9jtgRyYyGB8VMwhv2OwGZWKqdScRU-0mTL0sDjudinnsCcim6c0_y0fGjE6knBbxFCKKvnH-cZX8fHp_WWGStavOUry_vIzmkrLvrgY5N4y0wHbdHNoSAfmEB0uK5JH6VnkRoCtRFi_dRyuau8-1wUXGXurTd0dPivfAvs7R7o7wCYmAVwyw6jurcwDwhwOLIeg9xzvAtzVtnJ8XMqqbi-M0xa7g&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGlHiuV7l090LEB0HpU1whzb44h7hyHq6FlUML17M-5zMrNwfRQA4YK8bGS5sWLYMK83wap55CbjZd9qjDGFo5jl_w-CfY-d1UcduV02kZVivnJB0veJlCPoyRNe2x54k4T-izqkZrl4oT9H9S8RC4EyDZwNSvMmmCsRyE6agDPDxCQR1oLhKJTTfAx0aPWY7WylHGUR57D0kFu49kxt3pEDoumj1UaYxREtmLBg3nh3tRMg1aHcU5V9TRHNXM6lmCqcvjNwpAWmoTyGox3pLipx5_ceidM7Y_H_RAXZwWqbA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -147,7 +147,7 @@
     "price_confidence": "estimated",
     "opening_today": "2:00 PM – 3:00 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEE1GXYzY-WlSdN_8-d7XPL-mVrSugogdqVTXcWGKmnNQg5d5ICNqeFyfzknCXCs7G1XqHKcA-7h26f80dLi5X2riKXRDlxXygYoPDGSBDbfE84FQxW7rcrp4mgUcIFAmKuHXdM0NzB9Zh9byOOQBquDYccd9RyKPzgbzjH8SSTgcbCU2WEEMvH2DYv_R8Ccy4lrAvp0kfVTEOvt9cxQo4eb41QncblSMePDF1E94G2C30x5ZZaSXkUN-rqAp9TMKn_R3-d2MGBL3l8CZR_wvuexbWeRoAuanZkYwjk3Sc_8PbU0gDBX4A94WFyomZ_2UM62wgjPKDFWU9bfMkO4jldvN6vmdtDjIiaA8QmTc6eT6Bo-3KK7L5hbNcaB5eWu6SJPTjpOsgqzs9WBamAtQsLZ72zBKZHemX3Qz_o-0f5-NA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEE-0On_xNQAtBRCJnxzk28JjX_cN_PQYNdGv_zq5JsUERcosbNCF0sHeEEnlgS1hITEMsTQXzizk25Env-iU2m-EZGargZ9n3YqSnsbRgIdVa7UiYycd-8f4rDTZRUuhrsE_vN_804O3ykPGD-lb8-w166IDAeRXt7n-agjIAdrRqzUAKQtFuOa7wpLhc1JhaH8eJQXHMXIpLSvta0KalhxZL9UZHU4nAIMwKdAAHPaEkho7pzDros690RZ7GokupcOBoeGoI35Hsf3INimaHmlt7YYY9CfLO0xuq8xcUOW9iV1_NjF0UqthABYd0YXHq0i4zkrOMiWjBy08xIZsYn2CR-9OVQocZw_0wpprIFYaL0ZKcRzDLO6g4jmo6ooApKHVABRwCO9wE4TvLWqS3QpOKdCf-jHsvyXZCXwJ6vFuw&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -166,7 +166,7 @@
     "price_confidence": "estimated",
     "opening_today": "3:00 PM – 3:00 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEFcyP5YtZzE8SL72fV7GD5W-iwzRWHJ3PQKvSto4wcINAI096GNp4hMbn1owIRIgzrp47x_x5CQkl_cmhOY9Opo_SUZsYbhL2T03EJ6-yvnNs26SU87Q-FWeYExqdv05YVB5GGJrmTUDVzXX-vwC44Ej_91p0IxaZyaqQf8RgdD1_RtV0Gz2n-5H5JpsLnKqaKLtCP3Mhup40bfJwfeM7EVFo9tfVevaNc_XHGsyv6hPt6lTWad_Zr1tMBpU53thpc-ssYx753RW8Ys9rKF4mrKF90RTMNaFB-aaYenG1Nwdm7SkHwRVXOf-sDTm-ZoCG7lrxOFKWQV_VhGTaCXsszQWg3pXl3j5g55bPTG_0GXml7uhvKbcOwf8ZA-mG7auIqeVW6A8A3IKsSzq_umnZZJmNpjd_8x9lDpK4eY7XxyiLZF&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEE7oc5enh8iFQ4YZBia_9wO81bb9kOSCdSVBpfMTBMEz7OON7_p6F1tmJaovtWMdQ_yu4pLX-vP0Pp3qAKLLWYHHDyxZ5MKWlrdsv_CxpD6enCi0AMxcuteXHf8VlIZTv5TVSn0hwCNb5Wd1xfANcrXvP5czFi4b-nxzKTxZVWfzYDoEgmwPrtN8Yr8yCbfYVIWAAG5QRwQo6IL9zkW4UWjIC_UsLDl-hXwp0yxXjdxclrEgttGNa63Tb_39nuOIQpGja8jW9RRCg7IwVpOAJFQ_LY_k69NIGaCGqjiBgu4y0uag90xL108OaSdwyVXXD2aVfvfgBciJlF0gtnwDBN6N_bDZEvki-xucgERIwBx8MCOyGAXnyCzGa89f0pLnYjC4-VAc-i4XQcgoDLg5pLSnEwTbqNO1_HOaLw6yeU1ucir&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -185,7 +185,7 @@
     "price_confidence": "estimated",
     "opening_today": "5:00 PM – 3:00 AM",
     "is_open_now": false,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEG2f1BsKbiEjuQn_0iapkEm1TUInjreRynnPVuFs8M2CIW0OwPaxCt37CP4va2fxwF6zkwc4uSjFTLRG2uS-gPfCoGFCCI8l928kjRjjwvsvOVw1IiMvYntpApaNGUFQ5Vn2sqy4FU_7VvDSlbl1IyrZzGrEm4W04tD9g_nIs75OYufyE_IQYnnFAgNU15gnSlwEUfW8VxHcVfUTgnEnTlPYTXPmIYsezUMnIrWW6wf1Ooi6m4E6CZXy49KpZn1WLSbqIes-VcpOgNGC7DHI7rZh0CVpcnNoOlGbJopWaW0bg&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEEEIMia1AO1_EOdU-YwGhEjeW4tLPl9Gdg4zOkJDHxDQkFtF385dheswRw5B3Bbk07qwCJ8qMxdHtnQ4zJf2eskFRUcnqV12oFXVa_eAihlBrsD6tTROgIGRt01vBtn-q7G513WuCmqB8deX22f58zNN4iM-ujg0ADWUNFyy0SVhAMO-kf4-iq2bqyVISiN8DbalxO_yAk3kB-L07SwJfxji_bJwMwcgSawwKpEEw7rXupkrG8Cr9dYsNGTK0aCCei7TkrCIjtGSWpzZyQvcW35Y1A5NXtusxLnICDP8Qmx3A&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -204,7 +204,7 @@
     "price_confidence": "estimated",
     "opening_today": "1:00 PM – 2:00 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEEY820rLR8JH9PSGfWcHejKPbp0UtgHEBjhT1PkcuUTn7tEN8SjeiMirW-dP2SViaIclnPYmSpshI_HXlL6zIpIyH0o_A4anlJk9Nt68b9iIR8eqOobsyvt8txZVRfhzzAGNQZ2ZVvQpwCSp0UAHlslsEst9fnXHGHdFTF8dJDiXApM0YO_Q_QRHOdBDyP8gAu46dJzH2mOJ8K_TDsKYs72kuosvk46_kVwlYHus7ZfZLHJnjO6bzUTdfTp5poYjMvjLP6xzJjFvDmTun9SRNsczM84ouTWbhKTwwK8u8OlQg&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEEev4cDsIP2m4V-e_vqhNidRYYQf-vqB5tcgIxglU_S28mX961jCvk7hAsowxHWwkhPj-QIkB-nrN1Qm8-yNcW3e35g7R2GF-OOyfUnnpwUNlvvIPtSZCzaYHFMBtWipWDZ6dinEAY9BfjNnE2ZK6qKRp-u9CkzKQxhjSatP3XvEiD1zwgD-3S4X8zj0r3cfYwOyABzOKRz1x4rYf-yUJJccoxgLaGISl3hElJyNTHMOkDUESeJtnxpIf0i7Zv_5znCG4xXeJLty-y2AYPpZ1RyNPHuOqpjNnfeOnrNe6RsoQ&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -223,7 +223,7 @@
     "price_confidence": "estimated",
     "opening_today": "6:30 PM – 3:00 AM",
     "is_open_now": false,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGifLKWG5_iDJryitUDaGEJ9eqTgE0z5e0d1SFbxpBpdI8yeH4Yn5RHTpwu8pCbjj8taubGrpS1YnBdBfc8uec0xf_Dh8G7uUyM0P9mgQUZLrdTCFIKJe-WiRr5GqgCBPMlcPOQumGc8qdzCl4Frop6M0vrD7T0idoBHCZYT_rbGslPd_G2BTIQGidwe2heeNHyxMxPgJvaF2QU7ceND-zYXOpZS9SKQsCgw7PtYMXy3rqZJ1FcTIMk7dOWltZKK8CF18WCNkNRWdvgkeIaGsYP_Ou3sbrnFWzm72JaFxqNiQ&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGdxJguaZABoiClXH3SbyTxj0_Re2clYdYiZqcMZhtTXlP2dxU_e9cVB_kIRfiGe82IBddLwN9EDPuOCpkxJ1ZNnLS6gNivbVIFlJk-5xU1m8If6DLiZxOhY56TLQvv-8Awbl584lQMh4LMyuw365CqQxZxtLxkNtmoiLTP7FuLpz-z9cd2bmrvvPzE2tx9GQge_9fu1TvA0UgAUOmbV9Zeyxx1jjOU_QqAswXJ_xgOXG3c_LR1UX2TeG_NMFPiK_kSoIHuSUqb6yBo3ibC_D8ulc46K5D3VdeMO1eobBwkfA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -242,7 +242,7 @@
     "price_confidence": "estimated",
     "opening_today": "6:30 PM – 3:00 AM",
     "is_open_now": false,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGifLKWG5_iDJryitUDaGEJ9eqTgE0z5e0d1SFbxpBpdI8yeH4Yn5RHTpwu8pCbjj8taubGrpS1YnBdBfc8uec0xf_Dh8G7uUyM0P9mgQUZLrdTCFIKJe-WiRr5GqgCBPMlcPOQumGc8qdzCl4Frop6M0vrD7T0idoBHCZYT_rbGslPd_G2BTIQGidwe2heeNHyxMxPgJvaF2QU7ceND-zYXOpZS9SKQsCgw7PtYMXy3rqZJ1FcTIMk7dOWltZKK8CF18WCNkNRWdvgkeIaGsYP_Ou3sbrnFWzm72JaFxqNiQ&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGdxJguaZABoiClXH3SbyTxj0_Re2clYdYiZqcMZhtTXlP2dxU_e9cVB_kIRfiGe82IBddLwN9EDPuOCpkxJ1ZNnLS6gNivbVIFlJk-5xU1m8If6DLiZxOhY56TLQvv-8Awbl584lQMh4LMyuw365CqQxZxtLxkNtmoiLTP7FuLpz-z9cd2bmrvvPzE2tx9GQge_9fu1TvA0UgAUOmbV9Zeyxx1jjOU_QqAswXJ_xgOXG3c_LR1UX2TeG_NMFPiK_kSoIHuSUqb6yBo3ibC_D8ulc46K5D3VdeMO1eobBwkfA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -261,7 +261,7 @@
     "price_confidence": "unverified",
     "opening_today": "11:30 AM – 8:30 PM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEEz7ZuH6kQp95u8o22h13fs-oWirXY46WyZ8rrLP7I0E0JF2jOtaXFMKCJxuFk7R-3en58G-IqZeGviX4gLJtITdnto6BYq1wyLkMwszSG5UfploO1tU5WtuypUr0MbqaQVzIu0gyCbK4x4JCH9gAPJYmqCHklZdEJ_LRO4rvaCew0SfvU3N5pBuICAT3UNR9IqA3Ne8w3t70prD664aQ5aWSP0B_uR2ZVXnJK5HkQM9vmeMQ31lQCC2-qGQ9hMPehNZiZ2WccNbJ_h26xQk7RuKO3viltIZLV8hjORheIwyg&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEH5bGN3yCzhRhW-vf-YV4tGYxOCb1tarchIhcyM_nNKmUCLbKZPHFBgiYz3bKP7ZyXNEyIzqbaOzBhg_EA4_Ji_I9FD3Rg0dti3RIyp6Y9zHcoERhOQRTNW2MpMPzkdEQhn2ImTnGtilUjUtKD6_EjQt1tT9IcymH8b6li-S8mNRdK2ZNyUUg7SKFLePHlK-lZv_p8MXWgs9pCrrYtIeR4O7m-Me7VQ8VeSeY7_koh7Bj9f6Nxwjv4NuKkrp_PWbwVl_dnVyK7TXLquHENzcmfbO73IB3KtC4zvoNozzRLLFQ&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -280,7 +280,7 @@
     "price_confidence": "estimated",
     "opening_today": "5:00 PM – 3:00 AM",
     "is_open_now": false,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEErKa4KdNntHUbf9F-_xaybewUoFRHCtJxlx7NqZ4oazXwJe2Z4mvFYjsf7fmrRaJMpEpMZknJyUtMP0veuxI1BZMNSqYL0SXI2kj4BwkxLhsWdZhlQrgCGa2hZL09ovLDorIHbfDoKWX36hnX-v5jUAhenAT9g282B7w00JF4dQnWILg31oCrymIkzhqqGWumxof4NiUi9bOptD_XeFNOjzHm_xAjSjuT-w8z-6vFV55jOJS4pE-7950IlISlqVFIjQmgUKzODbZCIycsFFyyfCkL3B9710rKW1ic6wadcFA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGu8q5p75Pfh8n7WwlHzhWU_nEzqQp-uSy20zIvNB8aUNSWGhC2lNOMqiUSGsZe8UYIP0URZ1lI9nosrK6kwWifkcC2-I0TH1U8QrP1i_71VtUYYWUxTDXBUn6YrliSBoPPlyqWnR-iFTZK2DCAwYOk1VjiBDaGCmxeZRWioSmNp5tw48sZXzTkXfpSeQoojxbRZ-TzxdUmBHpjikzOBQSJGOHDnm13TZvdzvf7GnFuFY9Jscw_QfCbgTCbAu8NZQv7ZOKpQrHt4fdZNJ6B9zDosOekXcg_IjISLpHl5njFXQ&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -299,7 +299,7 @@
     "price_confidence": "unverified",
     "opening_today": "6:00 PM – 2:00 AM",
     "is_open_now": false,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGChGSM0g4DPQeuvDgSZ15m6TuCMs1y1DjSB2s3B9kFeVJXyCr3Js57rvFAoycC3Xw-e4iiUpgXveYA87Z3VWcK-wJy5bhGeIM3kodwUJlrRY9dFfD_-zu7xS4GZ2VBtYifzCUlAw8egVSG5rQIigVd2iGDZybnMMXDz-lWX9ocOZbuPL8FTRVrvkQI4ueV8gaDum_NnO-Ba1FEdOfIkheJTIjoCQewhBOuWJPfV-d6v2RmarFap4vUgc2E4fEP-QBOqNcrCOBmaGasldz8EMGg1wcB-hEuRBbBkovCyzoZtg5RD7m2qLhdVOZW2ZQEp1MhVg7WF4Jk7jdBXiRjrxxIkaLbkmyD-E-iEPiE1F2Hl7FqYGJH2R3W8UXhoVLh0OuFw4Kk4psJLanVP4S9SjCMj3X24oya2S6qzf6cp18DteHl1LCjrK7tQh-t0f2i&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEEiM3dhWXvLIFOfA1fT1IAucFk0_FkqnDbugaXt7lVqtve-qp9RpLm-rC4S2BUboCCCWFR0d_S9Hu-7tVwHBjCHnZLzD0oFFOXiox0s_ED9sVUhR-iYefG6lgbUXk2nhJACN8_SUyrP0C63dvnrQIpcvkg3-94ij4YkGKjUCyNGXCrsPyFDS-ELVF6dqmm4TU729dwL-cKUq_hPV6Gsxr6_jrvw1d2RWYVi4HL3TEUWUb69ykUq-ToD0dyT_gjGdwfrLtOX0utbp9t72WHex-fos0ldAPmRY2Xnh2zemherQsFFWoxgcbp0pbPJT09bB4bhk7BKQDfqLpDbUmPUyRyqsi4h_FxUlu92_-xDC6BWFTkXc_MOJsOnnIw2AdVJ2InovnAMZQGpC5enjko15isSC10_WpXx1OcFDszTFFLzl_1VJrbzCpw35ahMrFBE&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -318,7 +318,7 @@
     "price_confidence": "estimated",
     "opening_today": "5:00 PM – 3:00 AM",
     "is_open_now": false,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEHXDsdUkB_oCtPQo5abvGoxBhYGkZ2LBbA7yBe9eYV8IxdAPNEvdMxPWIe_QI-t60bmP7zpVsoQ8NWEonx00YuJnIT4I11n1fsHGgeWcEEjQhUtsIdbxS1G0X2gZ7f-wdYmm9w8UF_BAXOTK3uxJF9-nXJIj7pkUGN6B_VKmBI3-eLt_u3cw1WgEjr7QLYzMlZZLZ_rpnhL0lN3Psg2IENRJkhY57GlV7LbwpbHBNOsEHtrxmUoCH3is_CigqrNLh_bi27eufppWvJ-wBBnbCy3Se-cG5VDVbJUj9HDTpQ6wvY8Nypvw_HeuXBgh48IolwKjLAXzDKKI5kamC8ZpymMtbAU8athZ0FiUvOnLLaVlyjSKH5LtZ5dM36y8ACW7HMqqJr_f8iZuZsVl5lJQ9XJPrPVW3MkwlfqkDzlVLNe0Gl5&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEFMsKiVjtv3Fe_st-AgYqaLnVnNQ3w7WW1-l9s_VuHBG0QcTch6B5uxYpCfA7yJX5mWolEf0vv8XrxHyfTSgMZKPxNjW3eGN2WwvvveeOB20QHsSTb5cHi4t4dMOWis-oye5OfJiJ2rImvn0qcFyPbMIDqXlWrt-AysFLXZyDsoyjduh7ykse8Ezr8iBAM8KrPrpEkxbMSGEodVPF-6JPO5g_10avt4nY1ODIdu5ouMLAIaiuZo9UpAdI9JQ0IcNP9fBHDdqqBdSSQqlHE2CPj_YryScaxswu-tOF5mGV5IOwWlIDKHVqZtbZ6Gl8Ccgy-d2YujOGR3JttYp6RjpZBZgvZtjKo46uKoRgv06xAwIJ5VtvG560mEBqAQJzidcVAM42GrmUgBsmjNZXY8yal4wJv1DeHB3F-pAATq3ZV3wFGZ&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -337,7 +337,7 @@
     "price_confidence": "estimated",
     "opening_today": "1:00 PM – 3:00 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGhNWex6lJTkHsoRdKwQRGjGRKoMhVo1STmiV_dNO17J5VSfyjotxxfFuzPToQ2x063ORjlBNGEHa1VmrAiIubPTFrrL501qNmFr5e28F74bYmUpV_x-Xd8xI5ODP6Joa_lYCnybJiPp0gBZzQE7gGcT7QwSDzKXhOTCUOc3jnXx7ZOxLlrXfg5KsAR3gQE1-qH6HMRIIIkIjo9vu8VvnRmqX-aCSBycoaGK9uwqS4gVo3sQpQgLh6oFxN9U9bIIGkwqy8GcRIkilOd82_3CcWRXDjB3W20bwzbTPnDl6hRMg&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEHlkvDVFz6-SOU4vlXZsl3hueJkCzsumhSrA_P4mHzcpN3zDRjDF94jhUCcbAhz7O-HroowBrgLYZnZ2ZjKvN-gKt_47cH5zzHTNuM5CM9X5rRj_AGPH2g1xAVQsh90KePKR8Hkd7zASa8NCYG-0iCFWv9uFGLaPMavZeHGqdsgaiCF4tkMN2O2mxFTxq5ZcfJFtVD7oGhOwkZ1z_O-GHFJRiS8upvGi6vdcgSpuOdiqY_7ExUaWbztpFlujQyqR-J_6-soEzSyLyZ5UkxHFt0ka4KYH92-zrNK5k5rP9yb6w&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -356,7 +356,7 @@
     "price_confidence": "estimated",
     "opening_today": "6:00 PM – 3:00 AM",
     "is_open_now": false,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGJF7OwWrUkvLk9qbdD_3cHqYokmEfpeeGd5OKkaroptsdN61fBoy13Sy6MMdBwGRFndcD-OA96gE38C5yidRhbkdQThf3KGt4inAxQDneyjjfUHDohsv-fR__-qN2p5rM_KdJUoLOYKeTq8qMreZh-1701iMb9ywLMzBM5SYLUzXSwAfEBJFMFH5aRBtTdBtkdVcBN8BkAfxpk_5o9pbiduIZRg-vWx9N-rwfK2VuBEZyHX72GBGvIN8mh3zQvI14cw45NQEE5k88xwzB8BkFkmKvNSgJr6Jcp8Q4kYnauyQ&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGK0kyMoaQv5axtUMuo8IwzEdlTeRAR-7sH74JgcgGmErryDCvUKZiY_r2mEMFKzyqoiW6-f2HKfC199bDBtrMjn8v8Jux6Xa_6NDgKj7-pIPFhTjyABYHbH2lSB_-U2uCvSCyJdJrQVAFUgZZffdbAVuH-O_LZiaY2PiGSv2tCz3l7oTzhYeNakeGGxTjRW3eNRcHeivMnMDxjxW0kEvkejQigPr2cQ-b5ef9k7qSF3q_2smhMegWniH4acdwnALytD1quaw-VPPh4O6lOre7ZiXr_9bFIvjVwQLLQX_yFoA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -375,7 +375,7 @@
     "price_confidence": "estimated",
     "opening_today": "11:00 AM – 3:00 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEE-YqKev80RihQfguBGLpZ87Yjeagb40ei183Xp8emZ4NECLZyC7IslmVrUBnnolfHwJEKTPolSPDxVXICl5SBF0IQexnszJ5lMzZx1dPvMZRXdCyAJILCNshYCB220M2HSbl-ev4t2AmyLAn_wX5mFa-jeIL7gh-9sRKGSvRI-jiT_sjDXETFmNAu3_XxKf-JaoCRkAq7afi2lld7U0p55EYRK0tyU8aCFujSvRgL3n_cooMU1TBLyU-TTFs372P4fmIsApyaepjeuYhDj9skKqC8VufWf1XnDNz_O5IXh0g&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEFbz60v-o03wGwR7wLJgvqDKHzvQn9-lYGw2d1CUr0L2CZ7Yb6qFw7IOLk_n5BN2g5DMCJa-oWCyOvRmYjXf37KtNzUy0GtwicR1USQO7JiDyVUyheq3yw7b_caO9cUUrCtnZfRIkrP7z9p79Fs7g4RQkl0Cij3wUdMwK5-qqe5aJFi-cbB_tlcsUi8enSeYGmJOxogMD7H71nYiWMII4DMDOTxFufuvQnqyAB9wrLlamiz80vCe6Ly5MeOWBOYeI1fVJTspvRg5DEErcUdW5jGV76xZ2pP4BjT3nHXzleBbw&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -394,7 +394,7 @@
     "price_confidence": "unverified",
     "opening_today": "10:00 AM – 2:30 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEEU2F5wOJxcN11mBwN0se74ZUnUv3r4WNhaDw_LKQz0HhhcrvK9PUmwSJxsVBu4CPPxOcrm-pThoDwQp8OgvRpoNKh6-apnOiCbxcfIElT-8RweAW_j9x6T1T0H-rCjL-a49dmvN-HptSV3dNnpTKkbRTFoHI8yKGxDz0HltY8hQzZCuhK6VQSr5_jNTWejN05Owk1zQ4V_5fir6_8SQMKAyuwZRDtmehv_Ah2CMramLOBVcsdq3mqDY1Yr-Lh0K3khm-_EYwp4k41yhfrDoTfs-X0PuhtJFn01xs3KBAdv9Q&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEECKk1Ti-0QUpJtGyP4zxzxbdUwhWn49FJ8q7vx1_Ozz0VbRijU3Ezn2heTltLQVfd0j1KgcxsBX1WDCaPBqAS47IHTZ8zR8Yp7omWWCylL8xapboeTythFt89UNvCjoilaHBVSg7sa2I76i3zmDRf-Ck2yWFvzXLIK-eKWRa63RdX7azDgMO769zmwtngs_g7Zr__zb7Xrb9L0Ydr8sXFP3uweWX4lhMWohl1qLUPX18CfXnKSAl5N0ChvYe-m7bMMGoP2px-rUrvIpBkTSi2hX5NV4G5gIFMQJKXwoxbO5A&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -413,7 +413,7 @@
     "price_confidence": "estimated",
     "opening_today": "8:30 AM – 3:00 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEHOuEZ9JA2rf_qqQX1H56uo_FAZyGwI2hcnhX9T2ndqk79HX2kWxkyM1ul_52IkuanjOgZoAWzENiJ0XN6_Vl0d4-hg3NkwkVMThbq5tArAR8T6-HJKgEeyrlEep9CBtC-bL5QpwAsPTGJ7sPShO56vfnBNL6hJOCzkqa0FoxKEJEDwJDg2qe2f7x92idR36Am0-nAaw96xzZEOa78L5GURXGEiVbQooaDbw3D8_tP5fXthyJKbp9vVMUEs4GYkElQ6MnhHIpf8vDAUje1hTbLC2gmmeotds7VazzQZQ6KZqA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEFJ958ISWU8-nTSNMNiP72Zya9tT-zYNlbHHEeY3T1clLqRttNwxhLnc8FnYF25RreqPybQL_BzasGYIxXsLtCYhf6Ozy9rg6y2bHKPSI09IuvndyZf3fAd5sfInaqDL3gkmhGVO8ET0FYMCGoZN8jLVPPQ0W-xCN-Y9NcY8s9GLHG5UKTq6Os596_8_D4ey9IAxqFi_UEPUX_nOuYZ48yWRO7SBQMCFSOA_eRxUC49bW8AY3HzgxNCjXTgzk5SzMqjfIrb6XfZfhmTWBW1hXqJYyKf1-YXps99_8CiIf5VGw&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -432,7 +432,7 @@
     "price_confidence": "estimated",
     "opening_today": "8:00 PM – 3:00 AM",
     "is_open_now": false,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGP8y1-ujARj6gkvonZiYsX-nEq-V21wSYq6Pl14vmO2A22UKXRt9shIdwu_w3wpHyhmlRtfrlRZyAx_ONWwI7TfUD2DV1WCmWbJtWiWHbhOonpQvi06Bt_te0BGaQLMR6orQ8nEyCrkH1A2j9hqg1viJWWzzse6OH00GP1reSwry-5Qx-lHi1HsnhxMSJ3MUR4Lgt7sCY0Oi54PpPioCaAyO7WnMWd_prrM7zBhvNHZ_On_ecYs8UMSqQDhsQ4cVK6vq6IFQhnqrM2tZGtI-tt0j7B_6K0GwTS3jWieKIlvg&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEEECx6ZVvYoTJ7nNsre32CZjtPr7s2VXqj0lKUc7_AdNe0_PLN_pVTidPwhYYvOvVFeHn8aKXBVB0VHAjl-O5PzYp8ZidhneLJCXFsEJ-8fMS2QVen-3DoU3hJfnnhX8tFcLyYyZekLAzMqR9-v4YgIuehNf9IWjIlirHB1C5go36IWsjlMIngv4mddCG8kRBO3kTZyRI8ybjbzNnYaccPEQaJsrNWRY35sM1cc2GxqkYmpiDEaX1B7g9ZjIf7Tziym5Z3vZEY8Fc0heuvGARZVCkQnInjFpHRrup0XHMhACw&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -451,7 +451,7 @@
     "price_confidence": "estimated",
     "opening_today": "12:00 PM – 12:00 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEE-H6LXFgbIVXwfbpygq6itNEh-kXN8yCUoRW_c_SJ9RcjFyqlMdUpe1y1S_eMa7iT0IZNCHYI3K2v5XaBO4vmnWrorpbn-Aptmw5MFWqj5yWwmJBMpnDtoBPuMDonee_mf7CFW9xyO83YG8UzwNI0dunoF_3DzkJc2Lcn5mEofXk0zxA5_9x4FGvPWMlM6VbisIMEexq2ig2-nFnZ9q2KiDV6nt5dDg2MQcEJ-v11yEKy3DTqLtBvZM8MnXiD-8NvhGVmlfcCJfX4hpt-iuQ_tK2j-4diFYlf4-0J2dGIOjA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEHJRhisemYiIEEyB6xrJQNunKbMCXm2MArdkL1fXMm--kiQYIHOafNHSIf4O5z59qITMRSmfmo8IIRDxF41aq4dGDeMJBjnOf3sVMpZYs6Zcn44W1BKoTIXg76PSFVDs7P4Ndbo6v56XLAtW2DXQecPj7ImvvyxsFjHxB6XMKYXdgAJqUFhQVYmgeGvhD-yjRcLf8yVB_7G2hqQe0vuQWCnbynk4l7EJFehIVmMEU9CoNL44V_REeA_w-SFPxGX1ziGWqU2zLjcIWkjcwtJlWZKQKMaKhzmsiEa09uroGu7_w&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -470,7 +470,7 @@
     "price_confidence": "estimated",
     "opening_today": "10:00 AM – 1:00 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEEXIQ9n-QD2m7dhE-lA9t9VOpMlzeJJ8F3Hz-MANpxlqgn9hMnvctwMwe-cc-Me3lsiV5yGxo0rzqERG2qrQRBg9ggMdKldWRpLbZ_bm8IYMKelew-n6NTY5gZ9jRu5GplwRUcGBJjVql_JpTHr8CY0YRzF4MfXFMF8KDosVoxLnuEYIi-guHecPI5UZoTJOVSKCV0UbwrzblCMRCXPSpBXUFs8bGUQKuOPDhtr8qLv388wS3Sp7UUrlxHuq1-x9P6JKM16-KKdVnSO7ljbahO6UQLjP3jTfGBfsihQETPuXw&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEFdAmmnm1LXCDkuEswoEfnPe75w1zxpWdUAlYH72gZ8vtJR9ecM6atP-2hDIkRygC0XM8gBMomm5Ogr8DUpq1Nb3U7X3hp3cjuELF8bF4u6Tumqj_NGdFrVW6woftAaEkefB-iQmWgEcAymc7MaJ9FAqzENQSqlArNWsHxH68XkcbbIclhfyJthcdo9i9QZ698lR81s1NEiJH_OIA62gXHpWWrx8358aME8PNf8xIAzOYyJoASvNbs1mx9GXmwXJBMtZEEWyVxfRUwA3cDIDI3vNH_8Ja3Gzljqg20VqPbrng&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -489,7 +489,7 @@
     "price_confidence": "estimated",
     "opening_today": "12:00 PM – 12:00 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEE-H6LXFgbIVXwfbpygq6itNEh-kXN8yCUoRW_c_SJ9RcjFyqlMdUpe1y1S_eMa7iT0IZNCHYI3K2v5XaBO4vmnWrorpbn-Aptmw5MFWqj5yWwmJBMpnDtoBPuMDonee_mf7CFW9xyO83YG8UzwNI0dunoF_3DzkJc2Lcn5mEofXk0zxA5_9x4FGvPWMlM6VbisIMEexq2ig2-nFnZ9q2KiDV6nt5dDg2MQcEJ-v11yEKy3DTqLtBvZM8MnXiD-8NvhGVmlfcCJfX4hpt-iuQ_tK2j-4diFYlf4-0J2dGIOjA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEHJRhisemYiIEEyB6xrJQNunKbMCXm2MArdkL1fXMm--kiQYIHOafNHSIf4O5z59qITMRSmfmo8IIRDxF41aq4dGDeMJBjnOf3sVMpZYs6Zcn44W1BKoTIXg76PSFVDs7P4Ndbo6v56XLAtW2DXQecPj7ImvvyxsFjHxB6XMKYXdgAJqUFhQVYmgeGvhD-yjRcLf8yVB_7G2hqQe0vuQWCnbynk4l7EJFehIVmMEU9CoNL44V_REeA_w-SFPxGX1ziGWqU2zLjcIWkjcwtJlWZKQKMaKhzmsiEa09uroGu7_w&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -508,7 +508,7 @@
     "price_confidence": "estimated",
     "opening_today": "7:00 PM – 3:00 AM",
     "is_open_now": false,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEEGdMC0WFAHaRolAd7ecAG1LrSjAcFM-qUgpoSzYrO-7Or4xWfgF2pfLo9rCuvCejZtAI-zEY3QgGxnk3ycSrWWCZF5fF7nWmK9he_b3cdvEk77DXRDMAaV5bIw9BPmZB6f5-zTxDv2qq4nGiXiruta3a7jLT8uBMSqr7PzUCcvQUBkIKYtBbFq-E9DHX2U_9NnytWJfGc9LcXLh28aQ9clfn4YtM2hf0ZUjtr2Y_qurvIu0_ac4QNX7r1LmolP0GA-e5bTDhMWmJ0jD7xCUwxn5TLnSSqp-wE8fn08qiyAXWo5QXqSIwcvry5xDFQ9A2OJy98J_y0vlrNSwWRdoaL7doSqU4SvtQ09Y5kh86DUhS1UTlKVJ40n13Ri-0dKqA2pJXfolt0yZWLCM-sULvXGgYDkYwbNe2Qx-zm8dtg&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEEavlPO8FBPAUhmuwCK7ibidxiCtJyffhkKy4Me_NueizVaOovdc7FYB4HUU42aIEiQ9uf8xLTcJpI0g_qeJlvZLD4QTddDkpbPOSGrIbESXjL4hlehTZALyaeEY6m2wjLBrURBVpEKECZ1JRRoJF-ivfE2TKjh4rLx3E26P8iRhcg3LDQ1bdZz6Yjf43Omj2rSf7UMgkxiioNr73uXtTXwVJHbnHu6qV1jKzfi32YfcH7WGeb65Geu2qgmRh3PB6UFBDCjBixLqjiT-6QMMOlhFGavS28b4CetTZBRzqPp38ZmCfrpnpuqRz5Tcv3U1nPTKZbe79GcMZknc8DvZTlcdQuWrZ3X867vmhOdxG2PS0Bb_Qvg6gzfX7W7Q5wefoTwnjI48LjKjetQOdEynPmamsDALGETy-2YPW6p2HA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -527,7 +527,7 @@
     "price_confidence": "estimated",
     "opening_today": "2:00 PM – 3:00 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGq3cAlnGh6qSn6s7Zv9NtxjX7wfi6DD_KXpFpUVl6vuvTlFgeNQEVis36A-xefY_R0plhj9Juk5Gb6QkN9k-vUPxMr2S7nzG86ND7BeB4NHeNyhDwBNZWmxzm8CESMCSCTbFXak6pA1eCeGC1AKuo4ca9xl0xO-tNbH8bA35cb71sF0YQUlu7ESqnjcMD2maVXD86ffmBIksA1MBeYc-KI2iecbMKu_u2yzOZGqg8wB53krh1yNUzR0Bic8I2oQiRTZIiDGJlFPGokgiyt7Hct3gcSiiHneDj9hYENshiJzLvHOswZgNQIO9P-NhJ20SBZFrg0xSaDK49L0StskiwtIGPbwSOSqkX9d7mod6fCktszdKxNFxDEql45FYOMleiXa_M1VmD9z-WLHzNLe4JxC9VXqNKZU47JyGjyac8L2VU7J39_rHFMI_CjQKFQ&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEH__CIrRc8mwrAHGTjERMSbqdWCRdA6bNaoqycAbYQJgzx2WRAcJViPMFBee95vat4E4UPq2riji-XstkdXak67di5Sy1-S6mx49VlyBLU-wrJ357AmUDnMz0vFLRJZT2IpOEKH1SthOA3-wP7XrBpkl2Sj-mgIeGcdRl8vXmBwH3z45lkeBPFrfrnJ1NHzBxAsD59E3KMryIloRLTPNIXZ1eO13PqOZ2--oEHzrlpTlGsX7dTQ03R8QI1JEhFr6fcWnQ0ox3ylyH3Pnl1SNk9qa6U8Y4Rb51Vt9XEisM_t82GvmV0ly4DsWtpNce-z46nsELxvZDF6BjrgPEG1Dr8kC9hkUHgkJ_YHMAGouurJlTdMmOhud59tjOp_TC6ErQYZdw9yJktevKBka22__i9Dl83gGif6ErgIj1K7b7e1kLUPgaZGaPW5An2O5zxm&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -546,7 +546,7 @@
     "price_confidence": "estimated",
     "opening_today": "10:30 AM – 1:30 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGRaF3TEuwHL0yLl7eu5PVDlRol2fPpVKr8Tf16mudEx22-wEXvM8N0RCwdjo1ssBjKzkCIkwfDcQSwLMWJrfmML3z_CegkclbSHehdCCInM1eMRgN4FBhYRDv4GXzkt-vR-dNiwqUhCADpPuAMJfewey6XSJWq-th3eXbqJ300ENdWy1kVEDjWoRCD-ypxkZ8Sus9CDkJhBes1lJcyLYJwTAo-WQZtTVemvlTTmfHDCAGen9ez5hcDo0ShZxPnxGZ9LAYDUdNjxAOsymw5jb9rwd_yI_VRg-7iNOLLISjn9Q&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEEzHPv5Jql2KeRfkZxAbll6hi--2LC0fQkjfNFz_IJEtISI-n6lGKbNOMWKtqAeeFwRDkbqtvDneBt6t4qoxUDb68JLIlR-Y50-RBJ59mAdolw-NnvFZQ7U3CnoWxsSGWhjUT7WniZoytrcKr6oE7vkw4sYvBhk0dsLaXMs4DczgEM2zvv2FV16hx8sblzM9dEvhmVPJyd5269avS_bF0QpL9t3WH6iZfRMuYZZDqB0l3X9oogImKKkEKASskYohEfjrmcL3LavN68YnH7Z1u4unuCKOSvi6PLrNIkwktDfpQ&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -565,7 +565,7 @@
     "price_confidence": "estimated",
     "opening_today": "10:30 AM – 2:30 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEHaqUOSsDYMF4TOoTrZ_wKggPei2254oQ86s9d8Pl0xG5t15lkcKjSfxAcBwmyFTFLhQ5QEgKg4lDekwsQ39gkaZ22e3tW6BC38_gdMs2T6ics7OWpZph7FqDOgzWZjg2doPkLtbkFE06O7RHPHB17o2YoBrHR_Vk3zd59-h7W7aQhof4diW7YQKCvcuUc-AjsTXox0zIywB8NaPhGEkblZTVAamV0A3KIxoeoGVUeTegYfqnRCTKMZhW-3qat5VM7ehpR-VcIoIotnW8jOzz0q5d8Tp_yv4lW9ufB74ja2hIXasX6NHQjcH1Rblu53Kl8Yur-i3TpBf17hQcrwgC-HH9IBls8VQZZmr9NLstgrxiuz7136nCaR73ohHU7isWeJinfVIP82ibZT5evnWj6yWJMzJF8Ezx1XL6ZIT0QcMg&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEEfkl8uEnwe6N6CuDX-uVygK1QIQ5Q46xqJFh0swSwPGb2DpdTaG6AXsTOpfVhgmdvtsTFbiluwv3NGtletiUcmfw1Kmmh6ksa1YVBSNClAoCTLv_8d79BqKpRv9Z9F5RBLGmyzRpgrL6pq26nMOfWRlwUJdP2LJJeyKmNucD3JkR0nHzCtjKL6I7-DtPijOuQ9GE5yWy3Q03fx9YIYamOOBBLGYmD1kJApEeZg8XDG5tKd-EBCEVoB1iETXyzDzYBChW9M-4TfDk92THG4kTiECx4skDZA5rnAEN_z3CIhXupnZwyEX-O1xRxL2G3ya8r8e7E2NrmdQyPKwCADERyPdHK-JLkQUXfxd1sQ9xvSl6BAqSh4CFxep8jKXTumlxlldSbCtag-VL77pydoWB2iDU0eSokZK7E7qT5pno8CgA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -584,7 +584,7 @@
     "price_confidence": "estimated",
     "opening_today": "12:30 PM – 2:00 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEFCJ1J1_yNDHZEPsYoIUD-FSCtzK5eWzEPXSPvPIKFZ1vj6Wh9uFtu7rTZJUc1qP_bmIhcDtWBphXqKs0elYYJ-A6Fz7NE0IcaBBvv8UEM61en2yqg7tr779CIs535B6ZI7U41GxVtGK5dOgHTPaqa_spe1LXc4bHp54Qwwcj1551dakaQyr6PzRXzFInyzBUgpCCA_C_7a55MT1IQwFjSx8sas3sf7l_XYF_CwM5A3T4OBfNcRqVh_w6G1Lzwqlp3j9haz8sJYd4pbk90Pgns8OF3OyLln4odJmbG-UFYOIA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGzr57VzhKwJ1rAMmBp7AqYBsOF_I4XusrB-XeFBBPV6BMLOEh3P_T7MlqGqUAJ5L8jL-_pDGNJJMmBxAFWK9oGa0sIr5EVcJPjuXksGKmPfFnAwrZNgEmtlwo-sdfS8eeBvjI9fiRpjhhEgmbfFXKsKy3LdB44AOETHlnke_pD0qYepTb20lD16oPW8Lp_FI_rnlRffapxFvWec7DzAi2NqR2QiZnTPCizylm5JhDX8wfCEUqOwJhh4nA-P7kXhTtv_-UvnJVxS16olThTFra68-N1d6fK2sz8nq4y0u0Q4g&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -603,7 +603,7 @@
     "price_confidence": "estimated",
     "opening_today": "12:00 PM – 2:30 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGdbnQVh3nMGd6h0r2rUAHIaduaIDJkb-wD510W3xnTd3HUUKozlOowfmED6xFLAjy8ojv15WVsxyTNP2U9jD8vYcFWi0SWfAlrRb2Bk2stRe-fUWrEQ-2d6Qzd_FMrvxZHtD16Wiv62F7uBnJ_6OLE6JXxLWpHl4X0J5wLd1my84fgwWDtQX2fsGFnbOuGt3-UraNHx2IKIAyw8Yp84xE77eKCk0iN4SBXwUYQEXlONIjwAkR8NVgP-hZ9XnbW2HUWqGAoWkyplOCAXJDlxDbNLstBK8HN04DsIu8IOqmoUQ&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEEO5xkGf_5aVlS4vzIk_n-P8vx7o7V2WTeU6EX5HNiCMmnb-MRSLmfUjOsPwN36iAINzNQ0-cz5IEA9UBi7zuuTMNZJbgW9QZp_yib-GMOC1MPYB-LMPuc5A1g6yNr2BjIjwfEUTB4KIkyDsYRXlGL5YDgxGQtcHspaRhMO5XH086OLGZao0gSBLE86qx_9rChOK6RsI6E5J0x_Sir1nNeQWUC-PFeuEurp42qxMMLtcjohs-VoHQPKaAF5Qy7Xtk2MX3Y7J75NVQbwtl5MKD1Uvx1my1SmLDSaKLXH_pt_bw&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -621,8 +621,8 @@
     "price_per_500ml": 5,
     "price_confidence": "estimated",
     "opening_today": "4:00 PM – 3:00 AM",
-    "is_open_now": false,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEFJGZe8uQDMxZYEqN9WOk0le0Mdl17rHijknuHZbHUkTEND-BdUwuPQH7KMdJzfDdQ1mkwOxagqBD-wjUHfKapXJZlF3FWlh0LzWfsaChP2N7hp1eUzoeFHFg0IScnzY9lqHcgJg9FymdgAth24DcAOx-mtOPB_iqj1fymR9ms4Z3ujJLZONFJ7s20KBV1c74FUg0r3UfVvUOdgDfRRmbktsIo9qSM5jwofJ6lQSpoQ1BE8q_YJ0KJMVEfGdkS0SfB7JxgaUHkOTyQYc-iM3_xgJqketXPr2m-9AuiW9MzsJA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "is_open_now": true,
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEHTAJuoIa3jelXm2stBBl05Hl_PS9WR_W3mjbJSI0B16_ULaTrWPJrI3VQUy8cofwD-4wjIjW8PE-5GYncJG8eaL2bv147L0d7fTED3wXPAJgLLKAE24tZechn93g_1HD4HQDPvGk0QHr9K-USQo72th6OjYlrK-IY6pRvIrio1JSo-JVfYdTDSz8LtiWrHsD0ZOJBg7artSVXJvrCZvGMcxUmAEOqL_ZiQhzh4oK4aOR2mhITkwSJQ4e2qv4J84SY7KXIOnBYgF4fzl_1Cute_ad5EwhCV601eT31whAZuqA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -641,7 +641,7 @@
     "price_confidence": "estimated",
     "opening_today": "10:30 AM – 1:30 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEE32IydqO7fFzhTeThWSz5UColiL3aDKQMag8O0xRPePJ81OEvFicOp1G3LHpuyI7ItfylVJFX8cQ6-MjnKapwrBNwEbzk-pAUHi3Nbwzn1AqZyRnCRLXTITq12ItnpsLtaQTVKsm8FRjDKSusGPHIwoSm4CldwljuFFTmKbH_qVMllSkndFNQsYaLx_5DcFgvnXeEZUcwjY5fTvxC-36dIXzXUC4y4n3vWZPLAKX7pAW1g1BAQdO3kdybD7JORKR276UcDqLGc0AeQLFX1RBlMj62udLaNPtbWVji_Nkt_MA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGvgiTd_ggNOYJYCUc6PL1pK5PyJsXDC5FfmRQsg9Cftr9aW3OrAH5brbYbF6dYaes853pTpIrvfxyzGVtegxtoevqvp3BK5k-zYiuZUZB1s9C48piXYJpfY9M3BtJTcrsy_74wCJKTHlXYAVHYc0Jq5H4LMdKA6wnBjpmNv9YZP0DvLAiWhVX-q1g5-Q9Eg9c2z0vjRaCm9nL-5aHB5FztoBGYJlm9uUdxluph21hKVGwj--AdJVH_oF2acgRgFEof-L18eOrsHISyiuJ16rxCHCtXjM94zeVwfujz3GGRWA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -660,7 +660,7 @@
     "price_confidence": "unverified",
     "opening_today": "5:00 PM – 3:00 AM",
     "is_open_now": false,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGPOS4BXc75ZZIjRDWCU9b4g2gJ62-CgDEhj9sj-9OZFAwYChE2JFKxPQs6VuzLez74fM6FgwJsE_NcxsR4fK0aCJ01vEr6YtWKmNUWcDlJtsGudJYsqqyAt4RBhQd_dXOsWoH_IjZ4yfHjlUhTSv5ElmjrBRInCrGPAHf7VKY0meSX005cI-rtjMi5T4YjblVsL_liqzl1yLMTs0MS2wOH4FfGAKbx-PLvU2SoN-EmPzcAFz6b3pWCdPc7bEHnTIRJ4YQInGDsd6fIIuJuxPY1hGZ0gjCMOV4LKmbNnGD3Wg&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEFsnjMHVozSDGm3JFXHA1SCdn0MnTX38enyrpQ9aK87EQ2IdH1mARL_NFEmql_CtNXMe1jATph8Oy4db98TC3qjaqHAHjUZlES273AzNqRmnqFtaVz2o8JpqfSMLKhTbT1ZCk-IfnbTiNpDkyA5BqXgLhtpy4mEesFAf5lYWabqvA4nDfPRsHVpO3t3zlL8iXHStsaulROoipt2ErfvdHDHGCOJzl71y9oJNu06WpMdv0PMvUk2jZ-p9pNolVmlvfjiVml_o-ZU64_aL54yhy7YY1jfkIuCoqfKyvGj7cvN8Q&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -679,7 +679,7 @@
     "price_confidence": "estimated",
     "opening_today": "1:00 PM – 2:30 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEEZQklGoCZemw72SDFtEUBa2toY-UDzxQqYN8BfWNfer9DVWykPetB1emCazzScFLq5Kj1htMzxSlKNu3UP_49sGTFfmksVtAUqJLFNcrvBnlYFBSPU7QsVZD06eqGJZ4JUCRWZYR1K6_BASY2AfV7oRQp1vBz-fssxTnGaDjoDn8Cl_LupOv_ZwW4ZZqhWET2pjkwKs7PjwNLU83JnfRO14TFnE7MjEUIH-qp7KkF9OA8j-U6Je-V_r_nNBh3HbkbKNXnf7OLI7eqXQN0Lg_plENxyCby9cYUM-G79w3ImaA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEEHQucXkd9x1PuqWDswcKP-yObDe3hgYclZtL6xRsIzS5Ade40yrCi9HthByZUbgA3kui4mrpIStKc-mvGp3BCUOfHLLrH6b2wCozQ2P23DVdO0yPtx1rsG5vh4PBvTHuAstmn8K8aIad7i3I16czWqHw0LZAXax9Eau5SeS3C2EOzF--uQ6IOfJ8Z3HZG-O0-UuIP12873HFZ07DllgnTRRrrMEeASgXGAXI7fFimTLWWdiPK7XI1LHXxvHM-YbaB6sz8s0LWnXCEqR8nhapO4A_t6FBP2A-jOOX-GhaeKdw&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -698,7 +698,7 @@
     "price_confidence": "estimated",
     "opening_today": "7:00 PM – 3:00 AM",
     "is_open_now": false,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEHVj6dLjowxoRUDAQiV5w7JzIDOfbjIWF7q4Ft_UM6ORLeYafYpzeoavA6VzTiBgosMg69WkDRVHuvkYkyar3fVwDL5SgOB7T3k9p7Zz_4m2i864mUSVbuCHLTe-nux1fEjEYMVwl1WLA8jxKF62Rs1ehCC16ArVl3SgVW3rIkkzjyhW-qtt_zqxlgXNgLRBj3mSicfXZbvrrsP5Y3vO-Ut23ZMHjhaUe5Ls4w9uNYiXRfyXE18IAE6fT5z9B_aHJu-ROE_Q8wammBcUNhDal63goAku3NtSmjL2n6huKOGMg&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEFxIEdWa-kEMLtCuzQD2hMKlXdSUlMYgILvRQpZI45mO_prJKtJBH4F6Evmq_tCE3fqYlPwP5AqeSo0DHjLyVbpaiioet3DqHsbwqGfQVo4x6YtyT4PTO1csd2f5C_bZDjvKs10ew9HmYmoXWtIoLtVNOhkt4rbOJmFgYsnuZoHAhCqplBY6jvXk3V3f0MsY773TJllTF6yGCzMTr83GpXPqfkQLRvn_9FWlS8oMRyZLTOXJuuy8g5US_RiPSr7B4bbJ1giDjp5jVifGuYJn4CXOHAcLDz5kMThkuSDtdJQcg&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -717,7 +717,7 @@
     "price_confidence": "estimated",
     "opening_today": "6:00 PM – 3:00 AM",
     "is_open_now": false,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEEVpwndcYwoD8jhz6QkNbk1SN4Bu23HIkdwN-WR9o6OTZqNN6zzzEaNrG_P-udDpdby1WiwItKdWptOvybOL1AdH3MKAdtcMKSJZuJ4mcultrmlYn_z0aIa7FY0AZsktvWl3cVlPVis4MJrn0wWAlyNeZGJ_lVtZNit4KyB8Ja_nHr0IGtGZCMej3f2SU61HJHKlMMD6Hql7GuVBCBeoYtBdw6mAUK8ifzSbC_TuIdUP8VwBP4xAz2VYFKwToq-ry6OdQzl3xlG6QtqWTjTFWnvPrYsvgTqiaRgFhKDUgvHuw&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEFF6GKZ0I8CKI2l7xHdk-oCVUKf3fsaXbqR6tIKy4rr7QzR55Eav869wCbAqhSdK432sPQPmwpANaJMg9LEBZLl0eTTsxlRFAdTHwpvf5oGsm1Ik4AedNKC7Ng5Q7xWzYfuSPeaZZJohiqIqADhHIqms23suDmMypyujz-dY9v7xVpp08etW4-SPg617h-wiIaTPkUYuZL7UVn7dKu9tBB40WvVYthecetPL-4PiKXYCYNnu0-G_R2Umx0sqku-7PS1NQz1jzM4E3LsP23OwSFFiPztj_zIPPcgRa0dntowIg&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -736,7 +736,7 @@
     "price_confidence": "unverified",
     "opening_today": "6:00 AM – 12:30 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEHLw7htYQwX-9kQP_X-rDBjLB7Mq-C-t_8B5KMvU_ctqa6RUA-4SZDhuMn5UaMSVWgSm8FeicHDMlOxH1PGd--_xxfGVNHnAvAS4asvTarU8Cm9Rqi7zmDzgt5QYl7cHz7D3KRZ02XSvhQIycRhcliIRIlJ00ulx_cIw--HrswTYKfTqRajiselWcNSLjLxASoBf0b1wWGzM5tNTdCb7jgiZRm7i8bWRTprl6SVSne_-iKSFW_n2IchJxA2fAdcwjD-1Bg3zwZ4uI69f4BslkHJtQm5x_dYS0TaN3REZk2OH_mefubdOly5vrf_jjVuhHxIdJKOdWP487JHyrJRT_i8LAgc7w--nr63dzTFmwZ2S_q3_MPdYy8g29yUL_FPYjgCYKdsbkSPD262f7FIbN0nNsJtRmDl3n8tp4HBLorfFTBP&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEG6Gs8XZpJMeoNlrQRARXYYTO2x4dmKi-kK2gdCL7VW1xmxQtoEtLG4nFlguiBcn7JnuV9jr-o_ugq4czg5V4_3pw2AG1jV0UFBd1QnJK25CV5iKbQM2AVzh-nnCAztQCxsPxAfE5C4UzAlOhiPpMC_SmuTn2l0hR-xM0Tli_2OqWZQMFP7Fml97ISe2p-04okYTzhOtZqGRPaH2uBn9f0caIxCn8lro5kC7LF3-SBJR6Jfg6PIsOfc9fxqS5Bps7xaXZdxEwWH_5sAGIOG-ycvR9fMG6sNNffY0-ll1KbuM0KEFspRTeBerNVyGj1wYp8kDKO5OaSjdVpB7CWb5ZnmVcD91B1cx9hDsdCwa_ofanOnCPWxfF6nnf9mpOIUMjYtrexlHj5zDmtsPjvT3-RUkds-z0UH2omU6HNPgy1LQTHU&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -755,7 +755,7 @@
     "price_confidence": "estimated",
     "opening_today": "12:30 PM – 2:00 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEE7oUuaC4vgoYmK33MZsMf6V37jiey-eCklU7PLDWU17C_h5X16FDf9zkXZvC70ofUI9JKVLng06v081jSvsakr8HCQlCL_8gVqLDaZtnOXTkUQQMwrma9hCuMwmnWmZl_-mEGSFIFihHgXOYRpZGzWvRt1Uuqn3CMzyAVgCTWF3M9HakhPPMmxhg3YNM5mYu00AGjBQkr2XlvpKPXNDfDMY9iwahE5U2p6XVWbxeNE_0zYkV9BY8_pupZqtmdbnEgSiCwGPqMNWfhaHg0l1oU6I3ECd2TdAgAj3Pff3k1twg&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEHPihL7RwN6_at2EtwK-zQ-LNJQ6-YVhIALMSRAaPxKcX96vTwpaFpgLXrlpBiORjLRxn8i5Cl3r6vay8kt6yGHelWlXnhAsz9ghSyB6rrvpzg8Jjq8QlabV2Gh7LH-gPy8bijjBqrh-yqzZs88CvLy8n3H9r218-qNIdinqiYdnAPdsE0Xs2Gq0lp-9bzdb86lgI6DnJDxMhz3ljfwUFoygELpTK08r9FJ0i6-L_89lOlXffHsCvHxwu8ojoP-HCnVS_sVE-Zm7csSkC56fJJOek4cVf--ZmY1rqbmVMLiEw&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -774,7 +774,7 @@
     "price_confidence": "estimated",
     "opening_today": "12:00 PM – 3:00 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEEB0WqSkXOv-2HopP3mJRtf_akt1TP5Cs3irUmREiSp9EqcmKxau19xDiUbeLN9iNb2px1uBwZCwyAqaIqolprfBJd4JYgeM6oEIIjVStEjEURerIWPtcQGZy95oE86QLDxnJxgfZxlXPskZGg1iWVAdc3nsZ48_Y-OiE1D2OThoqv99GnqdiXVdSAPftSiYlps6fH2KTp8BU0PXfi4BKr-VWynFJsZB2d3666q4Xg_qEixhAt7vN-mromoGIBFpIO5RJKlOpZ4toh9AtZLe1DB8nHcVcLQz8IYOqDtN0fFPQ&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEHVdB5TsUKxXi4vMkOj69dBuq6aMNb7fPrHAFd3H9iL9k03Z8PTHqsMhqru2tpjihBp_gzyXt8qjAHFxAPcmsTe6gYd24QaWPkSOwcpxWxuAx3q3JFZp3I-G88aV9JwnEZGyBfbNOR4UZrivuKRg0M4XEhJ3mHk-gMqhbYotF6kasUkNHUxnTWOR0nc9QvFJH2VLTa_g1DNI50qSukdBIHlgp6KenKNGQByY4yFPzu2UXMJvXk3OkGPNaVPMSYBu1bnuYt9fcxEcEpaBY1HRBHvu3yKXyBN2hmtFkeboceUmA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -793,7 +793,7 @@
     "price_confidence": "unverified",
     "opening_today": "5:00 PM – 2:00 AM",
     "is_open_now": false,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEHMZpQVB4aUZ-ffYBSSuVP8KOFziHp_9BBR4RY_wAwrvRWp8UPSWBCypG4d-kpPWOYGLu5Ks4miXZ5zaoyV4mnyc1lb4pvHZ3oZ_tFxkhpi2-eXDt3vN4HqizrYIsZap4vBPl8Owa5HQ_d10LVVQ8bme6e0J1uysEx25BtVHsU1gdZPsbOVNMwAZck2dIQhYJ5HFfK9t32nt8-Or37c-iQAcCvigy560ONpuI5C-oAGDaAeEIKo9G3M9Iw98x2i03JdAfgckPfHevwRQn1CqqHYBYRx7AE4CmUIwB6vCyxdxA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEFK7-QF-RThHVfeT5pYBsKs7WDxGkFXva1X-3IhESFocODy8Z-ANPkik5fcv7hDih8W7cfXy4ZnCsZigF_ikfrYUy2si6F_YBheAt_P80S4B-zd0HCpnFViMYfvw1qRrrOKMFvaxTye1WxhOvT-fEOnIwehLdg09qPOPqtw4B9dYqGCXQk64wzLBmk-TzLItpqSYd5r8AI3RczqBMF5BjHcTS2YnKcbwGenvqKzK5AK_9EVGS7vcUqT6jV1kdQr1pcOp73riFqh7UpJg6CMWfmUTtmIk4D1uxk_EkpMohuqkQ&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -812,7 +812,7 @@
     "price_confidence": "estimated",
     "opening_today": "12:00 PM – 1:00 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEFlcUsKliDxKjLnmdcVZ-32UCvHIZk4e2TDsU8DF9ZP2ydBPIqsCR7qpLu8ItCIwI_2FX2hs93BqF2GMGovdtKySnm9AWPqyaaMsdimB6eP7qkydS6WRBvm-C-Yic7IAcXat3x3NneXc-nRwb-7T2ti8o63bmQ6golgXYtMyMo-7tOuKkQQ4zdADDUiMdQ5l2TjT_YO_w323i9ATE8gHRwscFWrQ9cXf3ojKTlrL3gBFU4RngJ-6QO99LsyHdDgQRwzDGEUb2D62a-YONevh-du12Hxjdw19teKBf0AkERhVg&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEH3xatWLxn9cG1mJx4LqM7bLHX8HH419iOiT-nJpiMEY8jirCAlIn0Rn-keedeV12-C0x1WlJQ_QJWrMrBqc7618ukbbHaHYY9X4mZ3CrhfSLs_3yevZBvdqWjdI5KA6v3VOHPHWGHpuUTJaDh1ZhEfBBYSgA7xP_WGV7yRyZhTB9rR3TgVM5JWPDYQ91TFjee69kqEOhIhTPkw7sLTwrSG5nzEt-32WbD3Qe_Yzhi2DefYvaI2uuDSOgJfUSPWl91AdtvJtHJWolIyNuRVTl7DWXKQCyhdWgZCLHsf9eGwfA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -831,7 +831,7 @@
     "price_confidence": "unverified",
     "opening_today": "6:00 PM – 2:00 AM",
     "is_open_now": false,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEHyQ7lgG863HwFpzYeFacjh6rW_FoRbyQ3eTo0fMOFP9vdr7XR0Gy7vmFz-k9ZHbasFqwRItYnZXrPDsN9A8YOeeRyVAn4mW4lttUZFFFnJ9NMV8WcKVV4r4QeYhstDS2WVHGsGO2d4VjGAnfRcoC9h-vngCNL5ZbC4I9cqdGufrvXURIyLr4PhE30AHOnshLJekXBO3Ulrxvh_kFo6DrDi1h43MCD7cO3_CHpdHJHaG609crvAEYDIU0itrVDqyWEL5QdQS51CutxgzN4UzyVolUJ16gr3zJyCROXU6XO3dg&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEESPYLJN2AFsuvDl6TtH9FdA1qdDUYTaIu1axBqcH4WsmWSWGmLko-u5GVHrr6XKSiJio032DTeDSwV1jwLmDKC2F_ScCXwbIvRU2oiqAz0uBZDXfHSKdt4TZAU_7TGDqHcICeW1GBU36MLbDf3jbQIdQLZ-InoJeTf81i7_W6bQhxREq4mjdnZb5HOl9EdDGlQIxjDwWcT8FQopEhGdHAgBNEs8Zn_l33wX-x3u7qWb3rHDAYxfUFkcUFNujnusLkMiJsxwExDJBONJ9sKTKqG4SGLLVYpYaXFMqKEzwFTEg&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -850,7 +850,7 @@
     "price_confidence": "estimated",
     "opening_today": "2:00 PM – 3:00 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEE1GXYzY-WlSdN_8-d7XPL-mVrSugogdqVTXcWGKmnNQg5d5ICNqeFyfzknCXCs7G1XqHKcA-7h26f80dLi5X2riKXRDlxXygYoPDGSBDbfE84FQxW7rcrp4mgUcIFAmKuHXdM0NzB9Zh9byOOQBquDYccd9RyKPzgbzjH8SSTgcbCU2WEEMvH2DYv_R8Ccy4lrAvp0kfVTEOvt9cxQo4eb41QncblSMePDF1E94G2C30x5ZZaSXkUN-rqAp9TMKn_R3-d2MGBL3l8CZR_wvuexbWeRoAuanZkYwjk3Sc_8PbU0gDBX4A94WFyomZ_2UM62wgjPKDFWU9bfMkO4jldvN6vmdtDjIiaA8QmTc6eT6Bo-3KK7L5hbNcaB5eWu6SJPTjpOsgqzs9WBamAtQsLZ72zBKZHemX3Qz_o-0f5-NA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEE-0On_xNQAtBRCJnxzk28JjX_cN_PQYNdGv_zq5JsUERcosbNCF0sHeEEnlgS1hITEMsTQXzizk25Env-iU2m-EZGargZ9n3YqSnsbRgIdVa7UiYycd-8f4rDTZRUuhrsE_vN_804O3ykPGD-lb8-w166IDAeRXt7n-agjIAdrRqzUAKQtFuOa7wpLhc1JhaH8eJQXHMXIpLSvta0KalhxZL9UZHU4nAIMwKdAAHPaEkho7pzDros690RZ7GokupcOBoeGoI35Hsf3INimaHmlt7YYY9CfLO0xuq8xcUOW9iV1_NjF0UqthABYd0YXHq0i4zkrOMiWjBy08xIZsYn2CR-9OVQocZw_0wpprIFYaL0ZKcRzDLO6g4jmo6ooApKHVABRwCO9wE4TvLWqS3QpOKdCf-jHsvyXZCXwJ6vFuw&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -869,7 +869,7 @@
     "price_confidence": "estimated",
     "opening_today": "7:00 PM – 3:00 AM",
     "is_open_now": false,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEHZUh7egCQFZk7cPN7nO84kQnB12EBU9LF76JW9G2NgSiU_Sq3MHUGnmlCae0t_qWTePytkoumLIDpHQzK3dYsS2Y6YU0U3401UtAsILwF2yFP5faMBQwzLkiRu6YtzkM8q7WtVQgulRZuWtsGOUuxtgYFAg1ATltQ_hjCM0ZxqEhJ2t-GQxjkBblpVm897Q_o1oCAhLVnh_DRn8HTW5RatBHXyOtDeeixXSzNuPxND-STblI9ZvTgHIGPmaWSC0E648M3yhwZGyx4WcMo36d3dtqfZQT4FvAOT_WY7KmKvAw&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGIRhX4ifwp-xqq1algFRQOPJx0osU3HzLb2ewHwqtrdGRR-te9Jfki7cWhkLvMmxiFfS3049ordCNfM_vjF2prJ55RzZKxsFO2AYkx0Q9lKcQ6dvdDDfQu2A203Z1bQoASnCodoWrBEb4GrR9ZpCATUfeSElbaavm3XoFbj7VkbzQnyUW2OC67_8p22OzsPebUxuyY3V934b8K-zqbTcAx02wWcnsisNdFmTOtAv1koJVE9YYOUbJsEixO_nMGOhimHb5kAfFwKLV7MC8M2lmJ5qkjek51Y1JTVyS6KmzrjA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -888,7 +888,7 @@
     "price_confidence": "unverified",
     "opening_today": "10:30 PM – 3:00 AM",
     "is_open_now": false,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEET0zaXMvYV0hzht8yXhhjB1_kfhgpBC5bDt02fWzDMFZqkNiewx07_GbCSlYDJbCXQF7xbHwReMgQUvN9L1Ayvpve-8WJIl3En4iu0cdlZ42I8AAOqW4RWCqZfy2M0UGxy4Thp8wTzGF5y2SBhjEpOcJT1TxsZ6pVN6LAIWGefmi4E5DgNuFLep1pB6rBHGQZqt21kbC6bsvJkNeO6veU1RQuDYXQowTZyfH0gdObWIRI9cfddXm37tCP0XmjLSIdIOoadz64jPWc0TwizRJptxcMZQOSiiGQ4n0Ckgrla5A&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGkF94rTNLbcB2GRdlV0Kv1xcCjOLnt6Hy3lWZkNLPEYxxBag1SfKHguXh9Rr25_XuBA55swm-tfWUFxXd99uDs0eBxhHnFH8k9RTSeFbBy6UuuEq5IC710DOLD49CueA5tfHVQ6fh43809mQjXLUuny6i7PlBDqhcQvCzV5T1Tqfmhc3SjtWqQJHcFrXcT632cXubbhg_8EDyRwtC0y9Pon6xlzbI2GepCg35-sILssUCbjg8TqJhMXSnX7d6EWknFMbpqm66ctmQ_AuVjbluirlpWFwjQpD-HOjkIU7ovkA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -907,7 +907,7 @@
     "price_confidence": "unverified",
     "opening_today": "12:00 PM – 12:00 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEFbdcw3Hvl02OqBjBSG4hg735AyFazzGyu8kERYNYGc3oUYg0chv9FB1AO-ybHtjLTvYhJV86FA3qvAcBfogtjIMOS17_DBCEPu15nDQEYRppH1hR3dV1rQTwXk7ao2ABeED3kjQXjBKLBU6R3e_vungVgYt2A3nbejFeLKsMN7rON-tW5k4OgDkoH5qUXbYx9XFxcdMjROy7W1V3EV5oLUpZLFaKuH1TiruMoEVwxxwk3f-DzVSBmoXydOW-GSXTzzrtvoIOTSqR9BlQIyXJxcC6Xw1FNFW0Sew3ahhmrs-A&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEEk7ySDT6Y5vnzVP_a3lRgVJV_Hu222Kxz6sbIcl8uTUVfSBrV8ZPhivZDLJV0UljAGPtn5hoQWhoy5YEwodmHEw41DRzLO0DbGRiv5qJgl4Z5T02LqE7c_zUiCmhYxipDDxbQWCB76Gzru_14z3JQMcG9DeKw19h-534Gzus-5RB0-al-EvhWFb1RUHbWAZZzoZNln7mM15UaN2XzpUNaSUkaXYhyIOYiIfGR-budk7locgzBlk8LhR-icN0ClaBtC6f4Iuh1OZSJGlIa3sSsj2DN_7DeKTmQGXEmTfANGwQ&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -926,7 +926,7 @@
     "price_confidence": "unverified",
     "opening_today": "1:00 PM – 2:00 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEEyqzXfSR0BedHf63wTiuLgvFk_mqA2PE8jjStLdvyekoixJnkIjJshdkom0XOir1QFSEHfCpQbZ5AQAv-UX69hvMoZGVtBIrwfi0GfPF8LlZ3DuaaRKltDY5zds60deS-uIrnwoQyoq3NOn_dAo1sEJptOaMIixohlHHyfHyZJg7uqsFWkUpa-MzEQI6x8SDZIdcO6DKj82_erGrqBXhPLSCDx4OKpvgaKL2LZEpw_DpZjLFg1JvUNGFr-X63hXc5A32ulr1TobILaYCalILEgUceUG89Y1u9ph7z3oNa2rQ&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEG51mLg7IzHwZonPr4n3P9CQj6zN6tI1LgkmaOE712I-AqanPbfdoglPs235uiZTPr-hB_rsBubxozikqu4hBMdcar52ozz4BtQqL27SIA0V6M5_Kw0pA1dudayglP3YOQQsHl8vXSL1Yb040YWRDX_mKFjmPaol6aJ3bCGgWVxEDi3k_YlFDQiHSawUizEhYpeh4fEHYxAFZRv3eZr28K4Bh-m8g0LsR1j6FG8qTX7Vyq7A29GQ5RL_XIrVbTx-B6RuyxlfPT_6eIgr0GGwXiQ6rpygSj6pfkA-WUmiwF3wQ&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -945,7 +945,7 @@
     "price_confidence": "estimated",
     "opening_today": "11:00 AM – 2:00 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEFpB-A9L5YYoE4CV5TaSMOD-Fjg38DXXCIsUHRzngOT7e84tQPr2XXYZY4Olfdwtgv1TrQtHVbttFo2gXxklmPj9SH97OFy52iCUQwKnJ1XdJjsN_3xweUGuvZoLagheGY_7uwa4AvbBrd35Uf00xyg3YIwCXVrBVz7j9i3j06vUHn2K3sc9s06y6nxeSyCk2C4Q-SlbEIW0HxF-ObeD1Fn5St2ShFVxVXO5Kq8i6vCE01Crnxh2VpBXkxVC4xtKEl3L0rv1Hu3C-rhOqN0rQL3f4wzpqRoVV3qYipOwkAMRg&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGTP1S_-DmWkq-z7E6i4258RExsKMathzSjyO8BOWjJs18qnSopQhlco8c94miMRcUBtQjkatlgNKZxHkIAh4m-Aoa9oKxLtmpbhhON_NGAxaLxit-9FWgrTaNANaeUePK0LdSFLVJvDe9FCAC8uWXZSlz9mXh3Rv8Hlhi9IAjCnIl7XgKTD3ub_GthjgC8KqslkUOcigWjZd1-lIru13jP2yGz73JWv6mTp0C-b-nTJ7hjVZy_2WbPK2BU-UQwx0GU0RLxge0PwUW_UamGH8nf28GqneSDgAqYyM6lbSMBJw&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -964,7 +964,7 @@
     "price_confidence": "estimated",
     "opening_today": "12:00 PM – 3:00 AM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGlG70pafHIKty_AOnkgCe3p2d8RaBxSxLiIZyD6uCVGst2Soh-QvgS5eSz8YJNbuCMMgadOyZLDBhVFa8dHHrkmaigDhiF0rw_kjM2Xys2iMzPcwZHzxk3QKnTQf97YPWmtn6rWyqzYOhPxQTU18K6WEN6aidu752EcCFz24CoGB2ol_z0YpbIz_JaTJf1lYkJAHnJY-8WkH2KtUtqvrklYbDM5VeDxWiaDhLbrbH04LuTjyHqfWP86gPZcXgg31W19LWQ5YE0thRPbXSbuv2hn3or8njANORzUoUcx9RvlQ&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGPJkNXqoIbde1fdCHDQMy9gCEDq_zQD-or7DaNHOhFkDOFU8etutPUialDrRicH23bNlGEOgctNnsYni7VzNATl2_YNKgA-zKZq374OSreQ-Vx0JqPMJt7gnWOrnK07LEmZ8jQxRc0uX54n4KVy-uV3lnVwQeMtF53IJVEXXOwCgfLikvwEjybf0xmppjeSzTj_RWquFtnN31Y7JJ6j5QlXAgejfKALxVsQigONtl44yzt_7RwGf-njFFiVU4WQB5xIzbUFtW2B0thpQGYtJ7pxaWscYPo7LfktIGJbkoQog&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -983,7 +983,7 @@
     "price_confidence": "estimated",
     "opening_today": "5:00 PM – 3:00 AM",
     "is_open_now": false,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEFph5JktgFsJJZ9tWEpN2c4q2x5jhU6do7HmurT8_eI_yoM-WnccMjjfRy9MFzHGHbSBx4MgIqHP4F0xW20mvc_NOZu1ZToot3R7ZFpj_kdV6XXJa65kTmbK7GD8wvED3v3UTr0zQqK-lAVngGxdyNlBEeU49wP9-aTxAVIoD72tPGnrFTO-uuGfYqhSMBcZHg4mDKWTOsVTnCsP_k8kbXlZmiZwdKsBbIl68QMGNc-7Gf45I7fJIT8AVe5-R5TZA1PWzo7_6PCy61o6YwQYT28WYcDQK-G_HAx7udO9uAh5g&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGmRKivqoYHtmULBpUhitd2AbGzJdSe6F1vpwr9KofQj3B28e4puhAt6uyh0eDtL8ATIbr8EbEpwCDjb7A1cFsvLzhrmfNn9mcv0UDIi1PDvE3ScQtCXEx6qVC8FcnMTT5M2c6IPJDtSo-0Z6pKOQ60_f7AAm6ddJBfLRA-_H2HszCY2KNQI1i-cpUezuF2PbqQohcMwKdT7a_pttENmKQtdmcIn-f11c3CA-m7IBSZeVs0YNJeUe-OvHuqcGrkosVV5A8cKnh8O6uulHdAFI_GnUyNvFuwUOtnfGhb_AJBEg&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -1001,8 +1001,8 @@
     "price_per_500ml": 4,
     "price_confidence": "estimated",
     "opening_today": "4:00 PM – 3:00 AM",
-    "is_open_now": false,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEHDcswQl8X0_DZd72XTjsXX-AKeDTAK14hIG-CCoM8C1qj_vtUXKiPM0JFCB4xk5_3f3_bVFUpt2AHxuG_0jTQOhLvc89khZ9GiqW82Mqfu2zqLuf5t8Ob7tfIjBLbpS9ifZPQ9yLHvrWKA4kf4ySj1r62LTYIBriSlVsLbaj6RM0ps70Q7JG47BBnbqBpVRURTqmInn5HBVNyp2wQZK_tthv5LR13HwqoVRJNVmDZFgvJYbzVwoIcwQSLSIBD3S0TZLeEfz-ZJ1GZcPpqSW19e4z9NoUWBIbrsd3W0N3ryKg&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "is_open_now": true,
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEEkmX0dLIeNuYVUf6BnIEhE2rwmnPZ1ppPllI3WZ6oSGrQIiOR8c7qJeOLwEVn7yeRxNBxvMV87Wm1-AmgjQAE93j9zKuKCGB4GTtYmNQ0elfAY_rTEhHaDuehfuIXKRCq0-A--RX7tXB9WCz05drS-XuCi4bapTgDwH-TSe3w_E5igqou0WWODmN0F7f9RU4k9shl1NsUHQ21e1wd1nZojc2g-YSKsSxCC-VWxDVSvXBMM9IRw4iZqeGOdktUXAKtYYCp0ThIPaaZ3To_LEgoZPO1KY8MXzEg-jnaJUeThzw&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -1020,8 +1020,8 @@
     "price_per_500ml": null,
     "price_confidence": "unverified",
     "opening_today": "4:00 PM – 3:00 AM",
-    "is_open_now": false,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEF0ENlM5FH0Z5VqmFNbBZyVE2VbwVP0c7GM6g_RI5Y10NS6QTeLB9MEJYMYYdunNJviMINcJU_j-_IrVca8m5iA7obk9C5CM21V1YA9RcGs4-YxPQ5PsjniLkQgDl4lfWsuLJyJy-5UowMkVOJ45lC8ujGhJER68rdBZpXl0gpdA1pBVcl5g0R7aZs6k1fuNKVWurDp5q8xoP_nTNm3A2hhM4L1656PKPdx0R4pZw2_sWHU_5AcEwI7g7jSHeYnCTcwnOCWiDNz5UoDb56RjDqfV8h5oou62pbtcVRunxWD7g&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "is_open_now": true,
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEHD5X_OmbEgeEoSPqqmYkZrwY28K1NZUinxSUZD6JsP6q-OV4B7f9vjIxocUHEHqS4R1OLRK1HSO6AMbzZ5K1-w97pFdAz_OOHIjIoXMmLUshjn0Jk7vn7qqhJHPiupYxRNgG2KQu7HLzi-OSJoz3FpIt9xbC7BUItz8QbTsejWkKFSzDf1SqmP9UDGksLlZ9HC8Hi_bnsAdh1w6S3GHCbgnIZC7up5mshzA47VDwhwHfOfNcJY7z2y6lsQ12E9-OfP0PNOuh05GvukvKWv8VtRfjXzZljt7RqzQZH6SFISlA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -1040,7 +1040,7 @@
     "price_confidence": "unverified",
     "opening_today": "1:30 – 11:30 PM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGgtCRWAju0y5jl7x0qW55qNlknCts5nv6Ih5bt_0q3D_bSkdZl8GiQbQ8GjobRniGQd99YqedJccjOmz73m-MEXEWq6etjisuL2x9OH6bT2d9VMG3HGaqgKiGJYilGFXa5dpruhnaGkCLuLtiQ5-gHIDd_tOPdGlhsmgE7lWQS7ED14whV7uteEEgIbuBXw18nJBKdP3jFajt_J5N_ENo8CKXpo7pX3cj_FoTTyjC48gPWLBOw3Zzo2n3J3-o8i4HQ5NDJA7wEBnxMhrXACzd-DrDPJ31nnKaSziV-J8Gsfq8ikbdXr6QGptZlIWxWo2jzN-40O27L-1LF5g6OTf_lpI1zYL9-l3hTFJrlYEF3NiZpHAuipfUUOsSmv6JEGRgaNWg2cLcuOPpXNYY4L7TjXSqNOX824rDDEfQxz_hQ4CVWk97kWtvu8R8xcg&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEGmCK4-hXdT8YGryrOWeb-vMKQaVk-5BSdaTlvn2FV4NlxMrsNl6meeam3DqQbLdoIyTSNiYM2yr9KN8SE7YYTvN1I7FB6RKzSIyXdtzBmG6nIV4Mf-tOlJrhy--AU0MOd1H6Qw2qzvWuX3pDyUjsTWJGJTNJjNFQrl5KWzymMH3oeXiNaB5C-5-5nsqLVwCZE3IhgB9I1KrwbpxkFaLpnuToZ6S-n2L9kfUA78bqKAPUJMnWQnS13j9FX-iQBvBDqg4WtSgQl88F5R0qVrY4Smu442znDK676rFo7GTiQ_akmVFFGpcMIekaTRkBScL2EXC4FZ0iqUQBEPM6c3FzZuVvg1N7rQnK81rxRAOd-SOGZCv-_IzF7rrkKND_jVLksNvFrQsQCqUNClJPmH3FfuARTDM2fP1xqUF9celF72_KLho8uCmExHwyXhVQ&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -1059,7 +1059,7 @@
     "price_confidence": "estimated",
     "opening_today": "2:30 – 11:00 PM",
     "is_open_now": true,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEFHIwnytqop2IYATU6lnstPh74B5koTRjZ6oQ7jYAvuYwl4M1WmVpq_N1zpzNjdwRNyy0P0KVxvHwNIl01NERoavGJlI2sQ_jf438E5fyK4jfpnbmpa49m_vyg_fMXhnXdZy4DKNAszHGD_llxCz6hEBP8XgG7eKtO57FaKa5ZNezmMndQxRKQ4JVhn6VnDlKdYmpu0yUToiXNAhVU2taKbINWzO9vp2--Mof5aDyIMvT7DTJfjl_J5_EUwMQB6TQhUrOwfDnhE4ksENvCaufwtf7s2yGuNvRfI4-MklHvj17BgYhXEymRSM2eBfnmji1mkJoAvv0aoViGBs2qSlT-PYenXAave8SrEvOtYzSG4uQ_gQ5f6HOZC0BRVrIu6Bu3mS6OUZDeMoqciSVR_T5IC0clLzRRqlC1mUHmiUPrl1g&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEENnAWLQAbAhGqtbU9DNxAcQp8XWxpN9nu4RtSfg2Zld7Dx8S0TqGlQz3AmU9DpcS0ihXldWD0JjtldD1JSyz-rG7s3o7dKRflZO3eO3IoXPDrwJNuc06ErUhXb_gb-K_YYmQJCMIwy9bXR-QRQf5wc-jl6WnvCv8d7LZGNNwA5YLCwA6_2qvkEp9mDfABGZcovSs7cGr7PfgCUkaRfGFSgY79u8a_dBZRCg7aG-t3gAedCqNYxuchp_XXLTW4H1Y1ptOL5ua7JF_R83Iai1UDbiN6OhPwo1EFeG7kJrDLjCiU0pZZwoBHMVxDEJqZK7wiupMllwdeV7mdhNaaTmK3JBWr3bkPnB1Rw09VbXdkHZLktKfEYYIXcY7Eiqx0N1tHLEymuwxuGmHNL0kMtnQ1VbWcslwdNGNNTBdywalVFUQ&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   },
@@ -1078,7 +1078,7 @@
     "price_confidence": "estimated",
     "opening_today": "6:00 PM – 3:00 AM",
     "is_open_now": false,
-    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEErB3OY9eWgx4QBKrBKI5mB2QE01xKU5szmkuiLvcz4-4J6GuPQMQx334MAW0TRvpDoDPwn7PHy3uv36CXuy-RwuYIbIo-UMnvyIxOnRssTOdyHwQ4cm0ZEDZ3VWDNlESleTPIeoYmgt17_vtJ1HPypg879G0cZ2w7tzU0Bhv7AJooNB_bQ8iO7_U_tU9aZ8v0mwiOGd2VPhlt1iUQWHuZA7iQDRHMQUX8rS1ZUC9VX02MzMiyQE8c4SYSWg1jCnnaoLwrE9PzU2D9eFy6L6FMTI6DzCTZykJNLNvfD_OBHwg&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
+    "photo_url": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AU_ZVEFyWessZviBWdOcGK_76TG-nx_5qzeKeYrc2Rrp9n9DhB9k2U1FWcKJakxVVTd0Ab7k5ask1TsvDukc-EZCNpY_0ZC0pv1W3KpcfaiBFfosxS03dXwbFG4lTk-GuEA9HwMK4U2w0Uwid00wVdsBBSkun1T3ChCk_6EO4YQWLnfWpSpN5t1XGR3JojGMy0eiMGceuGxMmYQl2tkw4qjI1VJ1AbdsppqVuv6kMcm7O3QCUA14Yqn__hs_x5sr9j5YbrWGDKsIWxe_aAH4Ilg27L0VpTUCNddhTaGPRPYKOoE0QA&key=AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c",
     "data_source": "google_maps_live",
     "last_updated": "2026-04-17"
   }

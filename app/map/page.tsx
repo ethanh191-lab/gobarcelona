@@ -288,6 +288,10 @@ export default function BeerMapPage() {
   // ────── 6. Filtering (price + distance + toggles) ──────
   const filteredPlaces = useMemo(() => {
     return places.filter(p => {
+      if (selectedNb !== 'all') {
+        const nb = NEIGHBOURHOODS.find(n => n.id === selectedNb);
+        if (nb && p.neighbourhood !== nb.name) return false;
+      }
       if (p.status === 'permanently_closed' && !filters.closed) return false;
       const price = parseFloat(p.beerPrice?.replace('€', '') || '0');
       if (price > priceRange) return false;
@@ -313,7 +317,7 @@ export default function BeerMapPage() {
       if (filters.craft && !(p as any).craftBeer) return false;
       return true;
     });
-  }, [places, priceRange, maxDistance, filters, userLoc]);
+  }, [places, priceRange, maxDistance, filters, userLoc, selectedNb]);
 
   // Count how many bars match each filter (for the count badge)
   const filterCounts = useMemo(() => {
