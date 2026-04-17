@@ -516,7 +516,7 @@ export default function BeerMapPage() {
           <div className={styles.filterSection}>
             <div className={styles.filterLabel}><span>Neighborhood</span></div>
             <select className={styles.nbSelect} value={selectedNb} onChange={e => setSelectedNb(e.target.value)}>
-              {NEIGHBORHOODS.map(n => <option key={n.id} value={n.id}>{n.name}</option>)}
+              {NEIGHBOURHOODS.map(n => <option key={n.id} value={n.id}>{n.name}</option>)}
             </select>
           </div>
 
