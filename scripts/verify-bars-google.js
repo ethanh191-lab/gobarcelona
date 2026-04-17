@@ -2,10 +2,10 @@ require('dotenv').config({ path: '.env.local' })
 const { createClient } = require('@supabase/supabase-js')
 const fs = require('fs')
 
-const GOOGLE_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY
+const GOOGLE_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || process.env.GOOGLE_MAPS_API_KEY
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 )
 
 // All 57 bars to verify — exact search queries for Google Maps
@@ -224,7 +224,6 @@ async function main() {
       const isOpenNow = details.opening_hours?.open_now ?? null
 
       const barData = {
-        id: bar.id,
         name: details.name,
         address: details.formatted_address,
         neighbourhood,
@@ -267,7 +266,7 @@ async function main() {
   for (const bar of results) {
     const { error } = await supabase
       .from('bars')
-      .upsert(bar, { onConflict: 'id' })
+      .upsert(bar, { onConflict: 'google_place_id' })
 
     if (error) {
       console.error(`  ✗ DB error for ${bar.name}: ${error.message}`)
