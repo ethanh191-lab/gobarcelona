@@ -16,7 +16,6 @@ export default function Footer() {
         <div className={styles.links}>
           <h4>Navigate</h4>
           <Link href="/map">Beer Map</Link>
-          <Link href="/about">About</Link>
           <Link href="/contact">Contact</Link>
         </div>
 

@@ -186,7 +186,7 @@ export default function Home() {
         <div className="container">
           <div className={styles.aboutCard}>
             <p>I moved to Barcelona as an international student. Every platform I tried was either outdated, full of sponsored content, or built for tourists. So I started mapping it myself — and GoBarcelona was born.</p>
-            <Link href="/about" className={styles.aboutLink}>Read our story →</Link>
+            <Link href="/contact" className={styles.aboutLink}>Learn more & Get in touch →</Link>
           </div>
         </div>
       </section>

@@ -28,7 +28,6 @@ export default function Navbar() {
 
   const navItems = [
     { href: '/map', label: 'Beer Map' },
-    { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' },
   ];
 
