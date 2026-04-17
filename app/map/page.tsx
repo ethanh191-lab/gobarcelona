@@ -56,6 +56,8 @@ interface Place {
   isOpenNow?: boolean | null;
   lastUpdated?: string;
   priceConfidence?: string;
+  popularTimes?: number[][] | null;
+  currentPopularity?: number | null;
 }
 
 // Haversine formula — distance in meters between two lat/lng points
@@ -430,7 +432,14 @@ export default function BeerMapPage() {
   };
 
   const isHH = selectedPlace ? isHappyHourActive(selectedPlace.happyHourStart, selectedPlace.happyHourEnd) : false;
-  const busy = selectedPlace ? getBusynessLevel() : { label: '', color: '' };
+  const selPop = selectedPlace?.currentPopularity;
+  const busy = selectedPlace
+    ? selPop != null
+      ? selPop > 70 ? { label: 'Very busy', color: '#ef4444' }
+        : selPop > 30 ? { label: 'Busy', color: '#f59e0b' }
+        : { label: 'Quiet', color: '#22c55e' }
+      : { label: 'Unknown', color: '#555' }
+    : { label: '', color: '' };
   const isNew = selectedPlace && selectedPlace.openedAt ? (new Date().getTime() - new Date(selectedPlace.openedAt).getTime()) < 90 * 24 * 60 * 60 * 1000 : false;
 
   // ──────────── RENDER ────────────
@@ -578,7 +587,12 @@ export default function BeerMapPage() {
             filteredPlaces.map(p => {
               const walk = getBarWalkInfo(p);
               const isHH = isHappyHourActive(p.happyHourStart, p.happyHourEnd);
-              const busy = getBusynessLevel();
+              const popLevel = p.currentPopularity;
+              const busy = popLevel != null
+                ? popLevel > 70 ? { label: 'Very busy', color: '#ef4444' }
+                  : popLevel > 30 ? { label: 'Busy', color: '#f59e0b' }
+                  : { label: 'Quiet', color: '#22c55e' }
+                : { label: 'Unknown', color: '#555' };
               const isNew = p.openedAt && (new Date().getTime() - new Date(p.openedAt).getTime()) < 90 * 24 * 60 * 60 * 1000;
               
               return (
@@ -739,17 +753,39 @@ export default function BeerMapPage() {
                       <span>{selectedPlace.openingToday || 'Unknown'}</span>
                     </div>
                     
-                    <div className={styles.busynessChart} style={{ height: '60px' }}>
-                      {[0.1, 0.2, 0.4, 0.6, 0.9, 0.8, 0.4].map((val, i) => (
-                        <div key={i} className={styles.busyBar} style={{ height: `${val * 100}%`, background: val > 0.8 ? '#ef4444' : val > 0.6 ? '#f59e0b' : '#333' }} />
-                      ))}
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: '#666', marginTop: '8px', fontFamily: 'monospace' }}>
-                      <span>12</span><span>14</span><span>16</span><span>18</span><span>20</span><span>22</span><span>00</span>
-                    </div>
-                    <div style={{ textAlign: 'center', fontSize: '12px', color: '#888', marginTop: '12px', fontStyle: 'italic' }}>
-                      Typically busy {busy.label}
-                    </div>
+                    {selectedPlace.popularTimes ? (() => {
+                      const dayIndex = new Date().getDay();
+                      const todayData: number[] = (selectedPlace.popularTimes as number[][])[dayIndex] || [];
+                      const currentHour = new Date().getHours();
+                      const maxVal = Math.max(...todayData, 1);
+                      const busiestHour = todayData.indexOf(Math.max(...todayData));
+                      const busiestEnd = Math.min(busiestHour + 2, 23);
+                      return (
+                        <>
+                          <div style={{ height: '60px', display: 'flex', alignItems: 'flex-end', gap: '2px' }}>
+                            {todayData.map((val: number, i: number) => (
+                              <div key={i} style={{
+                                flex: 1,
+                                height: `${Math.max((val / maxVal) * 100, 4)}%`,
+                                borderRadius: '2px 2px 0 0',
+                                background: i === currentHour ? '#E63946' : i < currentHour ? '#333' : '#2E4057',
+                                transition: 'height 0.3s',
+                              }} title={`${i}:00 - ${val}% busy`} />
+                            ))}
+                          </div>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: '#666', marginTop: '6px', fontFamily: 'monospace' }}>
+                            <span>0</span><span>6</span><span>12</span><span>18</span><span>23</span>
+                          </div>
+                          <div style={{ textAlign: 'center', fontSize: '12px', color: '#888', marginTop: '10px', fontStyle: 'italic' }}>
+                            Usually busiest: {busiestHour}:00–{busiestEnd}:00
+                          </div>
+                        </>
+                      );
+                    })() : (
+                      <div style={{ textAlign: 'center', padding: '20px 0', color: '#555', fontSize: '13px' }}>
+                        No busyness data available
+                      </div>
+                    )}
                   </div>
                 </div>
 

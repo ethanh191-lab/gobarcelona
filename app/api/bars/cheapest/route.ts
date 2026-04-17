@@ -1,15 +1,18 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 
-export async function GET() {
+export const dynamic = 'force-dynamic';
+
+export async function GET(req: NextRequest) {
   try {
+    const limit = parseInt(req.nextUrl.searchParams.get('limit') || '5');
+
     const { data, error } = await supabase
       .from('bars')
-      .select('name, price_per_500ml, neighbourhood, status')
-      .eq('status', 'open')
+      .select('name, price_per_500ml, neighbourhood, status, is_open_now')
       .not('price_per_500ml', 'is', null)
       .order('price_per_500ml', { ascending: true })
-      .limit(3);
+      .limit(limit);
 
     if (error) throw error;
 

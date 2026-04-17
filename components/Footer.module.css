@@ -1,103 +1,79 @@
 .footer {
-  background: var(--bg-secondary);
-  border-top: 1px solid var(--glass-border);
-  padding: 40px 16px 24px;
-}
-
-@media (max-width: 768px) {
-  .footer {
-    display: none;
-  }
-}
-
-@media (min-width: 768px) {
-  .footer {
-    padding: 60px 0 24px;
-    margin-top: 80px;
-  }
+  background: #0D0D1F;
+  padding: 48px 0 0;
+  border-top: 1px solid rgba(255,255,255,0.06);
 }
 
 .grid {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
   gap: 40px;
-  margin-bottom: 40px;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 48px;
-    margin-bottom: 48px;
+    grid-template-columns: 1fr;
+    gap: 32px;
   }
 }
 
-.newsletter {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  width: 100%;
-}
-
-.brand .logo {
-  font-family: 'Syne', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 900;
-  display: inline-block;
-  margin-bottom: 16px;
-  text-transform: none;
+.logo {
   text-decoration: none;
-  letter-spacing: -1px;
+  font-size: 28px;
+  font-weight: 900;
+  font-family: var(--font-syne), sans-serif;
+  display: inline-flex;
+  height: auto;
+  min-height: auto;
 }
 
-.logoGo { color: var(--primary-red); }
-.logoBarcelona { color: var(--heading-color); }
+.logoGo { color: #E63946; }
+.logoBarcelona { color: white; }
 
 .desc {
-  color: var(--text-primary);
-  opacity: 0.6;
-  line-height: 1.6;
-  max-width: 400px;
-  font-size: 0.95rem;
+  color: rgba(255,255,255,0.4);
+  font-size: 14px;
+  margin-top: 8px;
 }
 
 .links, .contact {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
-.footer h4 {
-  color: var(--heading-color);
-  font-size: 0.9rem;
+.links h4, .contact h4 {
+  color: white;
+  font-size: 13px;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  font-weight: 800;
-  margin-bottom: 12px;
+  letter-spacing: 1.5px;
+  margin-bottom: 8px;
+  font-weight: 700;
 }
 
-.footer a {
-  color: var(--text-primary);
-  opacity: 0.7;
-  font-size: 0.95rem;
-  transition: all 0.2s;
+.links a, .contact a {
+  color: rgba(255,255,255,0.5);
   text-decoration: none;
-  height: 44px; /* Touch target */
-  display: flex;
+  font-size: 14px;
+  transition: color 0.2s;
+  display: inline-flex;
   align-items: center;
+  min-height: 32px;
+  height: auto;
 }
 
-.footer a:hover {
-  opacity: 1;
-  color: var(--primary-red);
+.links a:hover, .contact a:hover {
+  color: #E63946;
 }
 
 .bottom {
   text-align: center;
-  padding-top: 24px;
-  border-top: 1px solid var(--glass-border);
-  color: var(--text-primary);
-  opacity: 0.4;
-  font-size: 0.85rem;
+  padding: 24px 0;
+  margin-top: 40px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.bottom p {
+  color: rgba(255,255,255,0.3);
+  font-size: 13px;
 }

@@ -67,6 +67,8 @@ export async function GET(req: NextRequest) {
       openingToday: p.opening_today,
       isOpenNow: p.is_open_now,
       lastUpdated: p.last_updated,
+      popularTimes: p.popular_times || null,
+      currentPopularity: p.current_popularity || null,
     }));
 
     return NextResponse.json({ 
