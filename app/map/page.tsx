@@ -156,6 +156,31 @@ export default function BeerMapPage() {
     irish: false, craft: false,
   });
   const [selectedBeer, setSelectedBeer] = useState('all');
+  const [realWalk, setRealWalk] = useState<{ mins: string; dist: string } | null>(null);
+
+  // Fetch real walking time from Google API
+  useEffect(() => {
+    if (selectedPlace && userLoc && window.google) {
+      const service = new google.maps.DistanceMatrixService();
+      service.getDistanceMatrix({
+        origins: [{ lat: userLoc.lat, lng: userLoc.lng }],
+        destinations: [{ lat: selectedPlace.lat, lng: selectedPlace.lng }],
+        travelMode: google.maps.TravelMode.WALKING,
+      }, (response, status) => {
+        if (status === 'OK' && response && response.rows[0].elements[0].status === 'OK') {
+          const element = response.rows[0].elements[0];
+          setRealWalk({
+            mins: element.duration.text,
+            dist: element.distance.text,
+          });
+        } else {
+          setRealWalk(null);
+        }
+      });
+    } else {
+      setRealWalk(null);
+    }
+  }, [selectedPlace, userLoc]);
 
   const COMMON_BEERS = ['Estrella Damm', 'Moritz', 'Voll-Damm', 'Estrella Galicia', 'Heineken', 'Mahou', 'San Miguel'];
 
