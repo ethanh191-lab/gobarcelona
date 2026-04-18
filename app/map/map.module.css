@@ -2,12 +2,11 @@
 
 .appWrapper {
   position: fixed;
-  top: 80px; /* matched to navbar height */
+  top: 80px;
   left: 0;
   right: 0;
   bottom: 0;
-  display: grid;
-  grid-template-columns: 380px 1fr;
+  display: flex;
   background: #1A1A2E;
   overflow: hidden;
   z-index: 50;
@@ -16,12 +15,15 @@
 
 /* ─── Sidebar ─── */
 .sidebar {
+  width: 380px;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   background: #1A1A2E;
   border-right: 1px solid rgba(255,255,255,0.08);
   height: 100%;
   overflow: hidden;
+  transition: transform 0.3s ease;
 }
 
 .sidebarHeader {
@@ -427,7 +429,7 @@
 /* ─── Map Container ─── */
 .mapContainer {
   position: relative;
-  width: 100%;
+  flex: 1;
   height: 100%;
   background: #1A1A2E;
 }
@@ -941,7 +943,12 @@
 
 @media (max-width: 768px) {
   .appWrapper {
-    grid-template-columns: 1fr;
+    display: block; /* Stack map and other elements if needed, but sidebar is fixed */
+  }
+  
+  .mapContainer {
+    width: 100vw;
+    height: 100vh;
   }
   
   .mobileFilterBtn {
@@ -1001,46 +1008,74 @@
   .sidebar {
     position: fixed;
     left: 0;
-    right: 0;
-    top: 60%;
+    top: 0;
     bottom: 0;
-    width: 100%;
+    width: 320px;
+    max-width: 85%;
     background: #1A1A2E;
-    transform: translateY(100%);
+    transform: translateX(-100%);
     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    z-index: 600;
-    box-shadow: 0 -10px 40px rgba(0,0,0,0.6);
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    height: auto;
+    z-index: 2000; /* Above navbar if needed */
+    box-shadow: 10px 0 40px rgba(0,0,0,0.6);
+    border-radius: 0;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    height: 100vh;
   }
   
   .sidebarVisible {
-    transform: translateY(0);
+    transform: translateX(0);
   }
   
   .detailPanel {
     position: fixed;
     left: 0;
     right: 0;
-    top: 64px;
-    bottom: 70px;
+    top: 0;
+    bottom: 0;
     width: 100%;
-    transform: translateY(100%);
-    z-index: 700;
+    transform: translateX(100%);
+    z-index: 2100;
     border-radius: 0;
     border-left: none;
     background: #1A1A2E;
   }
   
   .detailPanelVisible {
-    transform: translateY(0);
+    transform: translateX(0);
   }
 
   .comparisonPanel {
     left: 0;
     bottom: 70px;
     z-index: 800;
+  }
+}
+
+  .mobileCloseSidebar {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  
+  .mobileCloseSidebar {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    border-radius: 50%;
   }
 }
