@@ -95,10 +95,11 @@ function getBusynessLevel(): { label: string; color: string } {
   return { label: 'Quiet now', color: '#22c55e' };
 }
 
-function distanceToWalk(meters: number): { mins: number; label: string } {
-  const mins = Math.round(meters / 80); // 80m/min walking speed
-  if (meters < 1000) return { mins, label: `${mins} min · ${Math.round(meters)}m` };
-  return { mins, label: `${mins} min · ${(meters / 1000).toFixed(1)}km` };
+function distanceToWalk(straightLineMeters: number): { mins: number; label: string } {
+  // Barcelona grid layout — real walking distance ≈ 1.4x straight-line
+  const walkMeters = straightLineMeters * 1.4;
+  const mins = Math.round(walkMeters / 75); // ~4.5 km/h avg walking speed
+  return { mins, label: `${mins} min` };
 }
 
 type FilterKey = 'open' | 'terrace' | 'sports' | 'rooftop' | 'late' | 'group' | 'dog' | 'music' | 'student' | 'date' | 'happyHour' | 'new' | 'closed' | 'irish' | 'craft';
@@ -121,12 +122,12 @@ const FILTER_DEFS: { key: FilterKey; label: string; icon: string }[] = [
   { key: 'date',      label: 'Good for Dates',  icon: '❤️' },
 ];
 
-const DISTANCE_OPTIONS = [
-  { value: 250,  label: '250m' },
-  { value: 500,  label: '500m' },
-  { value: 1000, label: '1km' },
-  { value: 2000, label: '2km' },
-  { value: 5000, label: '5km' },
+const WALK_TIME_OPTIONS = [
+  { value: 5,  label: '5 min' },
+  { value: 10, label: '10 min' },
+  { value: 15, label: '15 min' },
+  { value: 20, label: '20 min' },
+  { value: 60, label: '60 min' },
 ];
 
 export default function BeerMapPage() {
@@ -147,7 +148,7 @@ export default function BeerMapPage() {
 
   // Filters
   const [priceRange, setPriceRange] = useState(10);
-  const [maxDistance, setMaxDistance] = useState(5000);
+  const [maxWalkMins, setMaxWalkMins] = useState(60);
   const [selectedNb, setSelectedNb] = useState('all');
   const [filters, setFilters] = useState<Record<FilterKey, boolean>>({
     open: false, terrace: false, sports: false, rooftop: false,
@@ -187,7 +188,7 @@ export default function BeerMapPage() {
   const [showReportModal, setShowReportModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [sidebarVisible, setSidebarVisible] = useState(false);
-  const [leaderboardOpen, setLeaderboardOpen] = useState(true);
+  const [leaderboardOpen, setLeaderboardOpen] = useState(true); // kept for compat
   const [compareList, setCompareList] = useState<Place[]>([]);
 
   const toggleCompare = (p: Place) => {
@@ -320,10 +321,11 @@ export default function BeerMapPage() {
       if (p.status === 'permanently_closed' && !filters.closed) return false;
       const price = parseFloat(p.beerPrice?.replace('€', '') || '0');
       if (price > priceRange) return false;
-      // Distance filter
+      // Walking time filter
       if (userLoc) {
         const dist = haversine(userLoc.lat, userLoc.lng, p.lat, p.lng);
-        if (dist > maxDistance) return false;
+        const walkInfo = distanceToWalk(dist);
+        if (walkInfo.mins > maxWalkMins) return false;
       }
       if (filters.terrace && !p.outdoorSeating) return false;
       if (filters.sports && !p.hasSports) return false;
@@ -342,7 +344,7 @@ export default function BeerMapPage() {
       if (filters.craft && !(p as any).craftBeer) return false;
       return true;
     });
-  }, [places, priceRange, maxDistance, filters, userLoc, selectedNb]);
+  }, [places, priceRange, maxWalkMins, filters, userLoc, selectedNb]);
 
   // Count how many bars match each filter (for the count badge)
   const filterCounts = useMemo(() => {
@@ -486,35 +488,27 @@ export default function BeerMapPage() {
           <p className={styles.sidebarSubtitle}>{filteredPlaces.length} verified locations</p>
         </div>
 
-        {/* 🏆 Leaderboard Section */}
-        <div className={styles.leaderboardSection}>
-          <div className={styles.leaderboardHeader} onClick={() => setLeaderboardOpen(!leaderboardOpen)}>
-            <span>🏆 THIS WEEK'S CHEAPEST</span>
-            <span className={styles.pillArrow}>{leaderboardOpen ? '▴' : '▾'}</span>
-          </div>
-          {leaderboardOpen && (
-            <div className={styles.leaderboardList}>
-              {places
-                .filter(p => p.status !== 'permanently_closed')
-                .sort((a, b) => parseFloat(a.beerPrice.replace('€', '')) - parseFloat(b.beerPrice.replace('€', '')))
-                .slice(0, 5)
-                .map((p, i) => (
-                  <div key={p.id} className={styles.leaderboardItem} onClick={() => {
-                    setSelectedPlace(p);
-                    mapInstanceRef.current?.panTo({ lat: p.lat, lng: p.lng });
-                    mapInstanceRef.current?.setZoom(17);
-                  }}>
-                    <span className={styles.rank}>{i + 1}</span>
-                    <div className={styles.lbInfo}>
-                      <div className={styles.lbName}>{p.name}</div>
-                      <div className={styles.lbNb}>{p.neighbourhood}</div>
-                    </div>
-                    <span className={styles.lbPrice}>{p.beerPrice}</span>
-                  </div>
-                ))}
+        {/* ⭐ Bar of the Week */}
+        {(() => {
+          const candidates = places.filter(p => p.status !== 'permanently_closed' && p.rating && parseFloat(p.beerPrice?.replace('€','') || '99') < 6);
+          const botw = candidates.sort((a,b) => (b.rating || 0) - (a.rating || 0))[0];
+          if (!botw) return null;
+          return (
+            <div className={styles.botwSection} onClick={() => {
+              setSelectedPlace(botw);
+              mapInstanceRef.current?.panTo({ lat: botw.lat, lng: botw.lng });
+              mapInstanceRef.current?.setZoom(17);
+            }}>
+              <div className={styles.botwBadge}>⭐ BAR OF THE WEEK</div>
+              <div className={styles.botwName}>{botw.name}</div>
+              <div className={styles.botwMeta}>
+                <span>{botw.neighbourhood}</span>
+                <span className={styles.botwPrice}>{botw.beerPrice}</span>
+                <span>★ {botw.rating}</span>
+              </div>
             </div>
-          )}
-        </div>
+          );
+        })()}
 
         {/* Location denied banner */}
         {locationDenied && (
@@ -539,26 +533,24 @@ export default function BeerMapPage() {
             />
           </div>
 
-          {/* Max Distance */}
+          {/* Walking Time */}
           <div className={styles.filterSection}>
             <div className={styles.filterLabel}>
-              <span>Max distance</span>
-              <span className={styles.filterValue}>
-                {maxDistance >= 1000 ? `${(maxDistance / 1000).toFixed(0)}km` : `${maxDistance}m`}
-              </span>
+              <span>Max walking time</span>
+              <span className={styles.filterValue}>{maxWalkMins} min</span>
             </div>
             <input
               type="range" className={styles.slider}
-              min="250" max="5000" step="250"
-              value={maxDistance}
-              onChange={e => setMaxDistance(parseInt(e.target.value))}
+              min="5" max="60" step="5"
+              value={maxWalkMins}
+              onChange={e => setMaxWalkMins(parseInt(e.target.value))}
             />
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '6px' }}>
-              {DISTANCE_OPTIONS.map(d => (
-                <button key={d.value} onClick={() => setMaxDistance(d.value)}
+              {WALK_TIME_OPTIONS.map(d => (
+                <button key={d.value} onClick={() => setMaxWalkMins(d.value)}
                   style={{
-                    background: maxDistance === d.value ? '#E63946' : 'transparent',
-                    color: maxDistance === d.value ? 'white' : '#666',
+                    background: maxWalkMins === d.value ? '#E63946' : 'transparent',
+                    color: maxWalkMins === d.value ? 'white' : '#666',
                     border: 'none', borderRadius: '4px', padding: '3px 8px',
                     fontSize: '10px', fontWeight: 700, cursor: 'pointer',
                   }}
@@ -612,7 +604,7 @@ export default function BeerMapPage() {
               <button onClick={() => {
                 setFilters({ open: false, terrace: false, sports: false, rooftop: false, late: false, group: false, dog: false, music: false, student: false, date: false, happyHour: false, new: false, closed: false, irish: false, craft: false });
                 setPriceRange(10);
-                setMaxDistance(5000);
+                setMaxWalkMins(60);
               }} style={{ marginTop: '12px', background: '#E63946', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', fontWeight: 700 }}>
                 Reset Filters
               </button>
@@ -763,10 +755,10 @@ export default function BeerMapPage() {
 
                 {/* Walking distance */}
                 {userLoc && (() => {
-                  const walk = distanceToWalk(haversine(userLoc.lat, userLoc.lng, selectedPlace.lat, selectedPlace.lng));
+                  const fallback = distanceToWalk(haversine(userLoc.lat, userLoc.lng, selectedPlace.lat, selectedPlace.lng));
                   return (
                     <div className={styles.walkingInfo}>
-                      🚶 <strong>{walk.label}</strong> <span style={{ color: '#60a5fa', marginLeft: '4px' }}>walking</span>
+                      🚶 <strong>{realWalk ? `${realWalk.mins} · ${realWalk.dist}` : fallback.label}</strong> <span style={{ color: '#60a5fa', marginLeft: '4px' }}>walking{realWalk ? '' : ' (est.)'}</span>
                     </div>
                   );
                 })()}

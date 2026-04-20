@@ -66,26 +66,48 @@
   border-radius: 3px;
 }
 
-/* ─── Leaderboard ─── */
-.leaderboardSection {
-  background: rgba(255, 255, 255, 0.03);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-
-.leaderboardHeader {
-  padding: 12px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 11px;
-  font-weight: 800;
-  color: #E63946;
+/* ─── Bar of the Week ─── */
+.botwSection {
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(230,57,70,0.08) 0%, rgba(230,57,70,0.02) 100%);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
   cursor: pointer;
-  letter-spacing: 1px;
+  transition: background 0.2s;
 }
 
-.leaderboardList {
-  padding-bottom: 8px;
+.botwSection:hover {
+  background: linear-gradient(135deg, rgba(230,57,70,0.14) 0%, rgba(230,57,70,0.04) 100%);
+}
+
+.botwBadge {
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  color: #E63946;
+  margin-bottom: 8px;
+}
+
+.botwName {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.botwMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: #888;
+}
+
+.botwPrice {
+  color: #E63946;
+  font-weight: 800;
+  font-size: 14px;
 }
 
 .leaderboardItem {
