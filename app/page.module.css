@@ -16,8 +16,7 @@
 }
 
 .snapSection {
-  height: 100vh;
-  max-height: 100vh;
+  min-height: 100vh;
   width: 100%;
   scroll-snap-align: start;
   scroll-snap-stop: always;
@@ -26,8 +25,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  overflow: hidden;
-  padding: 0 5%;
+  padding: 80px 5%;
 }
 
 .bgDark { background: #0D0D1F; }
@@ -61,10 +59,10 @@
 }
 
 .sectionTitle {
-  font-size: clamp(32px, 6vw, 64px);
+  font-size: clamp(28px, 6vw, 48px);
   color: white;
   font-weight: 900;
-  line-height: 1;
+  line-height: 1.1;
   letter-spacing: -1px;
   font-family: var(--font-syne), sans-serif;
   text-transform: uppercase;
@@ -117,18 +115,18 @@
 }
 
 .heroTitle {
-  font-size: clamp(50px, 12vw, 120px);
+  font-size: clamp(36px, 9vw, 80px);
   color: white;
   font-weight: 900;
-  line-height: 0.9;
+  line-height: 1;
   margin-bottom: 24px;
-  letter-spacing: -4px;
+  letter-spacing: -2px;
   font-family: var(--font-syne), sans-serif;
   text-transform: uppercase;
 }
 
 .heroSub {
-  font-size: clamp(16px, 2vw, 24px);
+  font-size: clamp(14px, 2.5vw, 20px);
   color: rgba(255,255,255,0.6);
   margin-bottom: 48px;
   font-weight: 400;
@@ -213,16 +211,16 @@
 
 .statNum {
   display: block;
-  font-size: clamp(60px, 10vw, 120px);
+  font-size: clamp(48px, 10vw, 100px);
   font-weight: 900;
   color: #E63946;
   font-family: var(--font-syne), sans-serif;
   line-height: 1;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .statLabel {
-  font-size: clamp(14px, 2vw, 18px);
+  font-size: clamp(12px, 2vw, 16px);
   color: rgba(255,255,255,0.5);
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -487,4 +485,31 @@
 @media (max-width: 768px) {
   .nlForm { flex-direction: column; }
   .nlForm button { width: 100%; }
+
+  .snapSection {
+    padding: 80px 20px;
+    justify-content: flex-start;
+  }
+  
+  .sectionTitle { margin-bottom: 24px; }
+  .accentTag { margin-bottom: 16px; }
+  
+  .cheapestList { gap: 8px; }
+  .cheapestCard { padding: 16px; gap: 16px; }
+  .rank { font-size: 20px; min-width: 30px; }
+  .cheapestInfo strong { font-size: 16px; }
+  .cheapestPrice { font-size: 24px; }
+  
+  .beerGrid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .beerCard { padding: 16px; }
+  .beerName { font-size: 16px; }
+  .beerArrow { font-size: 18px; }
+  
+  .howStep { padding: 24px 16px; }
+  .howIcon { font-size: 32px; margin-bottom: 12px; }
+  .howNum { font-size: 40px; top: 12px; right: 16px; }
+  .howStep h3 { font-size: 20px; }
+  .howStep p { font-size: 14px; }
+
+  .heroContent { margin-top: 40px; }
 }
