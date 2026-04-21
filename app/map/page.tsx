@@ -690,6 +690,7 @@ export default function BeerMapPage() {
       )}
       <ComparisonPanel items={compareList} onClose={() => setCompareList([])} onRemove={(p) => toggleCompare(p)} userLoc={userLoc} />
     </div>
+  );
 }
 
 function ReportModal({ place, onClose, onSuccess }: { place: Place; onClose: () => void; onSuccess: () => void }) {
@@ -802,6 +803,82 @@ function UpdateModal({ place, onClose, onSuccess }: { place: Place; onClose: () 
             Cancel
           </button>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function ComparisonPanel({ items, onClose, onRemove, userLoc }: { items: Place[]; onClose: () => void; onRemove: (p: Place) => void; userLoc: any }) {
+  if (items.length < 2) return null;
+
+  const attributes = [
+    { label: 'Price', key: 'beerPrice' },
+    { label: 'Neighborhood', key: 'neighborhood' },
+    { label: 'Walking Dist.', key: 'walk' },
+    { label: 'Happy Hour', key: 'happyHour' },
+    { label: 'Terrace', key: 'outdoorSeating' },
+    { label: 'Sports TV', key: 'hasSports' },
+    { label: 'Dog Friendly', key: 'dogFriendly' },
+    { label: 'Rating', key: 'rating' },
+    { label: 'Tap Beers', key: 'beersOnTap' },
+  ];
+
+  return (
+    <div className={styles.comparisonPanel}>
+      <div className={styles.comparisonHeader}>
+        <h3>Compare Bars</h3>
+        <button onClick={onClose} className={styles.comparisonClose}>✕</button>
+      </div>
+      <div className={styles.comparisonTableWrapper}>
+        <table className={styles.comparisonTable}>
+          <thead>
+            <tr>
+              <th>Attribute</th>
+              {items.map(p => (
+                <th key={p.id}>
+                  <div className={styles.compBarHeader}>
+                    <span>{p.name}</span>
+                    <button onClick={() => onRemove(p)}>✕</button>
+                  </div>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {attributes.map(attr => (
+              <tr key={attr.key}>
+                <td className={styles.attrLabel}>{attr.label}</td>
+                {items.map(p => {
+                  let val: any = (p as any)[attr.key];
+                  let style = {};
+
+                  if (attr.key === 'beerPrice' && p.beerPrice) {
+                    const price = parseFloat(p.beerPrice.replace('€', ''));
+                    const minPrice = Math.min(...items.map(x => parseFloat(x.beerPrice?.replace('€', '') || '99')));
+                    const maxPrice = Math.max(...items.map(x => parseFloat(x.beerPrice?.replace('€', '') || '0')));
+                    if (price === minPrice) style = { color: '#22c55e', fontWeight: 800 };
+                    if (price === maxPrice && items.length > 1) style = { color: '#ef4444' };
+                  }
+                  
+                  if (attr.key === 'walk' && userLoc) {
+                    const dist = haversine(userLoc.lat, userLoc.lng, p.lat, p.lng);
+                    val = `${Math.round(dist / 80)} min`;
+                  }
+
+                  if (attr.key === 'happyHour') {
+                    val = isHappyHourActive(p.happyHourStart, p.happyHourEnd) ? '✅ YES' : (p.happyHourStart ? `${p.happyHourStart}-${p.happyHourEnd}` : 'No');
+                  }
+
+                  if (typeof val === 'boolean') val = val ? '✅' : '❌';
+                  if (Array.isArray(val)) val = val.join(', ');
+                  if (val === null || val === undefined) val = '-';
+
+                  return <td key={p.id} style={style}>{val}</td>;
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
