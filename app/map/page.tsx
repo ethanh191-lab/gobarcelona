@@ -505,16 +505,16 @@ export default function BeerMapPage() {
         heatmapRef.current = new HeatmapLayer({
           data: [],
           map: null,
-          radius: 30,
+          radius: 45,
           opacity: 0.6,
-          gradient: ['rgba(0, 255, 255, 0)', 'rgba(0, 255, 255, 1)', 'rgba(0, 191, 255, 1)', 'rgba(0, 127, 255, 1)', 'rgba(0, 63, 255, 1)', 'rgba(0, 0, 255, 1)', 'rgba(0, 0, 223, 1)', 'rgba(0, 0, 191, 1)', 'rgba(0, 0, 159, 1)', 'rgba(0, 0, 127, 1)', 'rgba(63, 0, 91, 1)', 'rgba(127, 0, 63, 1)', 'rgba(191, 0, 31, 1)', 'rgba(255, 0, 0, 1)']
+          gradient: ['rgba(0,0,0,0)', 'rgba(230,57,70,0.5)', 'rgba(230,57,70,0.8)', 'rgba(255,165,0,0.9)', 'rgba(255,255,0,1)']
         });
       }
       
       if (showHeatmap) {
         const heatData = filteredPlaces.map(p => ({
           location: new google.maps.LatLng(p.lat, p.lng),
-          weight: p.currentPopularity || 10
+          weight: (p.currentPopularity || 1) * 2
         }));
         heatmapRef.current.setData(heatData);
         heatmapRef.current.setMap(mapInstanceRef.current);
