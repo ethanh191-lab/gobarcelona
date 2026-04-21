@@ -58,6 +58,8 @@ interface Place {
   priceConfidence?: string;
   popularTimes?: number[][] | null;
   currentPopularity?: number | null;
+  vibe?: string;
+  demographic?: string;
 }
 
 // Haversine formula — distance in meters between two lat/lng points
@@ -136,6 +138,8 @@ export default function BeerMapPage() {
   const mapInstanceRef = useRef<google.maps.Map | null>(null);
   const markersRef = useRef<any[]>([]);
   const userDotRef = useRef<any>(null);
+  const heatmapRef = useRef<any>(null);
+  const walkCircleRef = useRef<any>(null);
 
   const [places, setPlaces] = useState<Place[]>([]);
   const [fetching, setFetching] = useState(true);
@@ -158,6 +162,14 @@ export default function BeerMapPage() {
   });
   const [selectedBeer, setSelectedBeer] = useState('all');
   const [realWalk, setRealWalk] = useState<{ mins: string; dist: string } | null>(null);
+
+  // New State for Accordions, Sorting, and Mock Filters
+  const [openAccordions, setOpenAccordions] = useState({ price: true, vibe: true, amenities: true, beer: false });
+  const toggleAccordion = (sec: string) => setOpenAccordions(p => ({ ...p, [sec as keyof typeof openAccordions]: !p[sec as keyof typeof openAccordions] }));
+  const [sortMode, setSortMode] = useState('closest');
+  const [showHeatmap, setShowHeatmap] = useState(false);
+  const [vibeFilter, setVibeFilter] = useState('all');
+  const [demoFilter, setDemoFilter] = useState('all');
 
   // Fetch real walking time from Google API
   useEffect(() => {
@@ -304,7 +316,14 @@ export default function BeerMapPage() {
       const lng = nb?.lng || BCN_CENTER.lng;
       const res = await fetch(`/api/places?lat=${lat}&lng=${lng}&radius=5000`);
       const data = await res.json();
-      setPlaces(data.places || []);
+      
+      // Inject Mock Data for the new premium filters
+      const mocked = (data.places || []).map((p: any) => ({
+        ...p,
+        vibe: ['cozy', 'party', 'date', 'sports'][Math.floor(Math.random() * 4)],
+        demographic: ['students', 'locals', 'expats', 'mixed'][Math.floor(Math.random() * 4)],
+      }));
+      setPlaces(mocked);
     } catch (e) { console.error(e); }
     finally { setTimeout(() => setFetching(false), 400); }
   }, [selectedNb]);
@@ -342,9 +361,11 @@ export default function BeerMapPage() {
       if (filters.open && p.isOpen === false) return false;
       if (filters.irish && !(p as any).irishPub) return false;
       if (filters.craft && !(p as any).craftBeer) return false;
+      if (vibeFilter !== 'all' && p.vibe !== vibeFilter) return false;
+      if (demoFilter !== 'all' && p.demographic !== demoFilter) return false;
       return true;
     });
-  }, [places, priceRange, maxWalkMins, filters, userLoc, selectedNb]);
+  }, [places, priceRange, maxWalkMins, filters, userLoc, selectedNb, vibeFilter, demoFilter, selectedBeer]);
 
   // Count how many bars match each filter (for the count badge)
   const filterCounts = useMemo(() => {
@@ -473,6 +494,60 @@ export default function BeerMapPage() {
     : { label: '', color: '' };
   const isNew = selectedPlace && selectedPlace.openedAt ? (new Date().getTime() - new Date(selectedPlace.openedAt).getTime()) < 90 * 24 * 60 * 60 * 1000 : false;
 
+  // ────── 8. Premium Map Layers (Heatmap & Walking Radius) ──────
+  useEffect(() => {
+    if (!mapInstanceRef.current || !mapsLoaded || !window.google) return;
+    
+    // 1. Heatmap Layer
+    const initHeatmap = async () => {
+      if (!heatmapRef.current) {
+        const { HeatmapLayer } = await google.maps.importLibrary("visualization") as any;
+        heatmapRef.current = new HeatmapLayer({
+          data: [],
+          map: null,
+          radius: 30,
+          opacity: 0.6,
+          gradient: ['rgba(0, 255, 255, 0)', 'rgba(0, 255, 255, 1)', 'rgba(0, 191, 255, 1)', 'rgba(0, 127, 255, 1)', 'rgba(0, 63, 255, 1)', 'rgba(0, 0, 255, 1)', 'rgba(0, 0, 223, 1)', 'rgba(0, 0, 191, 1)', 'rgba(0, 0, 159, 1)', 'rgba(0, 0, 127, 1)', 'rgba(63, 0, 91, 1)', 'rgba(127, 0, 63, 1)', 'rgba(191, 0, 31, 1)', 'rgba(255, 0, 0, 1)']
+        });
+      }
+      
+      if (showHeatmap) {
+        const heatData = filteredPlaces.map(p => ({
+          location: new google.maps.LatLng(p.lat, p.lng),
+          weight: p.currentPopularity || 10
+        }));
+        heatmapRef.current.setData(heatData);
+        heatmapRef.current.setMap(mapInstanceRef.current);
+      } else {
+        heatmapRef.current.setMap(null);
+      }
+    };
+    initHeatmap();
+
+    // 2. Walking Radius Circle
+    if (!walkCircleRef.current) {
+      walkCircleRef.current = new google.maps.Circle({
+        strokeColor: "#E63946",
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: "#E63946",
+        fillOpacity: 0.05,
+        map: null,
+        center: BCN_CENTER,
+        radius: 0,
+      });
+    }
+    
+    if (userLoc && maxWalkMins < 60) {
+      walkCircleRef.current.setCenter(userLoc);
+      walkCircleRef.current.setRadius((maxWalkMins * 75) / 1.4); // Convert mins to straight-line radius
+      walkCircleRef.current.setMap(mapInstanceRef.current);
+    } else {
+      walkCircleRef.current.setMap(null);
+    }
+    
+  }, [filteredPlaces, showHeatmap, maxWalkMins, userLoc, mapsLoaded]);
+
   // ──────────── RENDER ────────────
   return (
     <div className={styles.appWrapper}>
@@ -518,172 +593,208 @@ export default function BeerMapPage() {
           </div>
         )}
 
+        
         <div className={styles.sidebarScroll}>
-          {/* Max Price Slider */}
-          <div className={styles.filterSection}>
-            <div className={styles.filterLabel}>
-              <span>Max price</span>
-              <span className={styles.filterValue}>€{priceRange.toFixed(2)}</span>
-            </div>
-            <input
-              type="range" className={styles.slider}
-              min="1.50" max="10" step="0.25"
-              value={priceRange}
-              onChange={e => setPriceRange(parseFloat(e.target.value))}
-            />
+          {/* Quick Presets */}
+          <div className={styles.quickPresets}>
+            <button className={`${styles.presetBtn} ${filters.open && priceRange < 4 ? styles.presetBtnActive : ''}`}
+              onClick={() => { setFilters(prev => ({...prev, open: true})); setPriceRange(3.5); }}>
+              ⚡ Cheap & Open Now
+            </button>
+            <button className={`${styles.presetBtn} ${filters.terrace && filters.sports ? styles.presetBtnActive : ''}`}
+              onClick={() => { setFilters(prev => ({...prev, terrace: true, sports: true})); }}>
+              ☀️ Sports & Terrace
+            </button>
+            <button className={`${styles.presetBtn} ${vibeFilter === 'date' ? styles.presetBtnActive : ''}`}
+              onClick={() => setVibeFilter('date')}>
+              ❤️ Date Night
+            </button>
           </div>
 
-          {/* Walking Time */}
-          <div className={styles.filterSection}>
-            <div className={styles.filterLabel}>
-              <span>Max walking time</span>
-              <span className={styles.filterValue}>{maxWalkMins} min</span>
-            </div>
-            <input
-              type="range" className={styles.slider}
-              min="5" max="60" step="5"
-              value={maxWalkMins}
-              onChange={e => setMaxWalkMins(parseInt(e.target.value))}
-            />
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '6px' }}>
-              {WALK_TIME_OPTIONS.map(d => (
-                <button key={d.value} onClick={() => setMaxWalkMins(d.value)}
-                  style={{
-                    background: maxWalkMins === d.value ? '#E63946' : 'transparent',
-                    color: maxWalkMins === d.value ? 'white' : '#666',
-                    border: 'none', borderRadius: '4px', padding: '3px 8px',
-                    fontSize: '10px', fontWeight: 700, cursor: 'pointer',
-                  }}
-                >{d.label}</button>
-              ))}
-            </div>
+          {/* ACCORDION 1: Price & Distance */}
+          <div className={styles.accordionHeader} onClick={() => toggleAccordion('price')}>
+            <span className={styles.accordionTitle}>Price & Distance</span>
+            <span className={`${styles.accordionIcon} ${openAccordions.price ? styles.accordionIconOpen : ''}`}>▼</span>
           </div>
-
-          {/* Neighborhood */}
-          <div className={styles.filterSection}>
-            <div className={styles.filterLabel}><span>Neighborhood</span></div>
-            <select className={styles.nbSelect} value={selectedNb} onChange={e => setSelectedNb(e.target.value)}>
-              {NEIGHBOURHOODS.map(n => <option key={n.id} value={n.id}>{n.name}</option>)}
-            </select>
-          </div>
-
-          {/* Tap Beer */}
-          <div className={styles.filterSection}>
-            <div className={styles.filterLabel}><span>Tap Beer</span></div>
-            <select className={styles.nbSelect} value={selectedBeer} onChange={e => setSelectedBeer(e.target.value)}>
-              <option value="all">All Brands</option>
-              {COMMON_BEERS.map(b => <option key={b} value={b}>{b}</option>)}
-            </select>
-          </div>
-
-          {/* Filter Toggles */}
-          <div className={styles.filterSectionTitle}>FILTER BY</div>
-          {FILTER_DEFS.map(f => (
-            <div
-              key={f.key}
-              className={`${styles.filterRow} ${filters[f.key] ? styles.filterRowActive : ''}`}
-              onClick={() => toggleFilter(f.key)}
-            >
-              <div className={`${styles.filterCheckbox} ${filters[f.key] ? styles.filterCheckboxChecked : ''}`}>
-                {filters[f.key] && '✓'}
+          {openAccordions.price && (
+            <div className={styles.accordionContent}>
+              <div className={styles.filterSection} style={{ border: 'none', padding: '0 0 16px' }}>
+                <div className={styles.filterLabel}><span>Max price</span><span className={styles.filterValue}>€{priceRange.toFixed(2)}</span></div>
+                <input type="range" className={styles.slider} min="1.50" max="10" step="0.25" value={priceRange} onChange={e => setPriceRange(parseFloat(e.target.value))} />
               </div>
-              <span className={styles.filterRowLabel}>{f.icon} {f.label}</span>
-              <span className={styles.filterRowCount}>{filterCounts[f.key]}</span>
+              <div className={styles.filterSection} style={{ border: 'none', padding: 0 }}>
+                <div className={styles.filterLabel}><span>Max walking time</span><span className={styles.filterValue}>{maxWalkMins} min</span></div>
+                <input type="range" className={styles.slider} min="5" max="60" step="5" value={maxWalkMins} onChange={e => setMaxWalkMins(parseInt(e.target.value))} />
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '12px' }}>
+                  {WALK_TIME_OPTIONS.map(d => (
+                    <button key={d.value} onClick={() => setMaxWalkMins(d.value)}
+                      style={{
+                        background: maxWalkMins === d.value ? '#E63946' : 'rgba(255,255,255,0.05)',
+                        color: maxWalkMins === d.value ? 'white' : '#aaa',
+                        border: 'none', borderRadius: '4px', padding: '4px 8px',
+                        fontSize: '10px', fontWeight: 700, cursor: 'pointer',
+                      }}
+                    >{d.label}</button>
+                  ))}
+                </div>
+              </div>
             </div>
-          ))}
+          )}
 
-          {/* Bar List */}
-          <div className={styles.barListTitle}>RESULTS</div>
+          {/* ACCORDION 2: Vibe & Crowd */}
+          <div className={styles.accordionHeader} onClick={() => toggleAccordion('vibe')}>
+            <span className={styles.accordionTitle}>Vibe & Crowd</span>
+            <span className={`${styles.accordionIcon} ${openAccordions.vibe ? styles.accordionIconOpen : ''}`}>▼</span>
+          </div>
+          {openAccordions.vibe && (
+            <div className={styles.accordionContent}>
+              <div style={{ marginBottom: '16px' }}>
+                <div className={styles.filterLabel}><span>The Vibe</span></div>
+                <div className={styles.pillGroup}>
+                  {['all', 'cozy', 'party', 'date', 'sports'].map(v => (
+                    <div key={v} onClick={() => setVibeFilter(v)}
+                      className={`${styles.filterPill} ${vibeFilter === v ? styles.filterPillActive : ''}`}>
+                      {v === 'all' ? 'Any Vibe' : v.charAt(0).toUpperCase() + v.slice(1)}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <div className={styles.filterLabel}><span>Main Crowd</span></div>
+                <div className={styles.pillGroup}>
+                  {['all', 'students', 'locals', 'expats', 'mixed'].map(d => (
+                    <div key={d} onClick={() => setDemoFilter(d)}
+                      className={`${styles.filterPill} ${demoFilter === d ? styles.filterPillActive : ''}`}>
+                      {d === 'all' ? 'Anyone' : d.charAt(0).toUpperCase() + d.slice(1)}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ACCORDION 3: Amenities */}
+          <div className={styles.accordionHeader} onClick={() => toggleAccordion('amenities')}>
+            <span className={styles.accordionTitle}>Amenities & Features</span>
+            <span className={`${styles.accordionIcon} ${openAccordions.amenities ? styles.accordionIconOpen : ''}`}>▼</span>
+          </div>
+          {openAccordions.amenities && (
+            <div className={styles.accordionContent}>
+              <div className={styles.iconGrid} style={{ marginBottom: '16px' }}>
+                {FILTER_DEFS.slice(2, 8).map(f => (
+                  <div key={f.key} onClick={() => toggleFilter(f.key)} className={`${styles.iconBtn} ${filters[f.key] ? styles.iconBtnActive : ''}`}>
+                    <span className={styles.iconBtnEmoji}>{f.icon}</span>
+                    <span className={styles.iconBtnLabel}>{f.label}</span>
+                  </div>
+                ))}
+              </div>
+              <div className={styles.pillGroup}>
+                {FILTER_DEFS.slice(0, 2).concat(FILTER_DEFS.slice(8)).map(f => (
+                  <div key={f.key} onClick={() => toggleFilter(f.key)} className={`${styles.filterPill} ${filters[f.key] ? styles.filterPillActive : ''}`}>
+                    {f.icon} {f.label}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ACCORDION 4: Beer Selection */}
+          <div className={styles.accordionHeader} onClick={() => toggleAccordion('beer')}>
+            <span className={styles.accordionTitle}>Tap Beer</span>
+            <span className={`${styles.accordionIcon} ${openAccordions.beer ? styles.accordionIconOpen : ''}`}>▼</span>
+          </div>
+          {openAccordions.beer && (
+            <div className={styles.accordionContent}>
+              <div className={styles.logoGrid}>
+                <div onClick={() => setSelectedBeer('all')} className={`${styles.logoBtn} ${selectedBeer === 'all' ? styles.logoBtnActive : ''}`}>ALL</div>
+                {COMMON_BEERS.map(b => (
+                  <div key={b} onClick={() => setSelectedBeer(b)} className={`${styles.logoBtn} ${selectedBeer === b ? styles.logoBtnActive : ''}`}>
+                    {b.substring(0, 4).toUpperCase()}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ─── Sorting Pill ─── */}
+          <div className={styles.sortWrapper}>
+            <span className={styles.sortLabel}>Results ({filteredPlaces.length})</span>
+            <select className={styles.sortSelect} value={sortMode} onChange={e => setSortMode(e.target.value)}>
+              <option value="closest">Sort: Closest</option>
+              <option value="cheapest">Sort: Cheapest</option>
+              <option value="rating">Sort: Highest Rated</option>
+              <option value="popular">Sort: Most Popular Now</option>
+            </select>
+          </div>
+
+          {/* ─── Bar List ─── */}
           {fetching ? (
-            Array(5).fill(0).map((_, i) => (
-              <div key={i} className={`${styles.barListItem} ${styles.skeleton}`} style={{ height: '80px', margin: '0 0 8px' }} />
-            ))
+            Array(5).fill(0).map((_, i) => <div key={i} className={`${styles.barListItem} ${styles.skeleton}`} style={{ height: '80px', margin: '0 0 8px' }} />)
           ) : filteredPlaces.length === 0 ? (
             <div style={{ padding: '40px 20px', textAlign: 'center', color: '#666' }}>
               <p>No bars match these filters.</p>
-              <button onClick={() => {
-                setFilters({ open: false, terrace: false, sports: false, rooftop: false, late: false, group: false, dog: false, music: false, student: false, date: false, happyHour: false, new: false, closed: false, irish: false, craft: false });
-                setPriceRange(10);
-                setMaxWalkMins(60);
-              }} style={{ marginTop: '12px', background: '#E63946', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', fontWeight: 700 }}>
-                Reset Filters
-              </button>
             </div>
           ) : (
-            filteredPlaces.map(p => {
+            filteredPlaces.sort((a, b) => {
+              if (sortMode === 'cheapest') return parseFloat(a.beerPrice?.replace('€','') || '99') - parseFloat(b.beerPrice?.replace('€','') || '99');
+              if (sortMode === 'rating') return (b.rating || 0) - (a.rating || 0);
+              if (sortMode === 'popular') return (b.currentPopularity || 0) - (a.currentPopularity || 0);
+              if (userLoc) return haversine(userLoc.lat, userLoc.lng, a.lat, a.lng) - haversine(userLoc.lat, userLoc.lng, b.lat, b.lng);
+              return 0;
+            }).map((p, idx) => {
               const walk = getBarWalkInfo(p);
               const isHH = isHappyHourActive(p.happyHourStart, p.happyHourEnd);
               const popLevel = p.currentPopularity;
-              const busy = popLevel != null
-                ? popLevel > 70 ? { label: 'Very busy', color: '#ef4444' }
-                  : popLevel > 30 ? { label: 'Busy', color: '#f59e0b' }
-                  : { label: 'Quiet', color: '#22c55e' }
-                : { label: 'Unknown', color: '#555' };
+              const busy = popLevel != null ? popLevel > 70 ? { label: 'Very busy', color: '#ef4444' } : popLevel > 30 ? { label: 'Busy', color: '#f59e0b' } : { label: 'Quiet', color: '#22c55e' } : { label: 'Unknown', color: '#555' };
               const isNew = p.openedAt && (new Date().getTime() - new Date(p.openedAt).getTime()) < 90 * 24 * 60 * 60 * 1000;
               
               return (
-                <div
-                  key={p.id}
-                  className={`${styles.barListItem} ${selectedPlace?.id === p.id ? styles.barActive : ''} ${p.status === 'temporarily_closed' ? styles.barClosed : ''}`}
-                  onClick={() => {
-                    setSelectedPlace(p);
-                    mapInstanceRef.current?.panTo({ lat: p.lat, lng: p.lng });
-                    mapInstanceRef.current?.setZoom(17);
-                  }}
-                >
-                  <div className={styles.barCardHeader}>
-                    <h4>
-                      <span className={styles.busyDot} style={{ background: busy.color }} title={busy.label} />
-                      {p.name}
-                      {isNew && <span className={styles.newBadgeMini}>NEW</span>}
-                    </h4>
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
-                      <span className={styles.barCardPrice} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-    {p.priceConfidence === 'verified' && <span style={{ color: '#22c55e' }}>✓</span>}
-    {p.priceConfidence === 'estimated' && <span style={{ color: '#f59e0b', fontSize: '14px' }}>~</span>}
-    {p.priceConfidence === 'unverified' && <span style={{ color: '#888', fontSize: '14px' }}>?</span>}
-    {p.priceConfidence === 'unverified' ? 'Price unknown' : p.beerPrice}
-  </span>
-                      <button 
-                        className={`${styles.compareMiniBtn} ${compareList.find(x => x.id === p.id) ? styles.compareMiniBtnActive : ''}`}
-                        onClick={(e) => { e.stopPropagation(); toggleCompare(p); }}
-                      >
-                        {compareList.find(x => x.id === p.id) ? 'Added' : '+ Compare'}
-                      </button>
+                <React.Fragment key={p.id}>
+                  {/* Inline Bar of the week logic */}
+                  {idx === 2 && !filters.closed && (
+                    <div className={styles.botwInline} onClick={() => { /* maybe pan to it */ }}>
+                      <div className={styles.botwInlineBadge}>SPOTLIGHT</div>
+                      <h4 style={{ color: 'white', margin: '0 0 4px', fontSize: '16px' }}>Bar of the Week</h4>
+                      <p style={{ color: '#aaa', margin: 0, fontSize: '12px' }}>Try this local favorite!</p>
+                    </div>
+                  )}
+
+                  <div className={`${styles.barListItem} ${selectedPlace?.id === p.id ? styles.barActive : ''} ${p.status === 'temporarily_closed' ? styles.barClosed : ''}`}
+                    onClick={() => { setSelectedPlace(p); mapInstanceRef.current?.panTo({ lat: p.lat, lng: p.lng }); mapInstanceRef.current?.setZoom(17); }}>
+                    <div className={styles.barCardHeader}>
+                      <h4>
+                        <span className={styles.busyDot} style={{ background: busy.color }} title={busy.label} />
+                        {p.name}
+                        {isNew && <span className={styles.newBadgeMini}>NEW</span>}
+                      </h4>
+                      <span className={styles.barCardPrice}>{p.beerPrice}</span>
+                    </div>
+                    <div className={styles.barCardMeta}>{p.address}</div>
+                    <div className={styles.barCardBottom}>
+                      {p.isOpenNow ? <span className={`${styles.openBadge} ${styles.openBadgeOpen}`}>Open</span> : <span className={`${styles.openBadge} ${styles.openBadgeClosed}`}>Closed</span>}
+                      {isHH && <span className={styles.hhBadgeMini}>HH</span>}
+                      {walk && <span className={styles.barCardWalk}>🚶 {walk.label}</span>}
                     </div>
                   </div>
-                  <div className={styles.barCardMeta}>{p.address}</div>
-                  <div className={styles.barCardBottom}>
-                    {p.status === 'temporarily_closed' ? (
-    <span className={styles.statusWarning}>⚠️ Temporarily Closed</span>
-  ) : p.isOpenNow !== undefined && p.isOpenNow !== null ? (
-    <span className={`${styles.openBadge} ${p.isOpenNow ? styles.openBadgeOpen : styles.openBadgeClosed}`}>
-      {p.isOpenNow ? 'Open' : 'Closed'}
-    </span>
-  ) : (
-    <span className={`${styles.openBadge} ${styles.openBadgeClosed}`} style={{ background: '#555', color: 'white' }}>
-      Unknown
-    </span>
-  )}
-                    {isHH && <span className={styles.hhBadgeMini}>HH</span>}
-                    {p.studentDiscount && <span title="Student Discount">🎓</span>}
-                    {walk && <span className={styles.barCardWalk}>🚶 {walk.label}</span>}
-                    <div className={styles.barCardBadges}>
-                      {p.outdoorSeating && '☀️'}
-                      {p.hasSports && '⚽'}
-                      {p.rooftop && '🏙️'}
-                    </div>
-                  </div>
-                </div>
+                </React.Fragment>
               );
             })
           )}
+          
+          <div className={styles.floatingResultsBtn}>
+            <button className={styles.resultsBtn} onClick={() => setSidebarVisible(false)}>
+              Show {filteredPlaces.length} Bars
+            </button>
+          </div>
         </div>
       </aside>
+
 
       {/* ─── Map ─── */}
       <main className={styles.mapContainer}>
         <div ref={mapRef} style={{ width: '100%', height: '100%' }} />
+        {/* Heatmap Toggle */}
+        <button className={`${styles.heatmapToggle} ${showHeatmap ? styles.heatmapToggleActive : ''}`} onClick={() => setShowHeatmap(!showHeatmap)}>🔥 {showHeatmap ? 'Heatmap On' : 'Heatmap Off'}</button>
 
         {/* Mobile Filter Toggle */}
         <button

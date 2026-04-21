@@ -19,11 +19,14 @@
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  background: #1A1A2E;
-  border-right: 1px solid rgba(255,255,255,0.08);
+  background: rgba(13, 13, 31, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-right: 1px solid rgba(255,255,255,0.05);
   height: 100%;
   overflow: hidden;
   transition: transform 0.3s ease;
+  z-index: 100;
 }
 
 .sidebarHeader {
@@ -1100,4 +1103,275 @@
     font-size: 14px;
     border-radius: 50%;
   }
+}
+
+/* ─── Premium Filter UI ─── */
+.quickPresets {
+  display: flex;
+  gap: 8px;
+  padding: 16px 20px 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.quickPresets::-webkit-scrollbar { display: none; }
+
+.presetBtn {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 2px 4px 10px rgba(0,0,0,0.2);
+}
+.presetBtn:hover {
+  background: rgba(255,255,255,0.1);
+  transform: translateY(-2px);
+}
+.presetBtnActive {
+  background: #E63946;
+  border-color: #E63946;
+}
+
+.accordionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  transition: background 0.2s;
+}
+.accordionHeader:hover {
+  background: rgba(255,255,255,0.02);
+}
+.accordionTitle {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #fff;
+}
+.accordionIcon {
+  color: #888;
+  font-size: 12px;
+  transition: transform 0.3s;
+}
+.accordionIconOpen {
+  transform: rotate(180deg);
+}
+
+.accordionContent {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  background: rgba(0,0,0,0.1);
+}
+
+.pillGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.filterPill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #ccc;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+.filterPill:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.15);
+  transform: translateY(-1px);
+}
+.filterPillActive {
+  background: rgba(230, 57, 70, 0.15);
+  border-color: #E63946;
+  color: #E63946;
+  box-shadow: inset 0 0 10px rgba(230,57,70,0.1);
+}
+
+.iconGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.iconBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 12px;
+  padding: 16px 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.iconBtn:hover {
+  background: rgba(255,255,255,0.05);
+  transform: translateY(-2px);
+}
+.iconBtnActive {
+  background: rgba(230, 57, 70, 0.1);
+  border-color: #E63946;
+}
+.iconBtnEmoji {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+.iconBtnLabel {
+  font-size: 10px;
+  font-weight: 700;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+.iconBtnActive .iconBtnLabel {
+  color: #E63946;
+}
+
+.logoGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.logoBtn {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 800;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  overflow: hidden;
+  color: #fff;
+}
+.logoBtnActive {
+  border-color: #E63946;
+  box-shadow: 0 0 15px rgba(230,57,70,0.4);
+}
+
+.sortWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: rgba(0,0,0,0.2);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.sortLabel {
+  font-size: 11px;
+  font-weight: 800;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.sortSelect {
+  background: rgba(255,255,255,0.05);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 700;
+  outline: none;
+  cursor: pointer;
+}
+
+.floatingResultsBtn {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  background: rgba(13, 13, 31, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 16px 20px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  z-index: 10;
+}
+.resultsBtn {
+  width: 100%;
+  background: #E63946;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(230,57,70,0.3);
+  transition: all 0.2s;
+}
+.resultsBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(230,57,70,0.4);
+}
+
+.heatmapToggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  background: rgba(13, 13, 31, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: all 0.2s;
+}
+.heatmapToggleActive {
+  background: rgba(230, 57, 70, 0.2);
+  border-color: #E63946;
+  color: #E63946;
+}
+
+.botwInline {
+  margin: 16px 20px;
+  background: linear-gradient(135deg, rgba(230,57,70,0.15) 0%, rgba(230,57,70,0.05) 100%);
+  border: 1px solid rgba(230,57,70,0.3);
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.botwInlineBadge {
+  position: absolute;
+  top: 0; right: 0;
+  background: #E63946;
+  color: white;
+  font-size: 9px;
+  font-weight: 900;
+  padding: 4px 8px;
+  border-radius: 0 12px 0 12px;
+  text-transform: uppercase;
 }
