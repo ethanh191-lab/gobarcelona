@@ -813,7 +813,7 @@ function ComparisonPanel({ items, onClose, onRemove, userLoc }: { items: Place[]
 
   const attributes = [
     { label: 'Price', key: 'beerPrice' },
-    { label: 'Neighborhood', key: 'neighborhood' },
+    { label: 'Neighborhood', key: 'neighbourhood' },
     { label: 'Walking Dist.', key: 'walk' },
     { label: 'Happy Hour', key: 'happyHour' },
     { label: 'Terrace', key: 'outdoorSeating' },
