@@ -1,244 +1,83 @@
 "use client";
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import styles from './map.module.css';
-import { useLanguage } from '../../components/LanguageContext';
-import { getTerraceTimeline } from '@/lib/sun-calc';
 
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import styles from './map.module.css';
+import type { Place, FilterState, FilterKey } from '@/types';
+
+const BCN_CENTER = { lat: 41.3851, lng: 2.1734 };
 const GOOGLE_API_KEY = 'AIzaSyDYQ7swNdsixXWF3whewFgtaUZo8BIHb-c';
 
-// Barcelona city center — ALWAYS the fallback
-const BCN_CENTER = { lat: 41.3851, lng: 2.1734 };
-// Dev mock location: Carrer de la Llibreteria 21
-const MOCK_LOCATION = { lat: 41.3839, lng: 2.1770 };
-
-const NEIGHBOURHOODS = [
-  { id: 'all',      name: 'All BCN',        lat: 41.3851, lng: 2.1734 },
-  { id: 'gothic',   name: 'Gothic Quarter', lat: 41.3828, lng: 2.1771 },
-  { id: 'born',     name: 'El Born',        lat: 41.3849, lng: 2.1849 },
-  { id: 'eixample', name: 'Eixample',       lat: 41.3911, lng: 2.1637 },
-  { id: 'gracia',   name: 'Gràcia',         lat: 41.4033, lng: 2.1557 },
-  { id: 'poblesec', name: 'Poble Sec',      lat: 41.3720, lng: 2.1574 },
-  { id: 'raval',    name: 'El Raval',       lat: 41.3800, lng: 2.1680 },
-];
-
-interface Place {
-  id: string;
-  name: string;
-  address: string;
-  lat: number;
-  lng: number;
-  beerPrice: string;
-  rating: number | null;
-  reviewCount: number;
-  outdoorSeating: boolean;
-  isOpen: boolean | null;
-  hasSports?: boolean;
-  groupFriendly?: boolean;
-  dogFriendly?: boolean;
-  liveMusic?: boolean;
-  dateSpot?: boolean;
-  rooftop?: boolean;
-  openLate?: boolean;
-  openingHoursStr?: string;
-  neighbourhood?: string;
-  // New features
-  happyHourStart?: string;
-  happyHourEnd?: string;
-  happyHourPrice?: number;
-  beersOnTap?: string[];
-  studentDiscount?: boolean;
-  studentPrice?: number;
-  openedAt?: string;
-  status?: string;
-  closureNote?: string;
-  reopeningDate?: string;
-  openingToday?: string;
-  isOpenNow?: boolean | null;
-  lastUpdated?: string;
-  priceConfidence?: string;
-  popularTimes?: number[][] | null;
-  currentPopularity?: number | null;
-  vibe?: string;
-  demographic?: string;
-}
-
-// Haversine formula — distance in meters between two lat/lng points
 function haversine(lat1: number, lng1: number, lat2: number, lng2: number): number {
   const R = 6371000;
   const toRad = (n: number) => (n * Math.PI) / 180;
   const dLat = toRad(lat2 - lat1);
   const dLng = toRad(lng2 - lng1);
-  const a = Math.sin(dLat / 2) ** 2 +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-function isHappyHourActive(start?: string, end?: string): boolean {
-  if (!start || !end) return false;
-  const now = new Date();
-  const time = now.getHours() * 100 + now.getMinutes();
-  const [sH, sM] = start.split(':').map(Number);
-  const [eH, eM] = end.split(':').map(Number);
-  const s = sH * 100 + sM;
-  const e = eH * 100 + eM;
-  if (e < s) return time >= s || time <= e; // spans midnight
-  return time >= s && time <= e;
+function getWalkingTime(fromLat: number, fromLng: number, toLat: number, toLng: number): string {
+  const straightLine = haversine(fromLat, fromLng, toLat, toLng);
+  const walkingDistance = straightLine * 1.4; // circuity factor
+  const minutes = Math.round(walkingDistance / 83.3); // 5km/h walking speed
+  return minutes <= 1 ? '1 min walk' : `${minutes} min walk`;
 }
 
-function getBusynessLevel(): { label: string; color: string } {
-  const hour = new Date().getHours();
-  // Simple mock: busy at lunch (13-15) and dinner (20-23)
-  if ((hour >= 13 && hour <= 15) || (hour >= 20 && hour <= 23)) {
-    return { label: 'Busy now', color: '#f59e0b' };
-  }
-  if (hour >= 23 || hour <= 2) {
-    return { label: 'Very busy now', color: '#ef4444' };
-  }
-  return { label: 'Quiet now', color: '#22c55e' };
+function isOpenNowLogic(openingHours?: string): boolean {
+  // Real logic would parse openingHours. For now, default true if string exists.
+  return !!openingHours;
 }
-
-function distanceToWalk(straightLineMeters: number): { mins: number; label: string } {
-  // Barcelona grid layout — real walking distance ≈ 1.4x straight-line
-  const walkMeters = straightLineMeters * 1.4;
-  const mins = Math.round(walkMeters / 75); // ~4.5 km/h avg walking speed
-  return { mins, label: `${mins} min` };
-}
-
-type FilterKey = 'open' | 'terrace' | 'sports' | 'rooftop' | 'late' | 'group' | 'dog' | 'music' | 'student' | 'date' | 'happyHour' | 'new' | 'closed' | 'irish' | 'craft';
-
-const FILTER_DEFS: { key: FilterKey; label: string; icon: string }[] = [
-  { key: 'open',      label: 'Open Now',        icon: '🟢' },
-  { key: 'happyHour', label: 'Happy Hour Now',  icon: '⏰' },
-  { key: 'terrace',   label: 'Terrace',         icon: '☀️' },
-  { key: 'sports',    label: 'Sports Bar',      icon: '⚽' },
-  { key: 'rooftop',   label: 'Rooftop',         icon: '🏙️' },
-  { key: 'late',      label: 'Late Night',      icon: '🌙' },
-  { key: 'group',     label: 'Group Tables',    icon: '👥' },
-  { key: 'dog',       label: 'Dog Friendly',    icon: '🐶' },
-  { key: 'music',     label: 'Live Music',      icon: '🎵' },
-  { key: 'student',   label: 'Student Discount',icon: '🎓' },
-  { key: 'irish',     label: 'Irish Pub',       icon: '🍀' },
-  { key: 'craft',     label: 'Craft Beer',      icon: '🍺' },
-  { key: 'new',       label: 'New Openings',    icon: '🆕' },
-  { key: 'closed',    label: 'Show Closed',     icon: '🚫' },
-  { key: 'date',      label: 'Good for Dates',  icon: '❤️' },
-];
-
-const WALK_TIME_OPTIONS = [
-  { value: 5,  label: '5 min' },
-  { value: 10, label: '10 min' },
-  { value: 15, label: '15 min' },
-  { value: 20, label: '20 min' },
-  { value: 60, label: '60 min' },
-];
 
 export default function BeerMapPage() {
-  const { t } = useLanguage();
+  const [places, setPlaces] = useState<Place[]>([]);
+  const [fetching, setFetching] = useState(true);
+  const [mapsLoaded, setMapsLoaded] = useState(false);
+  const [userLoc, setUserLoc] = useState<{lat: number, lng: number} | null>(null);
+  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
+  
+  // Mobile / UI state
+  const [openDropdown, setOpenDropdown] = useState<'price' | 'vibe' | 'features' | null>(null);
+  const [showHeatmap, setShowHeatmap] = useState(false);
+  const [bottomSheetState, setBottomSheetState] = useState<'collapsed' | 'half' | 'full'>('half');
+  const [compareList, setCompareList] = useState<Place[]>([]);
+  const [showCompareModal, setShowCompareModal] = useState(false);
+
+  // Filters
+  const [priceLevel, setPriceLevel] = useState<number | null>(null); // 1, 2, 3
+  const [vibeFilter, setVibeFilter] = useState<string>('all');
+  const [featureFilter, setFeatureFilter] = useState<string>('all');
+  const [onlyOpenNow, setOnlyOpenNow] = useState(false);
+  
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<google.maps.Map | null>(null);
   const markersRef = useRef<any[]>([]);
-  const userDotRef = useRef<any>(null);
-  const heatmapRef = useRef<any>(null);
-  const walkCircleRef = useRef<any>(null);
+  const heatmapLayerRef = useRef<any>(null);
 
-  const [places, setPlaces] = useState<Place[]>([]);
-  const [fetching, setFetching] = useState(true);
-  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
-  const [mapsLoaded, setMapsLoaded] = useState(false);
-
-  // User location state
-  const [userLoc, setUserLoc] = useState<{ lat: number; lng: number } | null>(null);
-  const [locationDenied, setLocationDenied] = useState(false);
-
-  // Filters
-  const [priceRange, setPriceRange] = useState(10);
-  const [maxWalkMins, setMaxWalkMins] = useState(60);
-  const [selectedNb, setSelectedNb] = useState('all');
-  const [filters, setFilters] = useState<Record<FilterKey, boolean>>({
-    open: false, terrace: false, sports: false, rooftop: false,
-    late: false, group: false, dog: false, music: false,
-    student: false, date: false, happyHour: false, new: false, closed: false,
-    irish: false, craft: false,
-  });
-  const [selectedBeer, setSelectedBeer] = useState('all');
-  const [realWalk, setRealWalk] = useState<{ mins: string; dist: string } | null>(null);
-
-  // New State for Accordions, Sorting, and Mock Filters
-  const [openAccordions, setOpenAccordions] = useState({ price: true, vibe: true, amenities: true, beer: false });
-  const toggleAccordion = (sec: string) => setOpenAccordions(p => ({ ...p, [sec as keyof typeof openAccordions]: !p[sec as keyof typeof openAccordions] }));
-  const [sortMode, setSortMode] = useState('closest');
-  const [showHeatmap, setShowHeatmap] = useState(false);
-  const [vibeFilter, setVibeFilter] = useState('all');
-  const [demoFilter, setDemoFilter] = useState('all');
-
-  // Fetch real walking time from Google API
+  // Fetch data
   useEffect(() => {
-    if (selectedPlace && userLoc && window.google) {
-      const service = new google.maps.DistanceMatrixService();
-      service.getDistanceMatrix({
-        origins: [{ lat: userLoc.lat, lng: userLoc.lng }],
-        destinations: [{ lat: selectedPlace.lat, lng: selectedPlace.lng }],
-        travelMode: google.maps.TravelMode.WALKING,
-      }, (response, status) => {
-        if (status === 'OK' && response && response.rows[0].elements[0].status === 'OK') {
-          const element = response.rows[0].elements[0];
-          setRealWalk({
-            mins: element.duration.text,
-            dist: element.distance.text,
-          });
-        } else {
-          setRealWalk(null);
-        }
-      });
-    } else {
-      setRealWalk(null);
-    }
-  }, [selectedPlace, userLoc]);
-
-  const COMMON_BEERS = ['Estrella Damm', 'Moritz', 'Voll-Damm', 'Estrella Galicia', 'Heineken', 'Mahou', 'San Miguel'];
-
-  const [showReportModal, setShowReportModal] = useState(false);
-  const [showUpdateModal, setShowUpdateModal] = useState(false);
-  const [sidebarVisible, setSidebarVisible] = useState(false);
-  const [leaderboardOpen, setLeaderboardOpen] = useState(true); // kept for compat
-  const [compareList, setCompareList] = useState<Place[]>([]);
-
-  const toggleCompare = (p: Place) => {
-    setCompareList(prev => {
-      if (prev.find(x => x.id === p.id)) return prev.filter(x => x.id !== p.id);
-      if (prev.length >= 3) return prev;
-      return [...prev, p];
-    });
-  };
-
-  // ────── 1. Request Geolocation ──────
-  useEffect(() => {
-    if (!navigator.geolocation) {
-      setUserLoc(MOCK_LOCATION);
-      return;
-    }
-    navigator.geolocation.getCurrentPosition(
-      (pos) => setUserLoc({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
-      () => {
-        setLocationDenied(true);
-        setUserLoc(MOCK_LOCATION); // fallback to mock
-      },
-      { enableHighAccuracy: true, timeout: 8000 }
-    );
+    fetch('/api/places')
+      .then(r => r.json())
+      .then(d => {
+        setPlaces(d.places || []);
+        setFetching(false);
+      })
+      .catch(e => { console.error(e); setFetching(false); });
   }, []);
 
-  const requestLocation = () => {
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        setUserLoc({ lat: pos.coords.latitude, lng: pos.coords.longitude });
-        setLocationDenied(false);
-      },
-      () => setLocationDenied(true),
-      { enableHighAccuracy: true }
-    );
-  };
+  // Geolocation
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => setUserLoc({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+        () => setUserLoc(BCN_CENTER),
+        { enableHighAccuracy: true, timeout: 5000 }
+      );
+    } else {
+      setUserLoc(BCN_CENTER);
+    }
+  }, []);
 
-  // ────── 2. Load Google Maps ──────
+  // Load Google Maps
   useEffect(() => {
     if (window.google?.maps?.Map) { setMapsLoaded(true); return; }
     const s = document.createElement('script');
@@ -248,155 +87,39 @@ export default function BeerMapPage() {
     document.head.appendChild(s);
   }, []);
 
-  // ────── 3. Initialize Map — ALWAYS Barcelona ──────
+  // Init Map
   useEffect(() => {
     if (!mapsLoaded || !mapRef.current || mapInstanceRef.current) return;
     const init = async () => {
-      try {
-        const { Map } = await google.maps.importLibrary("maps") as any;
-        mapInstanceRef.current = new Map(mapRef.current, {
-          center: BCN_CENTER,
-          zoom: 13,
-          mapId: 'BCN_BEER_MAP_V3',
-          disableDefaultUI: true,
-          zoomControl: true,
-          clickableIcons: false,
-          backgroundColor: '#1A1A2E',
-          restriction: {
-            latLngBounds: { north: 41.47, south: 41.30, west: 2.05, east: 2.25 },
-            strictBounds: false,
-          },
-        });
-      } catch (e) {
-        console.error("Map init error:", e);
-      }
+      const { Map } = await google.maps.importLibrary("maps") as any;
+      mapInstanceRef.current = new Map(mapRef.current, {
+        center: BCN_CENTER,
+        zoom: 13,
+        mapId: 'BCN_BEER_MAP_V4',
+        disableDefaultUI: true,
+        zoomControl: true,
+        backgroundColor: '#0a0a0f', // Match new design system
+      });
     };
     init();
   }, [mapsLoaded]);
 
-  // ────── 3.5 User Location Blue Dot ──────
-  useEffect(() => {
-    if (!mapInstanceRef.current || !mapsLoaded || !userLoc) return;
-    const addDot = async () => {
-      const { AdvancedMarkerElement } = await google.maps.importLibrary("marker") as any;
-      if (userDotRef.current) userDotRef.current.map = null;
-      const el = document.createElement('div');
-      el.className = styles.userDot;
-      userDotRef.current = new AdvancedMarkerElement({
-        map: mapInstanceRef.current,
-        position: userLoc,
-        content: el,
-        title: 'You are here',
-        zIndex: 9999,
-      });
-    };
-    addDot();
-  }, [userLoc, mapsLoaded]);
-
-  // ────── 4. Neighbourhood Pan ──────
-  useEffect(() => {
-    if (!mapInstanceRef.current) return;
-    const nb = NEIGHBOURHOODS.find(n => n.id === selectedNb);
-    if (!nb) return;
-    if (selectedNb === 'all') {
-      mapInstanceRef.current.setCenter(BCN_CENTER);
-      mapInstanceRef.current.setZoom(13);
-    } else {
-      mapInstanceRef.current.panTo({ lat: nb.lat, lng: nb.lng });
-      mapInstanceRef.current.setZoom(15);
-    }
-  }, [selectedNb]);
-
-  // ────── 5. Fetch Places ──────
-  const fetchPlaces = useCallback(async () => {
-    setFetching(true);
-    try {
-      const nb = NEIGHBOURHOODS.find(n => n.id === selectedNb);
-      const lat = nb?.lat || BCN_CENTER.lat;
-      const lng = nb?.lng || BCN_CENTER.lng;
-      const res = await fetch(`/api/places?lat=${lat}&lng=${lng}&radius=5000`);
-      const data = await res.json();
-      
-      // Inject Mock Data for the new premium filters
-      const mocked = (data.places || []).map((p: any) => ({
-        ...p,
-        vibe: ['cozy', 'party', 'date', 'sports'][Math.floor(Math.random() * 4)],
-        demographic: ['students', 'locals', 'expats', 'mixed'][Math.floor(Math.random() * 4)],
-      }));
-      setPlaces(mocked);
-    } catch (e) { console.error(e); }
-    finally { setTimeout(() => setFetching(false), 400); }
-  }, [selectedNb]);
-
-  useEffect(() => { fetchPlaces(); }, [fetchPlaces]);
-
-  // ────── 6. Filtering (price + distance + toggles) ──────
+  // Filter Logic
   const filteredPlaces = useMemo(() => {
     return places.filter(p => {
-      if (selectedNb !== 'all') {
-        const nb = NEIGHBOURHOODS.find(n => n.id === selectedNb);
-        if (nb && p.neighbourhood !== nb.name) return false;
+      if (priceLevel && p.priceLevel !== priceLevel) return false;
+      if (vibeFilter !== 'all' && (!p.vibe || !p.vibe.includes(vibeFilter))) return false;
+      if (onlyOpenNow && !p.isOpenNow) return false;
+      if (featureFilter !== 'all') {
+        if (featureFilter === 'student' && !p.studentDiscount) return false;
+        if (featureFilter === 'terrace' && !p.outdoorSeating) return false;
+        // add more feature checks
       }
-      if (p.status === 'permanently_closed' && !filters.closed) return false;
-      const price = parseFloat(p.beerPrice?.replace('€', '') || '0');
-      if (price > priceRange) return false;
-      // Walking time filter
-      if (userLoc) {
-        const dist = haversine(userLoc.lat, userLoc.lng, p.lat, p.lng);
-        const walkInfo = distanceToWalk(dist);
-        if (walkInfo.mins > maxWalkMins) return false;
-      }
-      if (filters.terrace && !p.outdoorSeating) return false;
-      if (filters.sports && !p.hasSports) return false;
-      if (filters.group && !p.groupFriendly) return false;
-      if (filters.late && !p.openLate) return false;
-      if (filters.student && !p.studentDiscount) return false;
-      if (filters.new && !(p.openedAt && (new Date().getTime() - new Date(p.openedAt).getTime()) < 90 * 24 * 60 * 60 * 1000)) return false;
-      if (filters.happyHour && !isHappyHourActive(p.happyHourStart, p.happyHourEnd)) return false;
-      if (selectedBeer !== 'all' && !(p.beersOnTap && p.beersOnTap.includes(selectedBeer))) return false;
-      if (filters.music && !p.liveMusic) return false;
-      if (filters.dog && !p.dogFriendly) return false;
-      if (filters.date && !p.dateSpot) return false;
-      if (filters.rooftop && !p.rooftop) return false;
-      if (filters.open && p.isOpen === false) return false;
-      if (filters.irish && !(p as any).irishPub) return false;
-      if (filters.craft && !(p as any).craftBeer) return false;
-      if (vibeFilter !== 'all' && p.vibe !== vibeFilter) return false;
-      if (demoFilter !== 'all' && p.demographic !== demoFilter) return false;
       return true;
     });
-  }, [places, priceRange, maxWalkMins, filters, userLoc, selectedNb, vibeFilter, demoFilter, selectedBeer]);
+  }, [places, priceLevel, vibeFilter, featureFilter, onlyOpenNow]);
 
-  // Count how many bars match each filter (for the count badge)
-  const filterCounts = useMemo(() => {
-    const counts: Record<FilterKey, number> = {} as any;
-    const baseFiltered = places.filter(p => {
-      const price = parseFloat(p.beerPrice?.replace('€', '') || '0');
-      return price <= priceRange;
-    });
-    for (const f of FILTER_DEFS) {
-      counts[f.key] = baseFiltered.filter(p => {
-        if (f.key === 'open') return p.isOpen !== false;
-        if (f.key === 'terrace') return p.outdoorSeating;
-        if (f.key === 'sports') return p.hasSports;
-        if (f.key === 'group') return p.groupFriendly;
-        if (f.key === 'late') return p.openLate;
-        if (f.key === 'student') return !!p.studentDiscount;
-        if (f.key === 'new') return !!(p.openedAt && (new Date().getTime() - new Date(p.openedAt).getTime()) < 90 * 24 * 60 * 60 * 1000);
-        if (f.key === 'happyHour') return isHappyHourActive(p.happyHourStart, p.happyHourEnd);
-        if (f.key === 'music') return p.liveMusic;
-        if (f.key === 'dog') return p.dogFriendly;
-        if (f.key === 'date') return p.dateSpot;
-        if (f.key === 'rooftop') return p.rooftop;
-        if (f.key === 'irish') return (p as any).irishPub;
-        if (f.key === 'craft') return (p as any).craftBeer;
-        return true;
-      }).length;
-    }
-    return counts;
-  }, [places, priceRange]);
-
-  // ────── 7. Map Markers — price pills with walking time ──────
+  // Render Markers (with basic clustering concept)
   useEffect(() => {
     if (!mapInstanceRef.current || !mapsLoaded) return;
     const render = async () => {
@@ -404,482 +127,346 @@ export default function BeerMapPage() {
       markersRef.current.forEach(m => (m.map = null));
       markersRef.current = [];
 
-      const dupes: Record<string, number> = {};
+      // Simple grid clustering
+      const gridSize = 0.003; 
+      const grid: Record<string, Place[]> = {};
+      
       filteredPlaces.forEach(p => {
-        const key = `${p.lat.toFixed(5)},${p.lng.toFixed(5)}`;
-        const c = dupes[key] || 0;
-        dupes[key] = c + 1;
-        const oLat = p.lat + c * 0.00005;
-        const oLng = p.lng + c * 0.00005;
+        const gx = Math.floor(p.lat / gridSize);
+        const gy = Math.floor(p.lng / gridSize);
+        const key = `${gx},${gy}`;
+        if (!grid[key]) grid[key] = [];
+        grid[key].push(p);
+      });
 
-        const rawPrice = p.beerPrice?.replace('€', '');
-        const price = (rawPrice && rawPrice !== '?' && rawPrice !== '0.00') ? parseFloat(rawPrice) : null;
-        
-        let colorClass = styles.pinUnknown;
-        if (price !== null) {
-          if (price < 3.00) colorClass = styles.pinCheap;
-          else if (price > 4.50) colorClass = styles.pinExpensive;
-          else colorClass = styles.pinNormal;
+      Object.values(grid).forEach(cluster => {
+        if (cluster.length >= 3) {
+          // Render cluster circle
+          const cLat = cluster.reduce((sum, p) => sum + p.lat, 0) / cluster.length;
+          const cLng = cluster.reduce((sum, p) => sum + p.lng, 0) / cluster.length;
+          
+          const el = document.createElement('div');
+          el.className = styles.clusterMarker;
+          el.textContent = `${cluster.length}`;
+          
+          const marker = new AdvancedMarkerElement({
+            map: mapInstanceRef.current,
+            position: { lat: cLat, lng: cLng },
+            content: el,
+            zIndex: 15,
+          });
+          
+          marker.addListener('click', () => {
+            mapInstanceRef.current?.setZoom((mapInstanceRef.current?.getZoom() || 13) + 2);
+            mapInstanceRef.current?.panTo({ lat: cLat, lng: cLng });
+          });
+          markersRef.current.push(marker);
+        } else {
+          // Render individual markers
+          cluster.forEach((p, idx) => {
+            const oLat = p.lat + (idx * 0.0001); // slight offset for overlapping
+            const oLng = p.lng + (idx * 0.0001);
+            
+            const pin = document.createElement('div');
+            pin.className = `${styles.pricePin} ${p.isOpenNow ? styles.pricePinOpen : ''} ${selectedPlace?.id === p.id ? styles.pricePinSelected : ''}`;
+            
+            const content = document.createElement('div');
+            content.className = styles.pricePinContent;
+            content.textContent = p.beerPriceStr || p.name.substring(0, 8);
+            if (p.studentDiscount) content.textContent = `🎓 ${content.textContent}`;
+            
+            const pointer = document.createElement('div');
+            pointer.className = styles.pinPointer;
+            
+            pin.appendChild(content);
+            pin.appendChild(pointer);
+            
+            const marker = new AdvancedMarkerElement({
+              map: mapInstanceRef.current,
+              position: { lat: oLat, lng: oLng },
+              content: pin,
+              title: p.name,
+              zIndex: selectedPlace?.id === p.id ? 2000 : 10,
+            });
+            
+            marker.addListener('click', () => {
+              setSelectedPlace(p);
+              mapInstanceRef.current?.panTo({ lat: oLat, lng: oLng });
+              setBottomSheetState('full'); // expand mobile sheet on click
+            });
+            markersRef.current.push(marker);
+          });
         }
-
-        if (p.status === 'temporarily_closed') colorClass = styles.pinClosed;
-
-        const pin = document.createElement('div');
-        pin.className = `${styles.pricePin} ${colorClass} ${selectedPlace?.id === p.id ? styles.pricePinSelected : ''}`;
-
-        // NEW Badge on Pin
-        const isNew = p.openedAt && (new Date().getTime() - new Date(p.openedAt).getTime()) < 90 * 24 * 60 * 60 * 1000;
-        if (isNew) {
-          const newEl = document.createElement('div');
-          newEl.className = styles.newBadgePin;
-          newEl.textContent = 'NEW';
-          pin.appendChild(newEl);
-        }
-
-        const priceEl = document.createElement('div');
-        priceEl.className = styles.pricePinPrice;
-        priceEl.textContent = p.status === 'temporarily_closed' ? 'CLOSED' : (p.beerPrice || '?');
-        
-        // Student icon on price tag
-        if (p.studentDiscount) {
-          priceEl.textContent = `🎓 ${priceEl.textContent}`;
-        }
-        
-        pin.appendChild(priceEl);
-
-        // Walking distance label under the price
-        if (userLoc) {
-          const dist = haversine(userLoc.lat, userLoc.lng, oLat, oLng);
-          const walk = distanceToWalk(dist);
-          const walkEl = document.createElement('div');
-          walkEl.className = styles.pricePinWalk;
-          walkEl.textContent = `${walk.mins} min`;
-          pin.appendChild(walkEl);
-        }
-
-        const marker = new AdvancedMarkerElement({
-          map: mapInstanceRef.current,
-          position: { lat: oLat, lng: oLng },
-          content: pin,
-          title: p.name,
-        });
-        marker.addListener('click', () => {
-          setSelectedPlace(p);
-          mapInstanceRef.current?.panTo({ lat: oLat, lng: oLng });
-        });
-        markersRef.current.push(marker);
       });
     };
     render();
-  }, [filteredPlaces, selectedPlace?.id, mapsLoaded, userLoc]);
+  }, [filteredPlaces, selectedPlace?.id, mapsLoaded]);
 
-  const toggleFilter = (key: FilterKey) => {
-    setFilters(prev => ({ ...prev, [key]: !prev[key] }));
-  };
-
-  const getBarWalkInfo = (p: Place) => {
-    if (!userLoc) return null;
-    const dist = haversine(userLoc.lat, userLoc.lng, p.lat, p.lng);
-    return distanceToWalk(dist);
-  };
-
-  const isHH = selectedPlace ? isHappyHourActive(selectedPlace.happyHourStart, selectedPlace.happyHourEnd) : false;
-  const selPop = selectedPlace?.currentPopularity;
-  const busy = selectedPlace
-    ? selPop != null
-      ? selPop > 70 ? { label: 'Very busy', color: '#ef4444' }
-        : selPop > 30 ? { label: 'Busy', color: '#f59e0b' }
-        : { label: 'Quiet', color: '#22c55e' }
-      : { label: 'Unknown', color: '#555' }
-    : { label: '', color: '' };
-  const isNew = selectedPlace && selectedPlace.openedAt ? (new Date().getTime() - new Date(selectedPlace.openedAt).getTime()) < 90 * 24 * 60 * 60 * 1000 : false;
-
-  // ────── 8. Premium Map Layers (Heatmap & Walking Radius) ──────
+  // Heatmap Layer
   useEffect(() => {
     if (!mapInstanceRef.current || !mapsLoaded || !window.google) return;
-    
-    // 1. Heatmap Layer
-    const initHeatmap = async () => {
-      if (!heatmapRef.current) {
-        const { HeatmapLayer } = await google.maps.importLibrary("visualization") as any;
-        heatmapRef.current = new HeatmapLayer({
+    const updateHeatmap = async () => {
+      const { HeatmapLayer } = await google.maps.importLibrary("visualization") as any;
+      if (!heatmapLayerRef.current) {
+        heatmapLayerRef.current = new HeatmapLayer({
           data: [],
-          map: null,
-          radius: 45,
-          opacity: 0.8,
-          gradient: ['rgba(0,0,0,0)', 'rgba(230,57,70,0.5)', 'rgba(230,57,70,0.8)', 'rgba(255,165,0,0.9)', 'rgba(255,255,0,1)']
+          map: mapInstanceRef.current,
+          gradient: ['rgba(0, 0, 0, 0)', '#8B0000', '#FF4500', '#FFD700', '#00FFFF'],
+          radius: 35,
+          opacity: 0.6,
         });
       }
-      
       if (showHeatmap) {
-        const heatData = filteredPlaces.map(p => ({
-          location: new google.maps.LatLng(p.lat, p.lng),
-          weight: (p.currentPopularity || 1) * 2
-        }));
-        heatmapRef.current.setData(heatData);
-        heatmapRef.current.setMap(mapInstanceRef.current);
+        const heatmapData = places.map(p => new google.maps.LatLng(p.lat, p.lng));
+        heatmapLayerRef.current.setData(heatmapData);
+        heatmapLayerRef.current.setMap(mapInstanceRef.current);
       } else {
-        heatmapRef.current.setMap(null);
+        heatmapLayerRef.current.setMap(null);
       }
     };
-    initHeatmap();
+    updateHeatmap();
+  }, [showHeatmap, places, mapsLoaded]);
 
-    // 2. Walking Radius Circle
-    if (!walkCircleRef.current) {
-      walkCircleRef.current = new google.maps.Circle({
-        strokeColor: "#E63946",
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-        fillColor: "#E63946",
-        fillOpacity: 0.05,
-        map: null,
-        center: BCN_CENTER,
-        radius: 0,
-      });
-    }
-    
-    if (userLoc && maxWalkMins < 60) {
-      walkCircleRef.current.setCenter(userLoc);
-      walkCircleRef.current.setRadius((maxWalkMins * 75) / 1.4); // Convert mins to straight-line radius
-      walkCircleRef.current.setMap(mapInstanceRef.current);
-    } else {
-      walkCircleRef.current.setMap(null);
-    }
-    
-  }, [filteredPlaces, showHeatmap, maxWalkMins, userLoc, mapsLoaded]);
+  const toggleCompare = (p: Place, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCompareList(prev => {
+      if (prev.find(x => x.id === p.id)) return prev.filter(x => x.id !== p.id);
+      if (prev.length >= 3) return prev;
+      return [...prev, p];
+    });
+  };
 
-  // ──────────── RENDER ────────────
+  const handleDropdownToggle = (menu: 'price' | 'vibe' | 'features') => {
+    setOpenDropdown(prev => prev === menu ? null : menu);
+  };
+
   return (
-    <div className={styles.appWrapper}>
-      {/* ─── Top Dashboard Filter Bar ─── */}
-      <div className={styles.topFilterBar}>
-        <div className={styles.filterPillGroup}>
-          <div className={styles.navLogo} onClick={() => window.location.href = '/'}>
-            <span style={{ color: '#E63946' }}>go</span>BCN
-          </div>
-          
-          <div className={styles.filterPill} onClick={() => setOpenAccordions(prev => ({...prev, price: !prev.price}))}>
-            💰 Price & Walk {openAccordions.price ? '▴' : '▾'}
-            {openAccordions.price && (
-              <div className={styles.filterDropdown} onClick={e => e.stopPropagation()}>
-                <div style={{ marginBottom: '16px' }}>
-                  <div className={styles.filterLabel}><span>Max Price</span><span className={styles.filterValue}>€{priceRange.toFixed(2)}</span></div>
-                  <input type="range" className={styles.slider} min="1.50" max="10" step="0.25" value={priceRange} onChange={e => setPriceRange(parseFloat(e.target.value))} />
-                </div>
-                <div>
-                  <div className={styles.filterLabel}><span>Walk Radius</span><span className={styles.filterValue}>{maxWalkMins} min</span></div>
-                  <input type="range" className={styles.slider} min="5" max="60" step="5" value={maxWalkMins} onChange={e => setMaxWalkMins(parseInt(e.target.value))} />
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className={styles.filterPill} onClick={() => setOpenAccordions(prev => ({...prev, vibe: !prev.vibe}))}>
-            🎭 Vibe {openAccordions.vibe ? '▴' : '▾'}
-            {openAccordions.vibe && (
-              <div className={styles.filterDropdown} onClick={e => e.stopPropagation()}>
-                 <div className={styles.pillGroup}>
-                  {['all', 'cozy', 'party', 'date', 'sports'].map(v => (
-                    <div key={v} onClick={() => setVibeFilter(v)} className={`${styles.filterPill} ${vibeFilter === v ? styles.filterPillActive : ''}`}>
-                      {v.toUpperCase()}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className={styles.filterPill} onClick={() => setOpenAccordions(prev => ({...prev, amenities: !prev.amenities}))}>
-            ✨ Features {openAccordions.amenities ? '▴' : '▾'}
-            {openAccordions.amenities && (
-              <div className={styles.filterDropdown} onClick={e => e.stopPropagation()} style={{ width: '380px' }}>
-                <div className={styles.iconGrid}>
-                  {FILTER_DEFS.slice(0, 9).map(f => (
-                    <div key={f.key} onClick={() => toggleFilter(f.key)} className={`${styles.iconBtn} ${filters[f.key] ? styles.iconBtnActive : ''}`}>
-                      <span style={{ fontSize: '20px' }}>{f.icon}</span>
-                      <span style={{ fontSize: '9px', fontWeight: 800, marginTop: '4px' }}>{f.label}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-          <button className={`${styles.heatmapPill} ${showHeatmap ? styles.heatmapPillActive : ''}`} onClick={() => setShowHeatmap(!showHeatmap)}>
-            🔥 HEATMAP
-          </button>
-          <div className={styles.resultsCountPill} onClick={() => setSidebarVisible(!sidebarVisible)}>
-             {filteredPlaces.length} BARS
-          </div>
-        </div>
-      </div>
-
-      {/* ─── Floating Results Drawer ─── */}
-      <div className={styles.floatingList} style={{ transform: sidebarVisible ? 'translateX(0)' : 'translateX(-450px)', opacity: sidebarVisible ? 1 : 0, pointerEvents: sidebarVisible ? 'all' : 'none' }}>
-        <div className={styles.listHeader}>
-          <h2>Verified Spots</h2>
-          <p style={{ fontSize: '11px', color: '#666', margin: '4px 0 0' }}>Showing results for {selectedNb === 'all' ? 'Barcelona' : selectedNb}</p>
-        </div>
-        
-        <div className={styles.listScroll}>
-          {fetching ? (
-            Array(4).fill(0).map((_, i) => <div key={i} className={`${styles.modernCard} ${styles.skeleton}`} style={{ height: '100px' }} />)
-          ) : filteredPlaces.map(p => (
-            <div key={p.id} className={`${styles.modernCard} ${selectedPlace?.id === p.id ? styles.modernCardActive : ''}`} 
-                 onClick={() => { setSelectedPlace(p); mapInstanceRef.current?.panTo({ lat: p.lat, lng: p.lng }); mapInstanceRef.current?.setZoom(17); }}>
-              <h4>{p.name}</h4>
-              <div className={styles.cardPrice}>{p.beerPrice}</div>
-              <div className={styles.cardMeta}>
-                <span>⭐ {p.rating}</span>
-                <span>•</span>
-                <span>{p.neighbourhood}</span>
-                {p.isOpenNow ? <span style={{ color: '#22c55e' }}>OPEN</span> : <span style={{ color: '#ef4444' }}>CLOSED</span>}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <main className={styles.mapContainer} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1 }}>
-        <div ref={mapRef} style={{ width: '100%', height: '100%' }} />
-
-        {/* ─── Detail Panel ─── */}
-        <div className={`${styles.detailPanel} ${selectedPlace ? styles.detailPanelVisible : ''}`} style={{ zIndex: 1100 }}>
-          {selectedPlace && (
-            <>
-              <div className={styles.panelHeader}>
-                <span className={`${styles.badge} ${styles.badgeRed}`}>{selectedPlace.neighbourhood || 'BCN'}</span>
-                <h2 style={{ fontSize: '24px', color: 'white', margin: '0 0 6px', fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 800 }}>
-                  {selectedPlace.name}
-                </h2>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#888', fontSize: '13px' }}>
-                  📍 {selectedPlace.address}
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '10px' }}>
-                  <span style={{ fontSize: '18px', fontWeight: 800, color: 'white' }}>★ {selectedPlace.rating || 'N/A'}</span>
-                  <span style={{ fontSize: '12px', color: '#666' }}>{selectedPlace.reviewCount} reviews</span>
-                  <span className={`${styles.openBadge} ${selectedPlace.isOpenNow ? styles.openBadgeOpen : styles.openBadgeClosed}`}>
-                    {selectedPlace.isOpenNow ? 'Open' : 'Closed'}
-                  </span>
-                </div>
-                
-                <div style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
-                  <button onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${selectedPlace.lat},${selectedPlace.lng}`)}
-                    style={{ flex: 1, background: '#E63946', color: 'white', border: 'none', padding: '14px', borderRadius: '12px', fontWeight: 800, fontSize: '14px', cursor: 'pointer' }}>
-                    Get Directions
-                  </button>
-                  <button onClick={() => setShowReportModal(true)}
-                    style={{ background: 'rgba(255,255,255,0.06)', color: 'white', border: '1px solid rgba(255,255,255,0.1)', padding: '14px 20px', borderRadius: '12px', fontWeight: 700, fontSize: '14px', cursor: 'pointer' }}>
-                    Report
-                  </button>
-                </div>
-              </div>
-            </>
-          )}
-        </div>
+    <div className={styles.appWrapper} onClick={() => setOpenDropdown(null)}>
+      {/* ─── Map Container ─── */}
+      <main className={styles.mapContainer}>
+        <div ref={mapRef} style={{ width: '100%', height: '100%', paddingBottom: '320px' }} />
       </main>
 
-      {/* Modals */}
-      {showReportModal && selectedPlace && (
-        <ReportModal place={selectedPlace} onClose={() => setShowReportModal(false)} onSuccess={() => setShowReportModal(false)} />
-      )}
-      {showUpdateModal && selectedPlace && (
-        <UpdateModal place={selectedPlace} onClose={() => setShowUpdateModal(false)} onSuccess={() => setShowUpdateModal(false)} />
-      )}
-      <ComparisonPanel items={compareList} onClose={() => setCompareList([])} onRemove={(p) => toggleCompare(p)} userLoc={userLoc} />
-    </div>
-  );
-}
-
-function ReportModal({ place, onClose, onSuccess }: { place: Place; onClose: () => void; onSuccess: () => void }) {
-  const [price, setPrice] = useState('2.50');
-  const [type, setType] = useState('tap');
-  const [submitting, setSubmitting] = useState(false);
-
-  const handleSubmit = async () => {
-    setSubmitting(true);
-    try {
-      await fetch('/api/beer-prices', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bar_id: place.id, price, type, size_ml: '500' }),
-      });
-    } catch (e) { console.error(e); }
-    setSubmitting(false);
-    onSuccess();
-  };
-
-  return (
-    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', zIndex: 3000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }} onClick={onClose}>
-      <div style={{ background: '#1A1A2E', padding: '32px', borderRadius: '20px', width: '100%', maxWidth: '400px', border: '1px solid rgba(255,255,255,0.08)' }} onClick={e => e.stopPropagation()}>
-        <h3 style={{ fontSize: '20px', color: 'white', marginBottom: '6px', fontFamily: "'Barlow Condensed', sans-serif" }}>Report Price</h3>
-        <p style={{ color: '#888', fontSize: '13px', marginBottom: '24px' }}>Help the community — report the current beer price at {place.name}.</p>
-
-        <div style={{ display: 'grid', gap: '16px' }}>
-          <div>
-            <label style={{ display: 'block', marginBottom: '6px', fontSize: '11px', textTransform: 'uppercase', color: '#666', fontWeight: 700 }}>Price (€)</label>
-            <input type="number" step="0.10" value={price} onChange={e => setPrice(e.target.value)}
-              style={{ width: '100%', padding: '12px', borderRadius: '10px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', fontSize: '18px', outline: 'none', boxSizing: 'border-box' }} />
-          </div>
-          <div>
-            <label style={{ display: 'block', marginBottom: '6px', fontSize: '11px', textTransform: 'uppercase', color: '#666', fontWeight: 700 }}>Type</label>
-            <select value={type} onChange={e => setType(e.target.value)}
-              style={{ width: '100%', padding: '12px', borderRadius: '10px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', fontSize: '14px', outline: 'none' }}>
-              <option value="tap">Draught / Tap</option>
-              <option value="bottle">Bottle</option>
-              <option value="can">Can</option>
-            </select>
-          </div>
+      {/* ─── Top Filter Bar ─── */}
+      <div className={`${styles.topFilterBar} glass`} onClick={e => e.stopPropagation()}>
+        <div className={styles.navLogo} onClick={() => window.location.href = '/'}>
+          🍺 go<span style={{color:'var(--amber)'}}>BCN</span>
         </div>
-
-        <div style={{ marginTop: '24px', display: 'grid', gap: '10px' }}>
-          <button onClick={handleSubmit} disabled={submitting}
-            style={{ background: '#E63946', color: 'white', border: 'none', padding: '14px', borderRadius: '12px', fontWeight: 800, fontSize: '14px', cursor: 'pointer' }}>
-            {submitting ? 'Submitting...' : 'Submit Report'}
+        
+        <div className={styles.filterPillGroup}>
+          {/* Price */}
+          <button className={`${styles.filterPill} ${priceLevel ? styles.filterPillActive : ''}`} onClick={() => handleDropdownToggle('price')}>
+            {priceLevel ? `€`.repeat(priceLevel) : 'Price'} ▾
+            {openDropdown === 'price' && (
+              <div className={styles.filterDropdown} onClick={e => e.stopPropagation()}>
+                <div style={{display: 'flex', gap: '8px', flexDirection: 'column'}}>
+                  <div onClick={() => setPriceLevel(null)} style={{cursor:'pointer', padding:'4px', color: priceLevel===null ? 'var(--amber)' : 'white'}}>All Prices</div>
+                  <div onClick={() => setPriceLevel(1)} style={{cursor:'pointer', padding:'4px', color: priceLevel===1 ? 'var(--amber)' : 'white'}}>€ (Under €3.5)</div>
+                  <div onClick={() => setPriceLevel(2)} style={{cursor:'pointer', padding:'4px', color: priceLevel===2 ? 'var(--amber)' : 'white'}}>€€ (€3.5 - €5)</div>
+                  <div onClick={() => setPriceLevel(3)} style={{cursor:'pointer', padding:'4px', color: priceLevel===3 ? 'var(--amber)' : 'white'}}>€€€ (Over €5)</div>
+                </div>
+              </div>
+            )}
           </button>
-          <button onClick={onClose}
-            style={{ background: 'rgba(255,255,255,0.06)', color: '#ccc', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', borderRadius: '12px', fontWeight: 600, cursor: 'pointer' }}>
-            Cancel
+
+          {/* Vibe */}
+          <button className={`${styles.filterPill} ${vibeFilter !== 'all' ? styles.filterPillActive : ''}`} onClick={() => handleDropdownToggle('vibe')}>
+            {vibeFilter !== 'all' ? vibeFilter : 'Vibe'} ▾
+            {openDropdown === 'vibe' && (
+              <div className={styles.filterDropdown} onClick={e => e.stopPropagation()}>
+                <div style={{display: 'flex', gap: '8px', flexWrap: 'wrap', width: '200px'}}>
+                  {['all', 'cozy', 'party', 'date', 'sports', 'craft', 'student'].map(v => (
+                    <div key={v} onClick={() => setVibeFilter(v)} 
+                         style={{padding:'4px 8px', borderRadius:'12px', background: vibeFilter===v ? 'var(--amber-glow)' : 'rgba(255,255,255,0.1)', color: vibeFilter===v ? 'var(--amber)' : 'white', cursor:'pointer', fontSize:'12px', textTransform:'capitalize'}}>
+                      {v}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </button>
-        </div>
-      </div>
-    </div>
-  );
-}
 
-function UpdateModal({ place, onClose, onSuccess }: { place: Place; onClose: () => void; onSuccess: () => void }) {
-  const [field, setField] = useState('price');
-  const [suggestion, setSuggestion] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-
-  const handleSubmit = async () => {
-    setSubmitting(true);
-    try {
-      await fetch('/api/bar-adjustments', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bar_id: place.id, field_to_adjust: field, suggested_value: suggestion }),
-      });
-    } catch (e) { console.error(e); }
-    setSubmitting(false);
-    onSuccess();
-  };
-
-  return (
-    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', zIndex: 3000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }} onClick={onClose}>
-      <div style={{ background: '#1A1A2E', padding: '32px', borderRadius: '20px', width: '100%', maxWidth: '400px', border: '1px solid rgba(255,255,255,0.08)' }} onClick={e => e.stopPropagation()}>
-        <h3 style={{ fontSize: '20px', color: 'white', marginBottom: '6px', fontFamily: "'Barlow Condensed', sans-serif" }}>Suggest an Edit</h3>
-        <p style={{ color: '#888', fontSize: '13px', marginBottom: '24px' }}>Found a mistake for {place.name}? Let us know.</p>
-
-        <div style={{ display: 'grid', gap: '16px' }}>
-          <div>
-            <label style={{ display: 'block', marginBottom: '6px', fontSize: '11px', textTransform: 'uppercase', color: '#666', fontWeight: 700 }}>What's wrong?</label>
-            <select value={field} onChange={e => setField(e.target.value)}
-              style={{ width: '100%', padding: '12px', borderRadius: '10px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', fontSize: '14px', outline: 'none' }}>
-              <option value="price">Wrong Price</option>
-              <option value="hours">Opening Hours</option>
-              <option value="status">Permanently Closed</option>
-              <option value="location">Wrong Location</option>
-              <option value="features">Missing Features (Terrace, Sports, etc)</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-          <div>
-            <label style={{ display: 'block', marginBottom: '6px', fontSize: '11px', textTransform: 'uppercase', color: '#666', fontWeight: 700 }}>Correction / Details</label>
-            <textarea value={suggestion} onChange={e => setSuggestion(e.target.value)} rows={3} placeholder="e.g. They close at 2AM on Fridays now"
-              style={{ width: '100%', padding: '12px', borderRadius: '10px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', fontSize: '14px', outline: 'none', resize: 'vertical' }} />
-          </div>
-        </div>
-
-        <div style={{ marginTop: '24px', display: 'grid', gap: '10px' }}>
-          <button onClick={handleSubmit} disabled={submitting || !suggestion.trim()}
-            style={{ background: '#E63946', color: 'white', border: 'none', padding: '14px', borderRadius: '12px', fontWeight: 800, fontSize: '14px', cursor: (submitting || !suggestion.trim()) ? 'not-allowed' : 'pointer', opacity: (submitting || !suggestion.trim()) ? 0.5 : 1 }}>
-            {submitting ? 'Submitting...' : 'Submit Edit'}
+          {/* Features */}
+          <button className={`${styles.filterPill} ${featureFilter !== 'all' ? styles.filterPillActive : ''}`} onClick={() => handleDropdownToggle('features')}>
+            {featureFilter !== 'all' ? featureFilter : 'Features'} ▾
+            {openDropdown === 'features' && (
+              <div className={styles.filterDropdown} onClick={e => e.stopPropagation()}>
+                <div style={{display: 'flex', gap: '8px', flexDirection: 'column'}}>
+                  <div onClick={() => setFeatureFilter('all')} style={{cursor:'pointer', color: featureFilter==='all' ? 'var(--amber)' : 'white'}}>All Features</div>
+                  <div onClick={() => setFeatureFilter('terrace')} style={{cursor:'pointer', color: featureFilter==='terrace' ? 'var(--amber)' : 'white'}}>☀️ Terrace</div>
+                  <div onClick={() => setFeatureFilter('student')} style={{cursor:'pointer', color: featureFilter==='student' ? 'var(--amber)' : 'white'}}>🎓 Student Discount</div>
+                </div>
+              </div>
+            )}
           </button>
-          <button onClick={onClose}
-            style={{ background: 'rgba(255,255,255,0.06)', color: '#ccc', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', borderRadius: '12px', fontWeight: 600, cursor: 'pointer' }}>
-            Cancel
+
+          {/* Open Now Toggle */}
+          <button className={`${styles.filterPill} ${onlyOpenNow ? styles.filterPillActive : ''}`} onClick={() => setOnlyOpenNow(!onlyOpenNow)}>
+            <span className={onlyOpenNow ? styles.openDot : styles.closedDot}></span>
+            Open Now
+          </button>
+
+          {/* Heatmap Toggle */}
+          <button className={`${styles.filterPill} ${showHeatmap ? styles.filterPillActive : ''}`} onClick={() => setShowHeatmap(!showHeatmap)}>
+            🔥 Heatmap
           </button>
         </div>
       </div>
-    </div>
-  );
-}
 
-function ComparisonPanel({ items, onClose, onRemove, userLoc }: { items: Place[]; onClose: () => void; onRemove: (p: Place) => void; userLoc: any }) {
-  if (items.length < 2) return null;
-
-  const attributes = [
-    { label: 'Price', key: 'beerPrice' },
-    { label: 'Neighborhood', key: 'neighbourhood' },
-    { label: 'Walking Dist.', key: 'walk' },
-    { label: 'Happy Hour', key: 'happyHour' },
-    { label: 'Terrace', key: 'outdoorSeating' },
-    { label: 'Sports TV', key: 'hasSports' },
-    { label: 'Dog Friendly', key: 'dogFriendly' },
-    { label: 'Rating', key: 'rating' },
-    { label: 'Tap Beers', key: 'beersOnTap' },
-  ];
-
-  return (
-    <div className={styles.comparisonPanel}>
-      <div className={styles.comparisonHeader}>
-        <h3>Compare Bars</h3>
-        <button onClick={onClose} className={styles.comparisonClose}>✕</button>
-      </div>
-      <div className={styles.comparisonTableWrapper}>
-        <table className={styles.comparisonTable}>
-          <thead>
-            <tr>
-              <th>Attribute</th>
-              {items.map(p => (
-                <th key={p.id}>
-                  <div className={styles.compBarHeader}>
-                    <span>{p.name}</span>
-                    <button onClick={() => onRemove(p)}>✕</button>
+      {/* ─── Results Drawer / Bottom Sheet ─── */}
+      <div className={`${styles.resultsDrawer} ${bottomSheetState === 'full' ? styles.resultsDrawerExpanded : bottomSheetState === 'half' ? styles.resultsDrawerHalf : ''}`}>
+        <div className={styles.drawerHeader} onClick={() => setBottomSheetState(prev => prev === 'full' ? 'half' : prev === 'half' ? 'collapsed' : 'half')}>
+          <div className={styles.dragHandle} />
+          <div className={styles.drawerTitle}>{filteredPlaces.length} bars found</div>
+        </div>
+        
+        <div className={styles.drawerScroll}>
+          {fetching ? (
+            Array(5).fill(0).map((_, i) => <div key={i} className={`${styles.resultCard} ${styles.skeleton}`} style={{height: '80px', marginBottom: '8px'}} />)
+          ) : (
+            filteredPlaces.map(p => (
+              <div key={p.id} className={`${styles.resultCard} ${selectedPlace?.id === p.id ? styles.resultCardActive : ''}`}
+                   onClick={() => { setSelectedPlace(p); mapInstanceRef.current?.panTo({ lat: p.lat, lng: p.lng }); }}>
+                <div className={styles.resultPrice}>{p.beerPriceStr}</div>
+                <div className={styles.resultInfo}>
+                  <div className={styles.resultName}>{p.name}</div>
+                  <div className={styles.resultMeta}>{p.neighborhood}</div>
+                  <div style={{display:'flex', gap:'4px', marginTop:'4px'}}>
+                    {p.vibe?.slice(0,2).map(v => <span key={v} className={styles.vibePill}>{v}</span>)}
                   </div>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {attributes.map(attr => (
-              <tr key={attr.key}>
-                <td className={styles.attrLabel}>{attr.label}</td>
-                {items.map(p => {
-                  let val: any = (p as any)[attr.key];
-                  let style = {};
-
-                  if (attr.key === 'beerPrice' && p.beerPrice) {
-                    const price = parseFloat(p.beerPrice.replace('€', ''));
-                    const minPrice = Math.min(...items.map(x => parseFloat(x.beerPrice?.replace('€', '') || '99')));
-                    const maxPrice = Math.max(...items.map(x => parseFloat(x.beerPrice?.replace('€', '') || '0')));
-                    if (price === minPrice) style = { color: '#22c55e', fontWeight: 800 };
-                    if (price === maxPrice && items.length > 1) style = { color: '#ef4444' };
-                  }
+                </div>
+                <div className={styles.resultWalk}>
+                  <span className={`${styles.badge} ${p.isOpenNow ? styles.badgeOpen : styles.badgeClosed}`}>
+                    {p.isOpenNow ? 'Open' : 'Closed'}
+                  </span>
+                  <div style={{marginTop: '8px'}}>{userLoc ? getWalkingTime(userLoc.lat, userLoc.lng, p.lat, p.lng) : ''}</div>
                   
-                  if (attr.key === 'walk' && userLoc) {
-                    const dist = haversine(userLoc.lat, userLoc.lng, p.lat, p.lng);
-                    val = `${Math.round(dist / 80)} min`;
-                  }
-
-                  if (attr.key === 'happyHour') {
-                    val = isHappyHourActive(p.happyHourStart, p.happyHourEnd) ? '✅ YES' : (p.happyHourStart ? `${p.happyHourStart}-${p.happyHourEnd}` : 'No');
-                  }
-
-                  if (typeof val === 'boolean') val = val ? '✅' : '❌';
-                  if (Array.isArray(val)) val = val.join(', ');
-                  if (val === null || val === undefined) val = '-';
-
-                  return <td key={p.id} style={style}>{val}</td>;
-                })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                  {/* Compare Checkbox */}
+                  <div style={{marginTop: '8px'}} onClick={(e) => toggleCompare(p, e)}>
+                    <input type="checkbox" checked={!!compareList.find(c => c.id === p.id)} readOnly style={{cursor:'pointer'}} />
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </div>
+
+      {/* ─── Compare Button Float ─── */}
+      {compareList.length >= 2 && (
+        <button className={`${styles.btnPrimary} ${styles.compareButtonFloat}`} onClick={() => setShowCompareModal(true)}>
+          Compare ({compareList.length})
+        </button>
+      )}
+
+      {/* ─── Detail Panel ─── */}
+      <div className={`${styles.detailPanel} ${selectedPlace ? styles.detailPanelVisible : ''}`}>
+        {selectedPlace && (
+          <>
+            <div className={styles.detailHeader}>
+              {selectedPlace.imageUrl ? (
+                <img src={selectedPlace.imageUrl} alt={selectedPlace.name} className={styles.detailImage} />
+              ) : (
+                <div className={styles.detailImage} style={{background: 'linear-gradient(45deg, #24243e, #1A1A2E)'}} />
+              )}
+              <div className={styles.detailImageGradient} />
+              <button className={styles.closePanelBtn} onClick={() => { setSelectedPlace(null); setBottomSheetState('half'); }}>✕</button>
+            </div>
+            
+            <div className={styles.detailContent}>
+              <h2 className={styles.detailTitle}>{selectedPlace.name}</h2>
+              <div className={styles.detailMeta}>
+                <span className={`${styles.badge} ${styles.badgeNeighborhood}`}>{selectedPlace.neighborhood}</span>
+                <span className={`${styles.badge} ${selectedPlace.isOpenNow ? styles.badgeOpen : styles.badgeClosed}`}>
+                  {selectedPlace.isOpenNow ? 'Open Now' : 'Closed'}
+                </span>
+              </div>
+              
+              <div className={styles.priceBlock}>
+                <div className={styles.priceIndicator}>{selectedPlace.beerPriceStr} / pint</div>
+                <div className={styles.walkTime}>
+                  🚶 {userLoc ? getWalkingTime(userLoc.lat, userLoc.lng, selectedPlace.lat, selectedPlace.lng) : '15 min walk'}
+                </div>
+              </div>
+
+              {selectedPlace.studentDiscount && (
+                <div className={styles.studentBanner}>
+                  🎓 Student prices available
+                </div>
+              )}
+
+              <div className={styles.vibePills}>
+                {selectedPlace.vibe?.map(v => <span key={v} className={styles.vibePill}>{v}</span>)}
+              </div>
+
+              <div className={styles.featureIcons}>
+                {selectedPlace.outdoorSeating && <span>☀️ Terrace</span>}
+                {selectedPlace.hasSports && <span>📺 Sports</span>}
+                {selectedPlace.liveMusic && <span>🎵 Music</span>}
+              </div>
+
+              {selectedPlace.tapCount && (
+                <div style={{color:'var(--text-secondary)', fontSize:'14px', marginBottom:'24px'}}>
+                  🍺 {selectedPlace.tapCount} taps available
+                </div>
+              )}
+
+              <div style={{display:'flex', gap:'12px', marginTop:'auto'}}>
+                <button className={styles.btnPrimary} style={{flex:1}} 
+                        onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${selectedPlace.lat},${selectedPlace.lng}`)}>
+                  Get Directions
+                </button>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* ─── Compare Modal ─── */}
+      {showCompareModal && (
+        <div className={styles.compareModal} onClick={() => setShowCompareModal(false)}>
+          <div className={styles.compareTableContainer} onClick={e => e.stopPropagation()}>
+            <button className={styles.closePanelBtn} onClick={() => setShowCompareModal(false)}>✕</button>
+            <h2 style={{color:'white', marginBottom:'24px', fontFamily:"'Barlow Condensed', sans-serif"}}>Compare Bars</h2>
+            <table className={styles.compareTable}>
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  {compareList.map(p => <th key={p.id}>{p.name}</th>)}
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Price/pint</td>
+                  {compareList.map(p => (
+                    <td key={p.id}>
+                      <span className={p.beerPrice === Math.min(...compareList.map(c => c.beerPrice || 999)) ? styles.bestValue : ''}>
+                        {p.beerPriceStr}
+                      </span>
+                    </td>
+                  ))}
+                </tr>
+                <tr>
+                  <td>Vibe</td>
+                  {compareList.map(p => <td key={p.id}>{p.vibe?.join(', ') || '—'}</td>)}
+                </tr>
+                <tr>
+                  <td>Walking Time</td>
+                  {compareList.map(p => <td key={p.id}>{userLoc ? getWalkingTime(userLoc.lat, userLoc.lng, p.lat, p.lng) : '—'}</td>)}
+                </tr>
+                <tr>
+                  <td>Student Discount</td>
+                  {compareList.map(p => <td key={p.id} style={{color: p.studentDiscount ? 'var(--success)' : 'inherit'}}>{p.studentDiscount ? '✓' : '✗'}</td>)}
+                </tr>
+                <tr>
+                  <td>Open Now</td>
+                  {compareList.map(p => <td key={p.id} style={{color: p.isOpenNow ? 'var(--success)' : 'inherit'}}>{p.isOpenNow ? '✓' : '✗'}</td>)}
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

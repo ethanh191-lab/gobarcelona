@@ -1,48 +1,82 @@
-/* ─── Theme Variables ─── */
-:root {
-  --primary-red: #E63946;
-  --night-blue: #1A1A2E;
-  --bg-primary: #1A1A2E;
-  --bg-secondary: #24243e;
-  --text-primary: #FFFFFF;
-  --text-secondary: #A0A0B8;
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --heading-color: #FFFFFF;
-  --card-radius: 4px; /* Urban, sharper corners */
-  --app-margin: 20px;
-}
+/* ─── Google Fonts ─── */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap');
 
-[data-theme='light'] {
-  --bg-primary: #F8F9FA;
-  --bg-secondary: #FFFFFF;
-  --text-primary: #1A1A2E;
-  --text-secondary: #6B7280;
-  --glass-bg: rgba(0, 0, 0, 0.02);
-  --glass-border: rgba(0, 0, 0, 0.05);
-  --heading-color: #1A1A2E;
+/* ─── Design System Variables ─── */
+:root {
+  /* Backgrounds */
+  --bg-map:          #0a0a0f;
+  --bg-surface:      rgba(15, 15, 25, 0.75);
+  --bg-surface-dark: rgba(10, 10, 20, 0.90);
+  --bg-hover:        rgba(255, 255, 255, 0.05);
+
+  /* Accents */
+  --amber:           #F5A623;
+  --amber-dark:      #d48e10;
+  --amber-glow:      rgba(245, 166, 35, 0.25);
+  --red-bcn:         #E8553E;
+  --red-bcn-glow:    rgba(232, 85, 62, 0.25);
+
+  /* Text */
+  --text-primary:    #FFFFFF;
+  --text-secondary:  rgba(255, 255, 255, 0.6);
+  --text-muted:      rgba(255, 255, 255, 0.35);
+
+  /* Borders */
+  --border-subtle:   rgba(255, 255, 255, 0.08);
+  --border-medium:   rgba(255, 255, 255, 0.15);
+
+  /* Status */
+  --success:         #22C55E;
+  --danger:          #EF4444;
+  --warning:         #F59E0B;
+
+  /* Legacy compat */
+  --primary-red:     #E8553E;
+  --night-blue:      #0a0a0f;
+  --bg-primary:      #0a0a0f;
+  --bg-secondary:    #0f0f1a;
+  --glass-bg:        rgba(255, 255, 255, 0.04);
+  --glass-border:    rgba(255, 255, 255, 0.08);
+  --heading-color:   #FFFFFF;
+  --card-radius:     12px;
+  --app-margin:      20px;
+
+  /* Z-index system */
+  --z-map:           0;
+  --z-tiles:         1;
+  --z-markers:       10;
+  --z-heatmap:       20;
+  --z-filter-bar:    100;
+  --z-results:       200;
+  --z-detail:        300;
+  --z-modal:         400;
+  --z-toast:         500;
 }
 
 /* ─── Reset ─── */
-* {
+*, *::before, *::after {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
 }
 
-/* ─── Typography ─── */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   padding: 0;
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: var(--font-dm-sans), -apple-system, sans-serif;
+  font-family: 'Inter', var(--font-dm-sans), -apple-system, sans-serif;
   overflow-x: hidden;
   line-height: 1.5;
   font-size: 16px;
 }
 
-h1, h2, h3, h4, .impact-text {
-  font-family: var(--font-syne), sans-serif;
+/* ─── Typography ─── */
+h1, h2, h3, h4 {
+  font-family: 'Barlow Condensed', var(--font-syne), sans-serif;
   font-weight: 800;
   color: var(--heading-color);
   margin: 0;
@@ -53,9 +87,10 @@ h1, h2, h3, h4, .impact-text {
 h1 { font-size: 64px; }
 h2 { font-size: 48px; margin-bottom: 24px; }
 h3 { font-size: 28px; }
+h4 { font-size: 20px; }
 
 @media (max-width: 768px) {
-  h1 { font-size: 48px; letter-spacing: -1px; }
+  h1 { font-size: 42px; letter-spacing: -1px; }
   h2 { font-size: 32px; }
 }
 
@@ -63,15 +98,37 @@ h3 { font-size: 28px; }
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 2px;
-  font-weight: 900;
-  color: var(--primary-red);
+  font-weight: 700;
+  color: var(--amber);
+}
+
+/* ─── Glassmorphism Utility ─── */
+.glass {
+  background: var(--bg-surface);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
 }
 
 /* ─── Touch Targets (44px Rule) ─── */
-a, button, select, input {
+button {
   min-height: 44px;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+}
+
+a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+select, input {
+  min-height: 44px;
 }
 
 /* ─── Layout ─── */
@@ -87,9 +144,9 @@ a, button, select, input {
   background: var(--bg-secondary);
   border-radius: var(--card-radius);
   border: 1px solid var(--glass-border);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
   overflow: hidden;
-  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.2s;
   width: 100%;
   margin-bottom: 24px;
   display: block;
@@ -99,67 +156,93 @@ a, button, select, input {
 
 .app-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(255,255,255,0.2);
+  border-color: var(--border-medium);
 }
 
 /* ─── Buttons ─── */
-.btn-primary, .btn-secondary {
+.btn-primary {
   padding: 0 32px;
   height: 52px;
-  border-radius: 4px;
-  font-weight: 900;
-  font-size: 16px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 15px;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s;
   text-decoration: none;
-  width: 100%;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.btn-primary {
-  background: var(--primary-red);
-  color: #fff;
+  background: var(--amber);
+  color: #000;
   border: none;
+  letter-spacing: 0.5px;
 }
 
 .btn-primary:hover {
-  background: #d32f3f;
+  background: var(--amber-dark);
   transform: scale(1.02);
 }
 
 .btn-secondary {
+  padding: 0 32px;
+  height: 52px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  text-decoration: none;
   background: transparent;
   color: var(--text-primary);
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--border-medium);
 }
 
 .btn-secondary:hover {
-  background: rgba(255,255,255,0.05);
-  border-color: white;
+  background: var(--bg-hover);
+  border-color: rgba(255,255,255,0.3);
 }
 
 @media (min-width: 768px) {
-  .btn-primary, .btn-secondary {
-    width: auto;
-    min-width: 160px;
-  }
+  .btn-primary, .btn-secondary { width: auto; min-width: 160px; }
 }
 
 /* ─── Skeletons ─── */
 .skeleton {
-  background: linear-gradient(90deg, #1A1A2E 25%, #24243e 50%, #1A1A2E 75%);
+  background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
   background-size: 200% 100%;
-  animation: loading 1.5s infinite;
-  border-radius: 4px;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 8px;
 }
 
-@keyframes loading {
+@keyframes skeleton-loading {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
+}
+
+/* ─── Status Indicators ─── */
+@keyframes pulse-green {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.4); }
+}
+
+.open-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--success);
+  animation: pulse-green 2s ease infinite;
+}
+
+.closed-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
 }
 
 /* ─── Responsive Visibility ─── */
@@ -171,40 +254,34 @@ a, button, select, input {
   .mobile-only { display: none !important; }
 }
 
+/* ─── Scrollbar Utility ─── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ─── Micro Animations ─── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-up {
+  animation: fadeInUp 0.4s ease forwards;
+  opacity: 0;
+}
+
 /* Mobile: padding for bottom nav */
 @media (max-width: 768px) {
   main, .page-content {
     padding-bottom: 90px !important;
   }
-}
-
-/* ─── Smooth Scrolling ─── */
-html {
-  scroll-behavior: smooth;
-}
-
-@media (max-width: 768px) {
-  html {
-    -webkit-overflow-scrolling: touch;
-  }
-}
-
-/* ─── Scrollbar Utility ─── */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* ─── Animations ─── */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-slide-up {
-  animation: fadeIn 0.5s ease forwards;
-  opacity: 0;
 }
