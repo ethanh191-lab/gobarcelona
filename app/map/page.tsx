@@ -322,7 +322,25 @@ export default function BeerMapPage() {
         
         <div className={styles.drawerScroll}>
           {fetching ? (
-            Array(5).fill(0).map((_, i) => <div key={i} className={`${styles.resultCard} ${styles.skeleton}`} style={{height: '80px', marginBottom: '8px'}} />)
+            Array(4).fill(0).map((_, i) => <div key={i} className={`${styles.resultCard} ${styles.skeleton}`} style={{height: '80px', marginBottom: '8px'}} />)
+          ) : filteredPlaces.length === 0 ? (
+            <div className={styles.emptyState}>
+              <div style={{fontSize: '32px', marginBottom: '8px'}}>🍺</div>
+              <div style={{color: 'white', fontWeight: 600, fontSize: '16px'}}>No bars match your filters</div>
+              <div style={{color: 'var(--text-secondary)', fontSize: '13px', margin: '4px 0 16px'}}>Try removing a filter or zooming out</div>
+              <button 
+                className={styles.btnSecondary} 
+                style={{minHeight: '36px', padding: '0 16px', fontSize: '13px'}}
+                onClick={() => {
+                  setPriceLevel(null);
+                  setVibeFilter('all');
+                  setFeatureFilter('all');
+                  setOnlyOpenNow(false);
+                }}
+              >
+                Clear filters
+              </button>
+            </div>
           ) : (
             filteredPlaces.map(p => (
               <div key={p.id} className={`${styles.resultCard} ${selectedPlace?.id === p.id ? styles.resultCardActive : ''}`}

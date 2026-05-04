@@ -23,9 +23,17 @@ export async function GET(_req: NextRequest): Promise<NextResponse> {
       .select('*')
       .limit(2000);
 
-    if (error) throw error;
+    if (error) {
+      console.error('Supabase error:', error);
+      return NextResponse.json({ error: error.message, details: error }, { status: 500 });
+    }
+    
+    if (!data || data.length === 0) {
+      console.warn('No data returned from Supabase. Check RLS or table name.');
+      return NextResponse.json({ places: [], count: 0 });
+    }
 
-    const places: Place[] = (data || [])
+    const places: Place[] = data
       .map((p): Place => {
         const lat = parseFloat(p.lat);
         const lng = parseFloat(p.lng);

@@ -6,6 +6,7 @@ import styles from './BottomNav.module.css';
 
 const BottomNav = () => {
   const pathname = usePathname();
+  if (pathname === '/map') return null;
 
   const navItems = [
     { 

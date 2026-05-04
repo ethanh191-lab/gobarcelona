@@ -1,15 +1,17 @@
 "use client";
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import styles from './Navbar.module.css';
 import { useLanguage, Lang } from './LanguageContext';
-import { useTheme } from './ThemeContext';
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const { lang, setLang } = useLanguage();
-  const { theme, toggleTheme } = useTheme();
+
+  if (pathname === '/map') return null;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -46,16 +48,6 @@ export default function Navbar() {
         </nav>
 
         <div className={styles.actions}>
-          {/* Theme Toggle - 44x44 touch target */}
-          <button 
-            onClick={toggleTheme} 
-            className={styles.actionBtn}
-            style={{ width: '44px', height: '44px' }}
-            title="Toggle Theme"
-          >
-            {theme === 'light' ? '🌙' : '☀️'}
-          </button>
-
           {/* Language Toggle Custom Pill - 44x44 height */}
           <div className={styles.langWrapper}>
             <button 
