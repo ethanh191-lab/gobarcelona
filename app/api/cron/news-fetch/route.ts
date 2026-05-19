@@ -72,9 +72,38 @@ function generateSlug(title: string): string {
   return `${base.substring(0, 50)}-${random}`;
 }
 
+// Simple heuristic to guess category without AI
+function guessCategory(title: string, content: string): string {
+  const t = (title + ' ' + content).toLowerCase();
+  if (t.includes('event') || t.includes('concert') || t.includes('festival') || t.includes('party')) return 'Events';
+  if (t.includes('free') && t.includes('entry')) return 'Free Things';
+  if (t.includes('market') || t.includes('flea')) return 'Markets';
+  if (t.includes('weather') || t.includes('rain') || t.includes('sun')) return 'Weather';
+  if (t.includes('sport') || t.includes('fc barcelona') || t.includes('football')) return 'Sports';
+  if (t.includes('art') || t.includes('museum') || t.includes('culture') || t.includes('exhibition')) return 'Culture';
+  if (t.includes('club') || t.includes('nightlife') || t.includes('dj')) return 'Nightlife';
+  if (t.includes('expat') || t.includes('visa') || t.includes('nie')) return 'Expat';
+  if (t.includes('police') || t.includes('crash') || t.includes('strike')) return 'Breaking';
+  return 'Barcelona';
+}
+
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]*>?/gm, '').trim();
+}
+
 async function rewriteWithClaude(title: string, content: string) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) throw new Error('No Anthropic API Key');
+  if (!apiKey) {
+    // FALLBACK: Use raw RSS content if no API key is provided
+    const cleanContent = stripHtml(content);
+    return {
+      title: title,
+      summary: cleanContent.substring(0, 150) + '...',
+      body: cleanContent,
+      category: guessCategory(title, cleanContent),
+      is_breaking: false
+    };
+  }
 
   const response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
@@ -84,7 +113,7 @@ async function rewriteWithClaude(title: string, content: string) {
       'anthropic-version': '2023-06-01'
     },
     body: JSON.stringify({
-      model: 'claude-3-5-sonnet-20241022', // Updated to latest claude 3.5 sonnet
+      model: 'claude-3-5-sonnet-20241022', 
       max_tokens: 1000,
       messages: [{
         role: 'user',
@@ -95,29 +124,41 @@ async function rewriteWithClaude(title: string, content: string) {
 
   if (!response.ok) {
     const err = await response.text();
-    throw new Error(`Claude API error: ${response.status} ${err}`);
+    console.warn(`Claude API error, falling back: ${response.status} ${err}`);
+    // FALLBACK ON ERROR
+    const cleanContent = stripHtml(content);
+    return {
+      title: title,
+      summary: cleanContent.substring(0, 150) + '...',
+      body: cleanContent,
+      category: guessCategory(title, cleanContent),
+      is_breaking: false
+    };
   }
 
   const data = await response.json();
   const text = data.content?.[0]?.text || '';
   
-  // Extract JSON from output safely
   const jsonMatch = text.match(/\{[\s\S]*\}/);
   if (jsonMatch) {
     return JSON.parse(jsonMatch[0]);
   }
-  throw new Error('Claude did not return valid JSON');
+  
+  // FALLBACK ON JSON PARSE ERROR
+  const cleanContent = stripHtml(content);
+  return {
+    title: title,
+    summary: cleanContent.substring(0, 150) + '...',
+    body: cleanContent,
+    category: guessCategory(title, cleanContent),
+    is_breaking: false
+  };
 }
 
 export async function GET(request: Request) {
   const authHeader = request.headers.get('authorization');
   if (process.env.CRON_SECRET && authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
-  if (!process.env.ANTHROPIC_API_KEY) {
-    console.error('CRON ERROR: ANTHROPIC_API_KEY is missing');
-    return NextResponse.json({ error: 'Anthropic API handle missing' }, { status: 500 });
   }
 
   const processedUrls = new Set(); // Prevent duplicates in this run
@@ -127,15 +168,18 @@ export async function GET(request: Request) {
 
   console.log('--- NEWS FETCH START ---');
 
-  for (const source of RSS_SOURCES) {
-    if (articlesAdded >= 8) break; // Limit per run
+  // Randomize sources to get a good mix when limited
+  const shuffledSources = [...RSS_SOURCES].sort(() => 0.5 - Math.random());
+
+  for (const source of shuffledSources) {
+    if (articlesAdded >= 15) break; // Limit per run
 
     try {
       console.log(`Fetching source: ${source.name}`);
       const feed = await parser.parseURL(source.url);
       
-      for (const item of feed.items.slice(0, 2)) { // Top 2 per feed
-        if (articlesAdded >= 8) break;
+      for (const item of feed.items.slice(0, 3)) { // Top 3 per feed
+        if (articlesAdded >= 15) break;
         
         const sourceUrl = item.link || '';
         if (!sourceUrl || processedUrls.has(sourceUrl)) continue;
@@ -153,7 +197,7 @@ export async function GET(request: Request) {
           continue;
         }
 
-        console.log(`Processing with AI: ${item.title}`);
+        console.log(`Processing: ${item.title}`);
         const pubDateStr = item.pubDate || new Date().toISOString();
         const contentSnippet = item['content:encoded'] || item.content || item.description || '';
         
@@ -169,28 +213,26 @@ export async function GET(request: Request) {
         }
 
         try {
-          // Send to Claude
+          // Send to Claude (or use raw fallback if no key)
           const rewritten = await rewriteWithClaude(item.title || '', contentSnippet);
           
-          if (!rewritten.title || !rewritten.body) continue;
+          if (!rewritten.title) continue;
 
-          // Standardize Category to our config
           let safeCategory = rewritten.category;
           const validCategories = ['Events', 'Free Things', 'Festivals', 'Markets', 'Weather', 'Sports', 'Culture', 'Nightlife', 'Barcelona', 'Expat', 'Breaking'];
           if (!validCategories.includes(safeCategory)) safeCategory = 'Barcelona';
 
-          // Insert into Supabase
           const { error: dbError } = await supabase
             .from('news_articles')
             .insert({
               title: rewritten.title,
               summary: rewritten.summary,
-              body: rewritten.body,
+              body: rewritten.body || '',
               source_url: sourceUrl,
               source_name: source.name,
               image_url: imageUrl,
               category: safeCategory,
-              language: 'en',
+              language: 'en', // Forced to EN so the frontend shows it for now
               original_language: source.lang,
               published_at: new Date(pubDateStr).toISOString(),
               slug: generateSlug(rewritten.title),
