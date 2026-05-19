@@ -28,9 +28,9 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://gobarcelona.es'),
-  title: "GoBarcelona — BCN. Right Now.",
-  description: "Aggregated events, practical guides, and economic beer maps for the international community in Barcelona. The automated platform with zero bias.",
-  keywords: ["Barcelona", "events", "international residents", "guides", "beer map", "NIE", "Empadronamiento"],
+  title: "GoBarcelona — your barcelona, curated by ai.",
+  description: "Barcelona's AI city guide for international residents. Live news, events, and city intel.",
+  keywords: ["Barcelona", "events", "international residents", "guides", "beer map", "NIE", "Empadronamiento", "AI city guide"],
   manifest: '/manifest.json',
   icons: {
     icon: '/favicon.svg',
@@ -42,8 +42,8 @@ export const metadata: Metadata = {
     title: 'GoBarcelona',
   },
   openGraph: {
-    title: "GoBarcelona — BCN. Right Now.",
-    description: "Your modern, unbiased hub for Barcelona events, practical guides, and city navigation.",
+    title: "GoBarcelona — your barcelona, curated by ai.",
+    description: "Barcelona's AI city guide for international residents. Live news, events, and city intel.",
     url: 'https://gobarcelona.es',
     siteName: 'GoBarcelona',
     locale: 'en_US',
@@ -51,8 +51,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'GoBarcelona — BCN. Right Now.',
-    description: 'The automated platform for everyone in Barcelona.',
+    title: 'GoBarcelona — your barcelona, curated by ai.',
+    description: "Barcelona's AI city guide for international residents.",
   }
 }
 

@@ -14,12 +14,14 @@ export default function Footer() {
           <Link href="/" className={styles.logo}>
             <span className={styles.logoGo}>go</span><span className={styles.logoBarcelona}>barcelona</span>
           </Link>
-          <p className={styles.desc}>Barcelona&apos;s beer map.</p>
+          <p className={styles.desc}>Barcelona&apos;s AI city guide for international residents.</p>
         </div>
 
         <div className={styles.links}>
           <h4>Navigate</h4>
+          <Link href="/news">News</Link>
           <Link href="/map">Beer Map</Link>
+          <Link href="/guide">Guides</Link>
           <Link href="/contact">Contact</Link>
         </div>
 
